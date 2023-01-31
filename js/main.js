@@ -6,10 +6,10 @@ window.addEventListener('load', function() {
 	console.log(mottoContainer);
 	console.log(mottoChildren);
 
-	function setMottoChildOpacity(child, index) {
+	function setMottoChildOpacity(child, index, effectiveChildHeight) {
 		// const opacity = -1 * scrollY / (landingImageHalfwayPointScrollY - 100 * (2 - index)) + 1; // fade top first
 		// const opacity = -1 * scrollY / (landingImageHalfwayPointScrollY + mottoChildHeight * (2 - index)) + 1; // fade bottom first
-		const opacity = -1 * (scrollY - mottoChildHeight * (2 - index)) / landingImageHalfwayPointScrollY + 1;
+		const opacity = -1 * (scrollY - effectiveChildHeight * (2 - index)) / landingImageHalfwayPointScrollY + 1;
 		let opacityString;
 		if (opacity > 0 && opacity < 1) opacityString = opacity.toString();
 		else if (opacity <= 0) opacityString = '0';
@@ -25,9 +25,12 @@ window.addEventListener('load', function() {
 		mottoContainer.style.transform = 'translateY(' + displacement + 'px)';
 		currentMottoDisplacement = mottoTop + displacement;
 
+		// The actual scroll difference between two words, a little more that 105px, since the words move slower than the scroll
+		const effectiveChildHeight = landingImageHalfwayPointScrollY * mottoChildHeight / availableDisplacement
+
 		let i = 0;
 		for (const child of mottoChildren) {
-			if ((mottoChildrenRevealed & 1 << i) > 0) setMottoChildOpacity(child, i);
+			if ((mottoChildrenRevealed & 1 << i) > 0) setMottoChildOpacity(child, i, effectiveChildHeight);
 			i++;
 		}
 	}
