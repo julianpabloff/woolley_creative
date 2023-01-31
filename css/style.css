@@ -1,0 +1,88 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--accent-color: #323E48;
+}
+
+@font-face {
+	font-family: "Qonquer";
+	src: url("../assets/Face Off M54.ttf");
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	height: 97px;
+	width: 100%;
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	background-color: var(--accent-color);
+}
+	header div.container {
+		width: 100%;
+		max-width: 1120px;
+		padding: 0 50px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+		header div.container a img {
+			width: 100px;
+		}
+		header div.container svg#menu-hamburger {
+			width: 40px;
+		}
+
+main {
+	display: flex;
+	flex-direction: column;
+}
+	main section.top {
+		height: 1100px;
+		background-image: url("../assets/home-hero.webp");
+		background-size: cover;
+	}
+		main section.top div.motto {
+			position: relative;
+			width: 50%;
+			left: 50%;
+			top: 30%;
+			font-family: "Qonquer";
+		}
+			main section.top div.motto h1 {
+				font-size: 100px;
+				line-height: 100px;
+				color: #d7d7d3;
+			}
+	main section.info {
+		height: 100px;
+		background-color: red;
+	}
+
+/* TABLET */
+@media (max-width: 1024px) {
+	main section.top {
+		background-image: url("../assets/home-hero-tablet.webp");
+	}
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+	header div.container {
+		padding: 0 20px;
+	}
+		header div.container svg#menu-hamburger {
+			width: 35px;
+		}
+	main section.top {
+		background-image: url("../assets/home-hero-mobile.webp");
+	}
+}
