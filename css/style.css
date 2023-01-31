@@ -6,11 +6,16 @@
 
 :root {
 	--accent-color: #323E48;
+	--woolley-orange: #ff5100;
 }
 
 @font-face {
 	font-family: "Qonquer";
 	src: url("../assets/Face Off M54.ttf");
+}
+@font-face {
+	font-family: "Gotham Book";
+	src: url("../assets/Gotham Book Regular.otf");
 }
 
 body {
@@ -38,7 +43,15 @@ header {
 		header div.container a img {
 			width: 100px;
 		}
-		header div.container svg#menu-hamburger {
+		div#menu-hamburger {
+			height: 100%;
+			width: 97px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+		}
+		svg#menu-hamburger-svg {
 			width: 40px;
 		}
 
@@ -50,8 +63,9 @@ main {
 		height: 1100px;
 		background-image: url("../assets/home-hero.webp");
 		background-size: cover;
+		background-position: center left;
 	}
-		main section.top div.motto {
+		div#motto-container {
 			position: relative;
 			width: 50%;
 			left: 50%;
@@ -62,25 +76,108 @@ main {
 			/* transition: transform 1s cubic-bezier(0,.33,.07,1.03); */
 		}
 			main section.top div.motto h1 {
-				font-size: 115px;
-				line-height: 115px;
+				font-size: 105px;
+				line-height: 105px;
 				transform-origin: 0 0;
-				transform: scale(0.8, 1);
-				letter-spacing: 7px;
+				transform: scale(0.85, 1);
+				letter-spacing: 4px;
 				color: #d7d7d3;
 				position: relative;
 				left: 50vw;
-				transition: left 0.7s cubic-bezier(0, 0.8, 0.7, 1);
+				opacity: 0;
+				transition: left 0.7s cubic-bezier(0, 0.8, 0.7, 1), opacity 1s;
 			}
-	main section.info {
-		height: 1000px;
-		background-color: red;
+
+	main section.elevator {
+		display: flex;
+		justify-content: flex-end;
+		height: 500px;
+		background-image: url("../assets/box_midnight_diagonal-left-2.png");
+		background-position: center left;
+		z-index: 1;
 	}
+		main section.elevator div.text-container {
+			width: calc(100vw - 500px);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 0 50px;
+		}
+			main section.elevator div.text-container * {
+				font-family: "Gotham Book";
+				text-transform: uppercase;
+				font-size: 22px;
+				font-weight: 400;
+				color: var(--woolley-orange);
+			}
+			main section.elevator div.text-container h3 {
+				color: white;
+				font-size: 18px;
+				margin-top: 10px;
+			}
+
+	main section.category {
+		background-color: white;
+		display: flex;
+		justify-content: center;
+		margin: 250px 0;
+	}
+		main section.category div.category-container {
+			display: flex;
+			width: 100%;
+			max-width: 1120px;
+		}
+			main section.category div.category-container div.category {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				width: 33.33%;
+				opacity: 0;
+				transition: opacity 0.1s;
+			}
+				div.category-container div.category span {
+					color: var(--woolley-orange);
+					font-family: "Impact";
+					font-size: 48px;
+					font-weight: bold;
+					font-style: italic;
+					margin-bottom: 10px;
+				}
+				div.category-container div.category h2 {
+					font-family: "Qonquer";
+					font-size: 44px;
+					transform: scale(0.85, 1);
+					letter-spacing: 2px;
+					color: var(--accent-color);
+					margin-bottom: 50px;
+				}
+				div.category-container div.category ul {
+					list-style: none;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
+					div.category-container div.category li {
+						font-family: "Gotham Book";
+						font-size: 18px;
+						letter-spacing: 1px;
+						text-transform: uppercase;
+						margin-bottom: 15px;
+					}
+	main section.why-whoolley {
+		height: 700px;
+		background-color: var(--accent-color);
+	}
+
 
 /* TABLET */
 @media (max-width: 1024px) {
 	main section.top {
 		background-image: url("../assets/home-hero-tablet.webp");
+	}
+	main section.elevator div.text-container {
+		width: 524px;
 	}
 }
 
@@ -95,4 +192,22 @@ main {
 	main section.top {
 		background-image: url("../assets/home-hero-mobile.webp");
 	}
+		div#motto-container {
+			width: 95%;
+			left: 20px;
+			top: 550px;
+		}
+			main section.top div.motto h1 {
+				left: 100vw;
+			}
+	main section.elevator div.text-container {
+		padding: 0 25px;
+	}
+	main section.category div.category-container {
+		flex-direction: column;
+	}
+		main section.category div.category-container div.category {
+			width: 100%;
+			margin-bottom: 75px;
+		}
 }
