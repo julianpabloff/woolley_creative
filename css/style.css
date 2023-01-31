@@ -63,7 +63,7 @@ main {
 		height: 1100px;
 		background-image: url("../assets/home-hero.webp");
 		background-size: cover;
-		background-position: center left;
+		background-position: 0 0;
 	}
 		div#motto-container {
 			position: relative;
@@ -110,12 +110,20 @@ main {
 				font-size: 22px;
 				font-weight: 400;
 				color: var(--woolley-orange);
+				z-index: 1;
 			}
 			main section.elevator div.text-container h3 {
 				color: white;
 				font-size: 18px;
 				margin-top: 10px;
 			}
+		main section.elevator div.background-fill {
+			position: absolute;
+			width: calc(100% - 600px);
+			height: 500px;
+			left: 600px;
+			background-color: var(--accent-color);
+		}
 
 	main section.category {
 		background-color: white;

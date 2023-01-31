@@ -112,9 +112,9 @@ window.addEventListener('load', function() {
 		let i = 0;
 		for (const child of categories) {
 			const mobile = windowWidth < 767;
-			const offset = 100 * !mobile + 35 * i;
+			const offset = 100 + 90 * i;
 			const top = categoryTop + categoryHeight * i * mobile;
-			const beginning = top - windowHeight + offset;
+			const beginning = top - windowHeight + offset * !mobile;
 			const halfway = top + categoryHeight / 2 - windowHeight / 2;
 			const opacity = (scrollY - beginning) / (halfway - beginning);
 			child.style.opacity = opacity > 0 ? opacity.toString() : '0';
