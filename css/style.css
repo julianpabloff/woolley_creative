@@ -31,6 +31,10 @@ div.diagonal-text-container {
 	justify-content: center;
 	padding: 0 50px;
 }
+div.background-fill {
+	position: absolute;
+	background-color: var(--accent-color);
+}
 
 header {
 	height: 97px;
@@ -126,11 +130,9 @@ main {
 				margin-top: 10px;
 			}
 		main section.elevator div.background-fill {
-			position: absolute;
 			width: calc(100% - 600px);
 			height: 500px;
 			left: 600px;
-			background-color: var(--accent-color);
 		}
 
 	main section.category {
@@ -185,13 +187,13 @@ main {
 		height: 700px;
 		display: flex;
 		background-image: url("../assets/box_midnight_diagonal-right.png");
-		background-color: var(--woolley-orange);
 		background-position: center right;
 		transition: background-position 0.2s;
 	}
 		main section.why-whoolley div.text-container {
 			width: calc(100vw - 450px);
 			padding: 0;
+			z-index: 1;
 		}
 			main section.why-whoolley div.text-box {
 				display: flex;
@@ -220,6 +222,10 @@ main {
 					margin-top: 55px;
 					width: 100px;
 				}
+		main section.why-whoolley div.background-fill {
+			height: 700px;
+			width: calc(100vw - 700px);
+		}
 
 
 /* TABLET */
@@ -253,7 +259,7 @@ main {
 		div#motto-container {
 			width: 95%;
 			left: 20px;
-			top: 600px;
+			top: 550px;
 		}
 			main section.top div.motto h1 {
 				left: 100vw;

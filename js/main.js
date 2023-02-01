@@ -1,61 +1,60 @@
 window.addEventListener('load', function() {
 	let scrollY = window.scrollY;
+	const topSection = document.getElementById('top-section');
+	const landingImageHeight = topSection.clientHeight;
+	const header = document.getElementById('header');
+	const headerHeight = header.clientHeight;
 
 	///// MOTTO /////
 	const mottoContainer = document.getElementById('motto-container');
+	const mottoHeight = mottoContainer.clientHeight;
 	const mottoChildren = [];
 	for (const child of mottoContainer.children) mottoChildren.push(child);
 	const mottoChildHeight = mottoChildren[0].clientHeight;
 	console.log(mottoContainer);
 	console.log(mottoChildren);
 
-	function setMottoChildOpacity(child, index, effectiveChildHeight) {
-		// const opacity = -1 * scrollY / (landingImageHalfwayPointScrollY - 100 * (2 - index)) + 1; // fade top first
-		// const opacity = -1 * scrollY / (landingImageHalfwayPointScrollY + mottoChildHeight * (2 - index)) + 1; // fade bottom first
-		const opacity = -1 * (scrollY - effectiveChildHeight * (2 - index)) / landingImageHalfwayPointScrollY + 1;
+	function setMottoChildOpacityNew(child, index) {
+		const coveredAbove = (headerHeight - mottoTop) / (parallaxRate - 1);
+		const coveredBelow = (landingImageHeight - mottoHeight - mottoTop) / parallaxRate;
+		let offset;
+		if (coveredAbove <= coveredBelow) offset = mottoChildHeight * index;
+		else offset = -1 * mottoChildHeight * (2 - index);
+		const scrollYEndpoint = Math.min(coveredAbove, coveredBelow) + offset;
+		const opacity = (scrollYEndpoint - scrollY) / scrollYEndpoint;
+
 		let opacityString;
 		if (opacity > 0 && opacity < 1) opacityString = opacity.toString();
 		else if (opacity <= 0) opacityString = '0';
 		else opacityString = '1';
-		// child.style.opacity = opacity > 0 ? opacity.toString() : '0';
 		child.style.opacity = opacityString;
-	}
 
-	function handleMottoDisplacement() {
-		const fadeEarlyOffset = 200 * !mobile;
-		const availableDisplacement = 1100 - mottoTop - mottoContainer.clientHeight - fadeEarlyOffset;
-		const displacement = availableDisplacement / landingImageHalfwayPointScrollY * scrollY; // 1100 = Height of the landing image; 400 = available displacement before motto leaks out of image
-		// Y = X(400 / threshold); X = scrollY;
-		mottoContainer.style.transform = 'translateY(' + displacement + 'px)';
-		currentMottoDisplacement = mottoTop + displacement;
-
-		// The actual scroll difference between two words, a little more that 105px, since the words move slower than the scroll
-		const effectiveChildHeight = landingImageHalfwayPointScrollY * mottoChildHeight / availableDisplacement
-
-		let i = 0;
-		for (const child of mottoChildren) {
-			if ((mottoChildrenRevealed & 1 << i) > 0) setMottoChildOpacity(child, i, effectiveChildHeight);
-			i++;
-		}
+		return opacity;
 	}
 
 	let mottoChildrenRevealed = 0 | 0; // 0 0 0 => 2 1 0 indeces of motto words
-	function handleMottoReveal() {
+	function handleMottoChildReveal(child, index, opacity) {
+		const indexDisplacement = mottoChildHeight * index + mottoChildHeight / 2;
+		const visibleFromAbove = scrollY + windowHeight > currentMottoDisplacement + indexDisplacement;
+		const visibleFromBelow = scrollY < currentMottoDisplacement - headerHeight + indexDisplacement;
+		if (opacity > 0.2 && visibleFromAbove && visibleFromBelow && (mottoChildrenRevealed & 1 << index) == 0) {
+			// Reveal motto word
+			child.style.left = 0;
+			setTimeout(() => child.style.transition = 'opacity 0.1s', landingImageHeight);
+			mottoChildrenRevealed |= 1 << index;
+		}
+	}
+
+	const parallaxRate = 0.4;
+	function handleMottoDisplay() {
+		const displacement = parallaxRate * scrollY;
+		mottoContainer.style.transform = 'translateY(' + displacement + 'px)';
+		currentMottoDisplacement = mottoTop + displacement;
+
 		for (let i = 0; i < mottoChildren.length; i++) {
-			// const bitOn = (num, index) => num | 1 << index;
-			// const bitOff = (num, index) => num ^= 1 << index;
-			// const bitRead = (num, index) => (num & 1 << index) > 0;
-			const childVisible = scrollY + windowHeight > currentMottoDisplacement + mottoChildHeight * i + mottoChildHeight / 2;
-			// if (scrollY + windowHeight > currentMottoDisplacement + (mottoChildHeight / 2) + mottoChildHeight * i && (mottoChildrenRevealed & 1 << i) == 0) {
-			if (childVisible && (mottoChildrenRevealed & 1 << i) == 0) {
-				console.log('motto child ' + i + ' visible');
-				const child = mottoChildren[i];
-				// Reveal motto word
-				child.style.left = 0;
-				setMottoChildOpacity(child, i);
-				setTimeout(() => child.style.transition = 'opacity 0.1s', 1100);
-				mottoChildrenRevealed |= 1 << i;
-			}
+			const child = mottoChildren[i];
+			const opacity = setMottoChildOpacityNew(child, i);
+			if (mottoChildrenRevealed < 7) handleMottoChildReveal(child, i, opacity);
 		}
 	}
 
@@ -71,22 +70,14 @@ window.addEventListener('load', function() {
 
 	let mobile = !(window.innerWidth > 767);
 	const elevatorSection = document.getElementById('elevator-section');
-	// const whyWoolleyTextContainer = document.getElementById('why-whoolley-text-container');
-	// console.log(whyWoolleyTextContainer);
 	function handleResize() {
 		windowHeight = window.innerHeight;
 		windowWidth = window.innerWidth;
-		landingImageHalfwayPointScrollY = 900 - windowHeight / 2; // The scrollY point where the landing image is halfway up the screen - when the motto text should fade away
+		landingImageHalfwayPointScrollY = landingImageHeight - windowHeight / 2; // The scrollY point where the landing image is halfway up the screen - when the motto text should fade away
 		if (windowWidth <= 1024) {
 			const displacement = windowWidth - 1024;
 			elevatorSection.style['background-position-x'] = displacement + 'px';
-			// const centerX = windowWidth / 2 - whyWoolleyTextContainer.clientWidth / 2;
-			// whyWoolleyTextContainer.style.left = centerX.toString() + 'px';
-		} else {
-			elevatorSection.style['background-position-x'] = 'initial';
-			// whyWoolleyTextContainer.style.transition = 'left 0.5s';
-			// whyWoolleyTextContainer.style.left = '0';
-		}
+		} else elevatorSection.style['background-position-x'] = 'initial';
 		if (windowWidth > 767) {
 			if (mobile) {
 				mottoTop = mottoContainer.offsetTop;
@@ -99,8 +90,7 @@ window.addEventListener('load', function() {
 	}
 
 	handleResize();
-	handleMottoReveal();
-	handleMottoDisplacement();
+	handleMottoDisplay();
 
 
 	class scrollFadeInElement {
@@ -164,15 +154,14 @@ window.addEventListener('load', function() {
 
 	document.addEventListener('scroll', event => {
 		scrollY = window.scrollY;
-		handleMottoDisplacement(); // must be called first because its displacement affects when the motto gets revealed
-		if (mottoChildrenRevealed < 7) handleMottoReveal(); // 1 1 1 => 2 1 0 indeces of motto words
+		handleMottoDisplay();
 		updateCategoryFadeIns();
 		whyWhoolleyHeaderFadeIn.update();
 	});
 
 	window.addEventListener('resize', event => {
 		handleResize();
-		handleMottoDisplacement();
+		handleMottoDisplay();
 		updateCategoryFadeIns();
 		whyWhoolleyHeaderFadeIn.update();
 	});
