@@ -65,7 +65,7 @@ window.addEventListener('load', function() {
 		currentMottoDisplacement = mottoTop;
 	}
 	let windowWidth, windowHeight;
-	let landingImageHalfwayPointScrollY, mottoTop, currentMottoDisplacement;
+	let mottoTop, currentMottoDisplacement;
 	setSize();
 
 	let mobile = !(window.innerWidth > 767);
@@ -73,7 +73,6 @@ window.addEventListener('load', function() {
 	function handleResize() {
 		windowHeight = window.innerHeight;
 		windowWidth = window.innerWidth;
-		landingImageHalfwayPointScrollY = landingImageHeight - windowHeight / 2; // The scrollY point where the landing image is halfway up the screen - when the motto text should fade away
 		if (windowWidth <= 1024) {
 			const displacement = windowWidth - 1024;
 			elevatorSection.style['background-position-x'] = displacement + 'px';
@@ -152,11 +151,24 @@ window.addEventListener('load', function() {
 
 	const whyWhoolleyHeaderFadeIn = new scrollFadeInElement(whyWhoolleyHeader, 50);
 
+
+	///// DREAMERS /////
+	const dreamers = document.querySelector('section#dreamers-section div.dreamers-container');
+	const dreamersParallaxFactor = 0.08;
+	function handleDreamers() {
+		const dreamersHalfScrollPoint = dreamers.offsetTop + dreamers.clientHeight / 2 - windowHeight / 2;
+		const translate = (dreamersHalfScrollPoint - scrollY) * dreamersParallaxFactor;
+		dreamers.style.transform = 'translateY(' + translate + 'px)';
+	}
+	handleDreamers();
+
+
 	document.addEventListener('scroll', event => {
 		scrollY = window.scrollY;
 		handleMottoDisplay();
 		updateCategoryFadeIns();
 		whyWhoolleyHeaderFadeIn.update();
+		handleDreamers();
 	});
 
 	window.addEventListener('resize', event => {
@@ -164,6 +176,7 @@ window.addEventListener('load', function() {
 		handleMottoDisplay();
 		updateCategoryFadeIns();
 		whyWhoolleyHeaderFadeIn.update();
+		handleDreamers();
 	});
 
 	setTimeout(() => mottoContainer.style.transition = 'transform 1s cubic-bezier(0, 0.33, 0.07, 1.03)', 200);
