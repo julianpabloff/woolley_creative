@@ -7,6 +7,7 @@
 :root {
 	--accent-color: #323E48;
 	--woolley-orange: #ff5100;
+	--grey-text-color: #d7d7d3;
 }
 
 @font-face {
@@ -22,6 +23,14 @@ body {
 	display: flex;
 	flex-direction: column;
 }
+div.diagonal-text-container {
+	width: calc(100vw - 500px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0 50px;
+}
 
 header {
 	height: 97px;
@@ -30,7 +39,7 @@ header {
 	display: flex;
 	justify-content: center;
 	background-color: var(--accent-color);
-	z-index: 1;
+	z-index: 2;
 }
 	header div.container {
 		width: 100%;
@@ -81,7 +90,7 @@ main {
 				transform-origin: 0 0;
 				transform: scale(0.85, 1);
 				letter-spacing: 4px;
-				color: #d7d7d3;
+				color: var(--grey-text-color);
 				position: relative;
 				left: 50vw;
 				opacity: 0;
@@ -97,22 +106,21 @@ main {
 		z-index: 1;
 	}
 		main section.elevator div.text-container {
-			width: calc(100vw - 500px);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 			padding: 0 50px;
+			z-index: 1;
 		}
-			main section.elevator div.text-container * {
+			main section.elevator div.text-container div.text-box * {
 				font-family: "Gotham Book";
 				text-transform: uppercase;
 				font-size: 22px;
 				font-weight: 400;
 				color: var(--woolley-orange);
-				z-index: 1;
 			}
-			main section.elevator div.text-container h3 {
+			main section.elevator div.text-container div.text-box h3 {
 				color: white;
 				font-size: 18px;
 				margin-top: 10px;
@@ -175,8 +183,43 @@ main {
 					}
 	main section.why-whoolley {
 		height: 700px;
-		background-color: var(--accent-color);
+		display: flex;
+		background-image: url("../assets/box_midnight_diagonal-right.png");
+		background-color: var(--woolley-orange);
+		background-position: center right;
+		transition: background-position 0.2s;
 	}
+		main section.why-whoolley div.text-container {
+			width: calc(100vw - 450px);
+			padding: 0;
+		}
+			main section.why-whoolley div.text-box {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+				main section.why-whoolley div.text-box * {
+					font-family: "Qonquer";
+					font-size: 50px;
+					transform: scale(0.85, 1);
+					letter-spacing: 1px;
+					width: 117%;
+					text-align: center;
+				}
+				main section.why-whoolley div.text-box h2 {
+					color: var(--woolley-orange);
+					margin-bottom: 35px;
+				}
+					main section.why-whoolley div.text-box h2 span {
+						font-family: "Impact";
+					}
+				main section.why-whoolley div.text-box p {
+					color: var(--grey-text-color);
+				}
+				main section.why-whoolley div.text-box img {
+					margin-top: 55px;
+					width: 100px;
+				}
 
 
 /* TABLET */
@@ -184,8 +227,15 @@ main {
 	main section.top {
 		background-image: url("../assets/home-hero-tablet.webp");
 	}
-	main section.elevator div.text-container {
+	main section.why-whoolley {
+		background-position: 80%;
+	}
+	main section.elevator div.diagonal-text-container {
 		width: 524px;
+	}
+	main section.why-whoolley div.diagonal-text-container {
+		/* width: 574px; */
+		width: 100%;
 	}
 }
 
@@ -218,4 +268,7 @@ main {
 			width: 100%;
 			margin-bottom: 75px;
 		}
+	main section.why-whoolley div.text-box * {
+		font-size: 40px;
+	}
 }
