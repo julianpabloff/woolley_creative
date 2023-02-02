@@ -75,6 +75,7 @@ main {
 	display: flex;
 	flex-direction: column;
 }
+			/*
 	main section.top {
 		height: 1100px;
 		background-image: url("../assets/home-hero.webp");
@@ -88,8 +89,6 @@ main {
 			top: 360px;
 			font-family: "Qonquer";
 			overflow: hidden;
-			/* background-color: rgba(12,150,200,0.5); */
-			/* transition: transform 1s cubic-bezier(0,.33,.07,1.03); */
 		}
 			main section.top div.motto h1 {
 				font-size: 105px;
@@ -103,40 +102,6 @@ main {
 				opacity: 0;
 				transition: left 0.7s cubic-bezier(0, 0.8, 0.7, 1), opacity 1s;
 			}
-
-	main section.elevator {
-		display: flex;
-		justify-content: flex-end;
-		height: 500px;
-		background-image: url("../assets/box_midnight_diagonal-left-2.png");
-		background-position: center left;
-		z-index: 1;
-	}
-		main section.elevator div.text-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			padding: 0 50px;
-			z-index: 1;
-		}
-			main section.elevator div.text-container div.text-box * {
-				font-family: "Gotham Book";
-				text-transform: uppercase;
-				font-size: 22px;
-				font-weight: 400;
-				color: var(--woolley-orange);
-			}
-			main section.elevator div.text-container div.text-box h3 {
-				color: white;
-				font-size: 18px;
-				margin-top: 10px;
-			}
-		main section.elevator div.background-fill {
-			width: calc(100% - 600px);
-			height: 500px;
-			left: 600px;
-		}
 
 	main section.category {
 		background-color: white;
@@ -244,7 +209,6 @@ main {
 			display: flex;
 			justify-content: center;
 			padding: 0 50px;
-			/* background-color: rgba(50, 100, 200, 0.3); */
 			transition: transform 0.2s;
 		}
 			main section.dreamers div.text-box {
@@ -266,7 +230,6 @@ main {
 		height: 700px;
 		display: flex;
 		justify-content: center;
-		margin-bottom: 1000px;
 	}
 	main section.example div.example-container {
 		width: 100%;
@@ -328,10 +291,12 @@ main {
 				max-width: 100%;
 				max-height: 100%;
 			}
+			*/
 
 
 /* TABLET */
 @media (max-width: 1024px) {
+	/*
 	main section.top {
 		background-image: url("../assets/home-hero-tablet.webp");
 	}
@@ -342,7 +307,6 @@ main {
 		width: 524px;
 	}
 	main section.why-whoolley div.diagonal-text-container {
-		/* width: 574px; */
 		width: 100%;
 		padding: 0 50px;
 	}
@@ -353,10 +317,12 @@ main {
 			width: calc(100% - 250px);
 			min-width: 70vw;
 		}
+		*/
 }
 
 /* MOBILE */
 @media (max-width: 767px) {
+	/*
 	header div.container {
 		padding: 0 20px;
 	}
@@ -398,4 +364,5 @@ main {
 				main section.dreamers div.dreamers-container h2 {
 					font-size: 25px;
 				}
+				*/
 }

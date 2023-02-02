@@ -11,8 +11,6 @@ window.addEventListener('load', function() {
 	const mottoChildren = [];
 	for (const child of mottoContainer.children) mottoChildren.push(child);
 	const mottoChildHeight = mottoChildren[0].clientHeight;
-	console.log(mottoContainer);
-	console.log(mottoChildren);
 
 	function setMottoChildOpacityNew(child, index) {
 		const coveredAbove = (headerHeight - mottoTop) / (parallaxRate - 1);
@@ -69,14 +67,14 @@ window.addEventListener('load', function() {
 	setSize();
 
 	let mobile = !(window.innerWidth > 767);
-	const elevatorSection = document.getElementById('elevator-section');
+	// const elevatorSection = document.getElementById('elevator-section');
 	function handleResize() {
 		windowHeight = window.innerHeight;
 		windowWidth = window.innerWidth;
-		if (windowWidth <= 1024) {
-			const displacement = windowWidth - 1024;
-			elevatorSection.style['background-position-x'] = displacement + 'px';
-		} else elevatorSection.style['background-position-x'] = 'initial';
+		// if (windowWidth <= 1024) {
+			// const displacement = windowWidth - 1024;
+			// elevatorSection.style['background-position-x'] = displacement + 'px';
+		// } else elevatorSection.style['background-position-x'] = 'initial';
 		if (windowWidth > 767) {
 			if (mobile) {
 				mottoTop = mottoContainer.offsetTop;
@@ -118,7 +116,6 @@ window.addEventListener('load', function() {
 
 	///// CATEGORIES /////
 	const categoryContainer = document.getElementById('category-container');
-	console.log(categoryContainer);
 
 	function updateCategoryFadeIn(scrollFade, index) {
 		scrollFade.handleResize();
@@ -147,8 +144,6 @@ window.addEventListener('load', function() {
 	const whyWhoolleyHeader = document.getElementById('why-whoolley-header');
 	const whyWhoolleyTop = whyWhoolleyHeader.offsetTop;
 	const whyWhoolleyHeight = whyWhoolleyTop.clientHeight;
-	console.log(whyWhoolleyHeader);
-
 	const whyWhoolleyHeaderFadeIn = new scrollFadeInElement(whyWhoolleyHeader, 50);
 
 
