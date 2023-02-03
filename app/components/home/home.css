@@ -28,43 +28,8 @@ section.half-and-half {
 			padding: 0 8%;
 		}
 			div.half-and-half div.text-half p {
-				font-family: "Gotham Book";
-				font-size: 18px;
-				line-height: 24px;
-				letter-spacing: 0.4px;
-				color: var(--accent-color);
 				margin-bottom: 80px;
 			}
-			div.half-and-half div.text-half a {
-				width: fit-content;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				text-decoration: none;
-			}
-				div.half-and-half div.text-half a h4 {
-					font-family: "Qonquer";
-					font-size: 28px;
-					font-weight: normal;
-					transform: scale(0.9, 1);
-					transform-origin: 0 0;
-					letter-spacing: 1.5px;
-					color: var(--woolley-orange);
-					margin-right: 15px;
-					/* transition: letter-spacing 0.2s; */
-				}
-				/* div.half-and-half div.text-half a:hover h4 { */
-				/* 	letter-spacing: 2px; */
-				/* } */
-				div.half-and-half div.text-half a svg {
-					width: 30px;
-					position: relative;
-					left: -20px;
-					transition: left 0.2s;
-				}
-				div.half-and-half div.text-half a:hover svg {
-					left: 15px;
-				}
 		div.half-and-half div.img-half {
 			align-items: center;
 		}
@@ -77,8 +42,8 @@ section.half-and-half {
 
 section.top {
 	height: 1100px;
-	/* background-image: url("../assets/home-hero-tablet.webp"); */
-	background-image: url("../assets/home-hero.webp");
+	/* background-image: url("assets/home-hero-tablet.webp"); */
+	background-image: url("assets/home-hero.webp");
 	background-size: cover;
 	background-position: 0 0;
 }
@@ -115,20 +80,10 @@ section.elevator {
 	background-image: url("assets/box_midnight_diagonal-left-2.png");
 	background-position: center left;
 }
-	section.elevator div.text-container {
+	section.elevator div.text-container h6 {
+		color: white;
+		margin-top: 10px;
 	}
-		section.elevator div.text-container div.text-box * {
-			font-family: "Gotham Book";
-			text-transform: uppercase;
-			font-size: 22px;
-			font-weight: 400;
-			color: var(--woolley-orange);
-		}
-		section.elevator div.text-container div.text-box h3 {
-			color: white;
-			font-size: 18px;
-			margin-top: 10px;
-		}
 	section.elevator div.background-fill {
 		width: calc(100% - 600px);
 		height: 500px;
@@ -164,10 +119,7 @@ section.category {
 				margin-bottom: 10px;
 			}
 			div.category-container div.category h2 {
-				font-family: "Qonquer";
 				font-size: 44px;
-				transform: scale(0.85, 1);
-				letter-spacing: 2px;
 				color: var(--accent-color);
 				margin-bottom: 50px;
 			}
@@ -189,7 +141,7 @@ section.category {
 section.why-whoolley {
 	height: 700px;
 	display: flex;
-	background-image: url("../assets/box_midnight_diagonal-right.png");
+	background-image: url("assets/box_midnight_diagonal-right.png");
 	background-position: center right;
 	transition: background-position 0.2s;
 }
@@ -203,21 +155,17 @@ section.why-whoolley {
 			flex-direction: column;
 			align-items: center;
 		}
-			section.why-whoolley div.text-box * {
-				font-family: "Qonquer";
+			section.why-whoolley div.text-box h2 {
 				font-size: 50px;
-				transform: scale(0.85, 1);
-				letter-spacing: 1px;
 				width: 117%;
 				text-align: center;
 			}
-			section.why-whoolley div.text-box h2 {
-				color: var(--woolley-orange);
+			section.why-whoolley div.text-box h2#why-whoolley-header {
 				margin-bottom: 35px;
 			}
-				section.why-whoolley div.text-box h2 span {
-					font-family: "Impact";
-				}
+			section.why-whoolley div.text-box h2.grey {
+				color: var(--grey-text-color);
+			}
 			section.why-whoolley div.text-box p {
 				color: var(--grey-text-color);
 			}
@@ -236,7 +184,7 @@ section.dreamers {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	background-image: url("../assets/dreamers.webp");
+	background-image: url("assets/dreamers.webp");
 	background-size: cover;
 	margin-top: 250px;
 }
@@ -253,19 +201,11 @@ section.dreamers {
 			section.dreamers div.dreamers-container img {
 				max-width: 100%;
 			}
-			section.dreamers div.dreamers-container h2 {
-				font-family: "Gotham Book";
-				font-size: 36px;
-				font-weight: lighter;
-				text-transform: uppercase;
-				letter-spacing: 0.4px;
-				color: var(--accent-color);
-			}
 
 
 section.work-slash {
 	height: 448px;
-	background-image: url("../assets/work-slash.webp");
+	background-image: url("assets/work-slash.webp");
 	background-position: center center;
 	background-size: cover;
 }
@@ -285,7 +225,7 @@ section.who-we-are {
 
 @media (max-width: 1024px) {
 	section.top {
-		background-image: url("../assets/home-hero-tablet.webp");
+		background-image: url("assets/home-hero-tablet.webp");
 	}
 	/* section.elevator div.diagonal-text-container { */
 	/* 	width: 524px; */
@@ -298,7 +238,7 @@ section.who-we-are {
 		padding: 0 50px;
 	}
 	section.dreamers {
-		background-image: url("../assets/dreamers-tablet.webp");
+		background-image: url("assets/dreamers-tablet.webp");
 	}
 		section.dreamers div.dreamers-container {
 			width: calc(100% - 250px);
@@ -321,7 +261,7 @@ section.who-we-are {
 		}
 
 	section.top {
-		background-image: url("../assets/home-hero-mobile.webp");
+		background-image: url("assets/home-hero-mobile.webp");
 	}
 		div#motto-container {
 			width: 95%;
@@ -341,11 +281,11 @@ section.who-we-are {
 			width: 100%;
 			margin-bottom: 75px;
 		}
-	section.why-whoolley div.text-box * {
+	section.why-whoolley div.text-box h2 {
 		font-size: 40px;
 	}
 	section.dreamers {
-		background-image: url("../assets/dreamers-mobile.webp");
+		background-image: url("assets/dreamers-mobile.webp");
 		align-items: flex-start;
 		padding: 70px 0;
 	}

@@ -1,0 +1,296 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--accent-color: #323E48;
+	--woolley-orange: #ff5100;
+	--grey-text-color: #d7d7d3;
+}
+
+@font-face {
+	font-family: "Qonquer";
+	src: url("assets/Face Off M54.ttf");
+}
+@font-face {
+	font-family: "Gotham Book";
+	src: url("assets/Gotham Book Regular.otf");
+}
+
+h2 {
+	font-family: "Qonquer";
+	font-weight: normal;
+	transform: scale(0.9, 1);
+	transform-origin: 0 0;
+	letter-spacing: 0.04em;
+	color: var(--woolley-orange);
+}
+h2.centered {
+	transform-origin: initial;
+}
+h2 span {
+	font-family: "Impact";
+}
+h3 {
+	font-family: "Gotham Book";
+	font-size: 36px;
+	font-weight: lighter;
+	text-transform: uppercase;
+	letter-spacing: 0.4px;
+	color: var(--accent-color);
+}
+h5 {
+	font-family: "Gotham Book";
+	font-size: 22px;
+	font-weight: lighter;
+	text-transform: uppercase;
+	color: var(--woolley-orange);
+}
+h6 {
+	font-family: "Gotham Book";
+	font-size: 18px;
+	font-weight: lighter;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+	line-height: 22px;
+	color: var(--accent-color);
+}
+h6.spaced {
+	font-weight: lighter;
+	letter-spacing: 5px;
+}
+p {
+	font-family: "Gotham Book";
+	font-size: 18px;
+	line-height: 24px;
+	letter-spacing: 0.4px;
+	color: var(--accent-color);
+}
+
+/* PAGE LINK BUTTON */
+a.cta {
+	width: fit-content;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	text-decoration: none;
+}
+a.cta h2 {
+	font-size: 26px;
+	transition: color 0.2s;
+}
+a.cta.light:hover h2 {
+	color: var(--accent-color);
+}
+a.cta.dark:hover h2 {
+	color: var(--grey-text-color);
+}
+a.cta img {
+	height: 25px;
+}
+
+
+body {
+	display: flex;
+	flex-direction: column;
+}
+div.diagonal-text-container {
+	width: calc(100vw - 500px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0 50px;
+}
+div.background-fill {
+	position: absolute;
+	background-color: var(--accent-color);
+}
+br {
+	margin-bottom: 25px;
+}
+
+header {
+	height: 97px;
+	width: 100%;
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	background-color: var(--accent-color);
+	z-index: 2;
+}
+	header div.container {
+		width: 100%;
+		max-width: 1120px;
+		padding: 0 50px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+		header div.container a img {
+			width: 100px;
+		}
+		div#menu-hamburger {
+			height: 100%;
+			width: 97px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+		}
+		div#menu-hamburger img {
+			width: 40px;
+		}
+
+
+footer {
+	height: 1225px;
+	padding: 225px 8% 35px 8%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-image: url("assets/footer-mountains.webp");
+	background-size: cover;
+	background-position: bottom center;
+}
+	footer div.top {
+		display: flex;
+	}
+	footer div.left {
+		width: 66.667%;
+		padding-right: 80px;
+	}
+		h2.footer {
+			font-size: 65px;
+			margin-bottom: 10px;
+		}
+		footer div.left h6 {
+			margin-bottom: 160px;
+		}
+		footer div.left a.cta {
+			margin-bottom: 10px;
+		}
+		footer div.left a.cta img {
+			margin-left: 15px;
+		}
+		footer div.left p {
+			margin-bottom: 100px;
+		}
+		footer div.left img.one-percent {
+			width: 175px;
+			margin-bottom: 15px;
+		}
+		footer div.left p.planet {
+			width: 50%;
+			font-size: 16px;
+			color: white;
+		}
+
+	footer div.right {
+		width: 33.333%;
+	}
+		footer div.right h2.hashtag {
+			font-size: 24px;
+			line-height: 24px;
+			color: var(--accent-color);
+			letter-spacing: 2px;
+		}
+		footer div.right div.social-icons {
+			display: flex;
+			gap: 35px;
+			margin: 30px 0;
+			padding-left: 10px;
+		}
+			footer div.right div.social-icons img {
+				width: 25px;
+			}
+		footer div.right div.page-links {
+			display: flex;
+			gap: 20px;
+			flex-wrap: wrap;
+			align-items: center;
+			margin-bottom: 135px;
+		}
+			footer div.right div.page-links img {
+				height: 25px;
+				margin-left: 15px;
+			}
+		footer div.right div.office-info {
+			margin-top: 15px;
+		}
+			footer div.right div.office-info p {
+				font-size: 14px;
+			}
+		
+	footer div.bottom {
+		text-align: center;
+		margin-top: 30px;
+	}
+		footer div.bottom img {
+			width: 50px;
+			margin-bottom: 15px;
+		}
+		footer div.bottom p.copyright {
+			font-size: 12px;
+			color: var(--grey-text-color);
+			text-transform: uppercase;
+		}
+
+
+/* TABLET */
+@media (max-width: 1024px) {
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+	header div.container {
+		padding: 0 20px;
+	}
+
+	footer {
+		height: fit-content;
+		padding-top: 100px;
+		background-size: auto 130%;
+		background-position: top right;
+	}
+	footer div.top {
+		flex-direction: column;
+	}
+	footer div.left {
+		padding: 0;
+		width: initial;
+	}
+		footer div.left h6 {
+			margin-bottom: 60px;
+		}
+		footer div.left p.coffee {
+			margin-bottom: 40px;
+		}
+		footer div.left div.one-percent-container {
+			display: flex;
+			align-items: center;
+			margin-bottom: 40px;
+		}
+			footer div.left div.one-percent-container img {
+				width: 135px;
+				margin-right: 40px;
+			}
+			footer div.left p.planet {
+				font-size: 12px;
+				margin: 0;
+			}
+	footer div.right {
+		width: initial;
+	}
+		footer div.right div.half {
+			width: 50%;
+		}
+		footer div.right div.page-links {
+			flex-direction: column;
+			flex-wrap: initial;
+			align-items: flex-start;
+			margin-bottom: 40px;
+		}
+}

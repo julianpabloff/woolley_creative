@@ -64,20 +64,19 @@ function initComponent(component) {
 	addClickEventToLinks();
 }
 
-// const handleLocation = async () => {
 let currentComponent;
 async function handleLocation() {
 	const path = window.location.pathname;
 	const component = routes[path] || routes[404];
 	if (component == currentComponent) return;
 	const filePath = `components/${component}/${component}`;
-	// let html = await fetch(htmlFilePath + component + '.html').then(data => data.text());
-	// const css = await fetch(cssFilePath + component + '.css').then(data => data.text());
 	console.log('switching to ' + component + ' component "' + path + '"');
+
 	let html = await fetch(`${filePath}.html`).then(data => data.text());
 	const css = await fetch(`${filePath}.css`).then(data => data.text());
 	const container = `<div id="${component}-component">`;
 	html = container.concat(html, '</div>');
+
 	if (css.startsWith('<!DOCTYPE html>')) root.innerHTML = html;
 	else root.innerHTML = html.concat('<style>\n', specifyCSS(css, component), '</style>');
 	initComponent(component);
