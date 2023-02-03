@@ -19,6 +19,7 @@
 	src: url("../assets/Gotham Book Regular.otf");
 }
 
+
 body {
 	display: flex;
 	flex-direction: column;
