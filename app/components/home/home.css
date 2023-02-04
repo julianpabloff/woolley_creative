@@ -47,7 +47,7 @@ section.top {
 	background-size: cover;
 	background-position: 0 0;
 }
-	div#home-motto-container {
+	div#motto-container {
 		position: relative;
 		width: 50%;
 		left: 50%;
@@ -67,8 +67,8 @@ section.top {
 			position: relative;
 			left: 0;
 			opacity: 1;
-			/* left: 50vw; */
-			/* opacity: 0; */
+			left: 50vw;
+			opacity: 0;
 			transition: left 0.7s cubic-bezier(0, 0.8, 0.7, 1), opacity 1s;
 		}
 
@@ -108,7 +108,6 @@ section.category {
 			width: 33.33%;
 			/* opacity: 0; */
 			opacity: 1;
-			transition: opacity 0.1s;
 		}
 			div.category-container div.category span {
 				color: var(--woolley-orange);
@@ -143,7 +142,6 @@ section.why-whoolley {
 	display: flex;
 	background-image: url("assets/box_midnight_diagonal-right.png");
 	background-position: center right;
-	transition: background-position 0.2s;
 }
 	section.why-whoolley div.text-container {
 		width: calc(100vw - 450px);
@@ -156,7 +154,7 @@ section.why-whoolley {
 			align-items: center;
 		}
 			section.why-whoolley div.text-box h2 {
-				font-size: 50px;
+				font-size: 48px;
 				width: 117%;
 				text-align: center;
 			}
@@ -227,15 +225,21 @@ section.who-we-are {
 	section.top {
 		background-image: url("assets/home-hero-tablet.webp");
 	}
-	/* section.elevator div.diagonal-text-container { */
-	/* 	width: 524px; */
-	/* } */
+	section.elevator {
+		background-position: center left calc(100vw - 1024px);
+	}
+		section.elevator div.diagonal-text-container {
+			width: 524px;
+		}
 	section.why-whoolley {
-		background-position: 80%;
+		background-position: center right calc(100vw - 1024px);
 	}
 	section.why-whoolley div.diagonal-text-container {
-		width: 100%;
+		width: 574px;
 		padding: 0 50px;
+	}
+	section.why-whoolley div.text-box h2 {
+		font-size: 40px;
 	}
 	section.dreamers {
 		background-image: url("assets/dreamers-tablet.webp");
@@ -281,9 +285,6 @@ section.who-we-are {
 			width: 100%;
 			margin-bottom: 75px;
 		}
-	section.why-whoolley div.text-box h2 {
-		font-size: 40px;
-	}
 	section.dreamers {
 		background-image: url("assets/dreamers-mobile.webp");
 		align-items: flex-start;

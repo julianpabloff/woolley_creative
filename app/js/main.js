@@ -12,7 +12,7 @@ window.addEventListener('load', function() {
 	for (const child of mottoContainer.children) mottoChildren.push(child);
 	const mottoChildHeight = mottoChildren[0].clientHeight;
 
-	function setMottoChildOpacityNew(child, index) {
+	function setMottoChildOpacity(child, index) {
 		const coveredAbove = (headerHeight - mottoTop) / (parallaxRate - 1);
 		const coveredBelow = (landingImageHeight - mottoHeight - mottoTop) / parallaxRate;
 		let offset;
@@ -51,7 +51,7 @@ window.addEventListener('load', function() {
 
 		for (let i = 0; i < mottoChildren.length; i++) {
 			const child = mottoChildren[i];
-			const opacity = setMottoChildOpacityNew(child, i);
+			const opacity = setMottoChildOpacity(child, i);
 			if (mottoChildrenRevealed < 7) handleMottoChildReveal(child, i, opacity);
 		}
 	}

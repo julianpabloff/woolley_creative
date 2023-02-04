@@ -5,9 +5,9 @@
 	<title>Woolley Creative - JULIAN</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel="icon" type="image/x-icon" href="assets/favicon.png">
-	<script defer src="router.js"></script>
 	<script defer src="index.js"></script>
-	<script defer src="components/home/home.js"></script>
+	<script type="module" src="components/home/home.js"></script>
+	<script type="module" src="router.js"></script>
 </head>
 
 <body>
@@ -27,10 +27,12 @@
 			<div class="left">
 				<h2 class="footer">we<span>'</span>re here for you.</h2>
 				<h6 class="spaced">Let our outdoorsy brains help create your visual narrative.</h6>
-				<a href="/contact" class="page-link cta light">
-					<h2>let<span>'</span>s chat.</h2>
-					<img src="assets/woolley-lines.png">
-				</a>
+				<div class="slideout-left">
+					<a href="/contact" class="page-link cta light">
+						<h2>let<span>'</span>s chat.</h2>
+						<img src="assets/woolley-lines.png">
+					</a>
+				</div>
 				<p class="coffee">We like coffee and the outdoors.</p>
 				<div class="one-percent-container">
 					<a href="https://onepercentfortheplanet.org/" target="_blank">

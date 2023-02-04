@@ -1,3 +1,5 @@
+import HomeComponent from './components/home/home.js';
+
 function specifyCSS(css, componentName) {
 	const selector = `div#${componentName}-component `;
 	let write = false;
@@ -31,7 +33,7 @@ function specifyCSS(css, componentName) {
 	return output.join('');
 }
 
-const route = event => {
+function route(event) {
 	event.preventDefault();
 	window.history.pushState({}, "", event.currentTarget.href);
 	handleLocation();
@@ -46,25 +48,27 @@ const routes = {
 	'/careers': 'careers',
 	'/contact': 'contact'
 };
+let currentComponent;
+const components = {
+	'home': HomeComponent,
+}
 
 const root = document.getElementById('root');
 const htmlFilePath = '../pages/';
 const cssFilePath = '../css/';
 
-const componentInitFunctions = {};
-function addClickEventToLinks() {
-	const links = root.querySelectorAll('a.page-link');
-	for (const link of links) link.addEventListener('click', e => route(e));
-}
 function initComponent(component) {
-	if (componentInitFunctions[component]) componentInitFunctions[component]();
 	const scrollpos = localStorage.getItem('scrollpos');
 	if (scrollpos) window.scrollTo(0, scrollpos);
 	localStorage.setItem('scrollpos', null);
-	addClickEventToLinks();
+
+	const links = root.querySelectorAll('a.page-link');
+	for (const link of links) link.addEventListener('click', e => route(e));
+
+	if (components[component])
+		currentComponent = new components[component](root);
 }
 
-let currentComponent;
 async function handleLocation() {
 	const path = window.location.pathname;
 	const component = routes[path] || routes[404];
@@ -79,10 +83,15 @@ async function handleLocation() {
 
 	if (css.startsWith('<!DOCTYPE html>')) root.innerHTML = html;
 	else root.innerHTML = html.concat('<style>\n', specifyCSS(css, component), '</style>');
-	initComponent(component);
-	currentComponent = component;
+	setTimeout(() => initComponent(component), 0);
 }
 
 handleLocation();
-
 window.onpopstate = handleLocation;
+
+window.addEventListener('scroll', () => {
+	if (currentComponent?.update) currentComponent.update();
+});
+window.addEventListener('resize', () => {
+	if (currentComponent?.update) currentComponent.update();
+});
