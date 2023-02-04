@@ -7,6 +7,7 @@
 	<link rel="icon" type="image/x-icon" href="assets/favicon.png">
 	<script defer src="index.js"></script>
 	<script type="module" src="components/home/home.js"></script>
+	<script type="module" src="components/about/about.js"></script>
 	<script type="module" src="router.js"></script>
 </head>
 
@@ -21,6 +22,28 @@
 			</div>
 		</div>
 	</header>
+	<div id="nav-overlay-container"></div>
+	<div id="menu-container">
+		<div id="menu-exit-button">
+			<svg xmlns="http://www.w3.org/2000/svg" class="menu-exit" data-name="Layer 1" viewBox="0 0 460.13 508.83">
+				<path d="M452.86,0l-187.54,249.33,194.81,259.5h-68.33l-162.83-219.52L66.15,508.83H0L194.81,249.33,7.27,0H74.87L230.43,209.35,385.98,0h66.88Z" style="fill: #ff5100;"></path>
+			</svg>
+		</div>
+		<nav>
+			<a href="/work" class="page-link menu-link">
+				<h2 class="right"><span class="white">work</span><span class="period">.</span></h2>
+			</a>
+			<a href="/about" class="page-link menu-link">
+				<h2 class="right"><span class="white">about</span><span class="period">.</span></h2>
+			</a>
+			<a href="/careers" class="page-link menu-link">
+				<h2 class="right"><span class="white">careers</span><span class="period">.</span></h2>
+			</a>
+			<a href="/contact" class="page-link menu-link">
+				<h2 class="right"><span class="white">contact</span><span class="period">.</span></h2>
+			</a>
+		</nav>
+	</div>
 	<div id="root"></div>
 	<footer>
 		<div class="top">

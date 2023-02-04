@@ -77,12 +77,32 @@ function createSlideoutsInContainer(container, topPadding, bottomPadding) {
 	const rightSlideouts = container.getElementsByClassName('slideout-right');
 	for (const element of leftSlideouts) slideouts.push(new slideInElement(element, true, topPadding, bottomPadding));
 	for (const element of rightSlideouts) slideouts.push(new slideInElement(element, false, topPadding, bottomPadding));
-	console.log(slideouts);
+	// console.log(slideouts);
 	return slideouts;
 }
 
 const homeLink = document.getElementById('home-link');
 homeLink.addEventListener('click', e => route(e));
+
+const menuButton = document.getElementById('menu-hamburger');
+const navOverlay = document.getElementById('nav-overlay-container');
+const menuContainer = document.getElementById('menu-container');
+const menuExitButton = document.getElementById('menu-exit-button');
+
+const revealMenu = () => {
+	navOverlay.style.display = 'initial';
+	menuContainer.style.left = '0';
+	menuContainer.style.opacity = '1';
+};
+const hideMenu = () => {
+	navOverlay.style.display = 'none';
+	menuContainer.style.left = '-50%';
+	menuContainer.style.opacity = '0';
+};
+
+menuButton.addEventListener('click', revealMenu);
+menuExitButton.addEventListener('click', hideMenu);
+navOverlay.addEventListener('click', event => { if (event.target == navOverlay) hideMenu() });
 
 window.addEventListener('beforeunload', () => {
 	localStorage.setItem('scrollpos', window.scrollY);

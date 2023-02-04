@@ -1,4 +1,5 @@
 import HomeComponent from './components/home/home.js';
+import AboutComponent from './components/about/about.js';
 
 function specifyCSS(css, componentName) {
 	const selector = `div#${componentName}-component `;
@@ -39,6 +40,8 @@ function route(event) {
 	handleLocation();
 };
 window.route = route;
+const indexLinks = document.querySelectorAll('a.page-link');
+for (const link of indexLinks) link.addEventListener('click', e => route(e));
 
 const routes = {
 	404: '404',
@@ -48,16 +51,18 @@ const routes = {
 	'/careers': 'careers',
 	'/contact': 'contact'
 };
-let currentComponent;
 const components = {
 	'home': HomeComponent,
+	'about': AboutComponent
 }
+const componentInstances = {};
+let currentComponent;
 
 const root = document.getElementById('root');
 const htmlFilePath = '../pages/';
 const cssFilePath = '../css/';
 
-function initComponent(component) {
+function initComponent(componentName) {
 	const scrollpos = localStorage.getItem('scrollpos');
 	if (scrollpos) window.scrollTo(0, scrollpos);
 	localStorage.setItem('scrollpos', null);
@@ -65,33 +70,37 @@ function initComponent(component) {
 	const links = root.querySelectorAll('a.page-link');
 	for (const link of links) link.addEventListener('click', e => route(e));
 
-	if (components[component])
-		currentComponent = new components[component](root);
+	if (components[componentName]) {
+		componentInstances[componentName] = new components[componentName](root);
+	}
+	currentComponent = componentName;
 }
 
 async function handleLocation() {
 	const path = window.location.pathname;
-	const component = routes[path] || routes[404];
-	if (component == currentComponent) return;
-	const filePath = `components/${component}/${component}`;
-	console.log('switching to ' + component + ' component "' + path + '"');
+	const componentName = routes[path] || routes[404];
+	if (componentName == currentComponent) return;
+	const filePath = `components/${componentName}/${componentName}`;
+	console.log('switching to ' + componentName + ' component "' + path + '"');
 
 	let html = await fetch(`${filePath}.html`).then(data => data.text());
 	const css = await fetch(`${filePath}.css`).then(data => data.text());
-	const container = `<div id="${component}-component">`;
+	const container = `<div id="${componentName}-component">`;
 	html = container.concat(html, '</div>');
 
 	if (css.startsWith('<!DOCTYPE html>')) root.innerHTML = html;
-	else root.innerHTML = html.concat('<style>\n', specifyCSS(css, component), '</style>');
-	setTimeout(() => initComponent(component), 0);
+	else root.innerHTML = html.concat('<style>\n', specifyCSS(css, componentName), '</style>');
+	initComponent(componentName);
 }
 
 handleLocation();
 window.onpopstate = handleLocation;
 
 window.addEventListener('scroll', () => {
-	if (currentComponent?.update) currentComponent.update();
+	const component = componentInstances[currentComponent];
+	if (component?.update) component.update();
 });
 window.addEventListener('resize', () => {
-	if (currentComponent?.update) currentComponent.update();
+	const component = componentInstances[currentComponent];
+	if (component?.update) component.update();
 });

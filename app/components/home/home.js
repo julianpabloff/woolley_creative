@@ -1,4 +1,5 @@
 const HomeComponent = function(root) {
+	this.name = 'home';
 	let scrollY = window.scrollY;
 	let windowWidth = window.innerWidth;
 	let windowHeight = window.innerHeight;

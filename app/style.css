@@ -18,11 +18,14 @@
 	font-family: "Gotham Book";
 	src: url("assets/Gotham Book Regular.otf");
 }
+span.white {
+	color: white;
+}
 
 h2 {
 	font-family: "Qonquer";
 	font-weight: normal;
-	transform: scale(0.9, 1);
+	transform: scale(0.85, 1);
 	transform-origin: 0 0;
 	letter-spacing: 0.04em;
 	color: var(--woolley-orange);
@@ -30,7 +33,10 @@ h2 {
 h2.centered {
 	transform-origin: initial;
 }
-h2 span {
+h2.right {
+	transform-origin: right;
+}
+h2 span:not([class]) {
 	font-family: "Impact";
 }
 h3 {
@@ -69,13 +75,15 @@ p {
 	color: var(--accent-color);
 }
 
+a {
+	text-decoration: none;
+}
 /* PAGE LINK BUTTON */
 a.cta {
 	width: fit-content;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	text-decoration: none;
 }
 a.cta h2 {
 	font-size: 26px;
@@ -98,6 +106,7 @@ body {
 }
 div#root {
 	overflow-x: hidden;
+	padding-top: 97px;
 }
 div.diagonal-text-container {
 	width: calc(100vw - 500px);
@@ -147,6 +156,56 @@ header {
 			width: 40px;
 		}
 
+
+div#nav-overlay-container {
+	width: 100%;
+	height: 100vh;
+	position: fixed;
+	display: none;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 5;
+}
+	div#menu-container {
+		height: 100%;
+		width: 50%;
+		display: flex;
+		/* display: none; */
+		flex-direction: column;
+		align-items: flex-end;
+		position: fixed;
+		padding: 50px;
+		background-color: var(--accent-color);
+		left: -50%;
+		opacity: 0;
+		transition: left 0.5s, opacity 0.4s;
+		z-index: 5;
+	}
+		div#menu-exit-button {
+			height: 40px;
+			width: 40px;
+			cursor: pointer;
+			margin-bottom: 85px;
+		}
+			nav {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+			nav a {
+				display: flex;
+				justify-content: flex-end;
+				margin-bottom: 20px;
+			}
+				nav a h2 {
+					font-size: 55px;
+					letter-spacing: 0.02em;
+				}
+				nav a:hover h2 {
+					transform: scale(1.105, 1.3);
+				}
+					nav a h2 span.period {
+						font-size: 45px;
+					}
 
 footer {
 	height: 1225px;
