@@ -9,6 +9,12 @@
 	--woolley-orange: #ff5100;
 	--grey-text-color: #d7d7d3;
 }
+.accent-color {
+	color: var(--accent-color);
+}
+.grey {
+	color: var(--grey-text-color);
+}
 
 @font-face {
 	font-family: "Qonquer";
@@ -18,50 +24,47 @@
 	font-family: "Gotham Book";
 	src: url("assets/Gotham Book Regular.otf");
 }
-span.white {
+@font-face {
+	font-family: "Qonquer Actual";
+	src: url("assets/Qonquer.otf");
+}
+.white {
 	color: white;
 }
 
-h2 {
-	font-family: "Qonquer";
+h1, h2 {
+	font-family: "Qonquer Actual";
 	font-weight: normal;
-	transform: scale(0.85, 1);
-	transform-origin: 0 0;
-	letter-spacing: 0.04em;
 	color: var(--woolley-orange);
+	letter-spacing: 0.4px;
 }
-h2.centered {
-	transform-origin: initial;
+h1 {
+	font-size: 128px;
+	line-height: 108px;
 }
-h2.right {
-	transform-origin: right;
+h2 {
+	font-size: 26px;
+	line-height: 1em;
 }
-h2 span:not([class]) {
-	font-family: "Impact";
-}
-h3 {
+h3, h5, h6 {
 	font-family: "Gotham Book";
-	font-size: 36px;
 	font-weight: lighter;
 	text-transform: uppercase;
-	letter-spacing: 0.4px;
 	color: var(--accent-color);
 }
+h3 {
+	font-size: 36px;
+	letter-spacing: 0.4px;
+}
 h5 {
-	font-family: "Gotham Book";
 	font-size: 22px;
-	font-weight: lighter;
-	text-transform: uppercase;
 	color: var(--woolley-orange);
 }
 h6 {
-	font-family: "Gotham Book";
 	font-size: 18px;
 	font-weight: lighter;
-	letter-spacing: 0.4px;
-	text-transform: uppercase;
 	line-height: 22px;
-	color: var(--accent-color);
+	letter-spacing: 0.4px;
 }
 h6.spaced {
 	font-weight: lighter;
@@ -74,10 +77,10 @@ p {
 	letter-spacing: 0.4px;
 	color: var(--accent-color);
 }
-
 a {
 	text-decoration: none;
 }
+
 /* PAGE LINK BUTTON */
 a.cta {
 	width: fit-content;
@@ -86,8 +89,9 @@ a.cta {
 	justify-content: space-between;
 }
 a.cta h2 {
-	font-size: 26px;
 	transition: color 0.2s;
+	margin-right: 20px;
+	font-size: 30px;
 }
 a.cta.light:hover h2 {
 	color: var(--accent-color);
@@ -99,6 +103,54 @@ a.cta img {
 	height: 25px;
 }
 
+.centered-column {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.cap-width {
+	width: 100%;
+	max-width: 1120px;
+	padding: 0 50px;
+}
+.align-right {
+	display: flex;
+	justify-content: flex-end;
+}
+div.trapezoid {
+	width: calc(100vw - 330px);
+	min-width: 767px;
+	height: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--accent-color);
+	transition: clip-path 0.5s, padding 0.5s;
+}
+div.trapezoid.left {
+	clip-path: polygon(0 0, 100% 0, calc(100% - 250px) 100%, 0 100%);
+	padding: 0 225px 0 100px;
+}
+div.trapezoid.right {
+	clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 250px 100.00%);
+	padding: 0 100px 0 225px;
+}
+
+.column-container {
+	display: flex;
+}
+div.column.half {
+	width: 50%;
+}
+div.column.twothird {
+	width: 66.667%;
+}
+div.column.third {
+	width: 33.333%;
+}
+
+
+
 
 body {
 	display: flex;
@@ -107,14 +159,6 @@ body {
 div#root {
 	overflow-x: hidden;
 	padding-top: 97px;
-}
-div.diagonal-text-container {
-	width: calc(100vw - 500px);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 0 50px;
 }
 div.background-fill {
 	position: absolute;
@@ -134,9 +178,6 @@ header {
 	z-index: 2;
 }
 	header div.container {
-		width: 100%;
-		max-width: 1120px;
-		padding: 0 50px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -169,7 +210,6 @@ div#nav-overlay-container {
 		height: 100%;
 		width: 50%;
 		display: flex;
-		/* display: none; */
 		flex-direction: column;
 		align-items: flex-end;
 		position: fixed;
@@ -192,20 +232,15 @@ div#nav-overlay-container {
 				flex-direction: column;
 			}
 			nav a {
-				display: flex;
-				justify-content: flex-end;
 				margin-bottom: 20px;
 			}
 				nav a h2 {
 					font-size: 55px;
-					letter-spacing: 0.02em;
 				}
 				nav a:hover h2 {
-					transform: scale(1.105, 1.3);
+					transform: scale(1.3);
+					transform-origin: center right;
 				}
-					nav a h2 span.period {
-						font-size: 45px;
-					}
 
 footer {
 	height: 1225px;
@@ -213,7 +248,7 @@ footer {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background-image: url("assets/footer-mountains.webp");
+	background-image: url("assets/footer-mountains.png");
 	background-size: cover;
 	background-position: bottom center;
 }
@@ -234,15 +269,15 @@ footer {
 		footer div.left a.cta {
 			margin-bottom: 10px;
 		}
-		footer div.left a.cta img {
-			margin-left: 15px;
-		}
 		footer div.left p {
 			margin-bottom: 100px;
 		}
-		footer div.left img.one-percent {
+		footer div.left div.one-percent-container img {
 			width: 175px;
 			margin-bottom: 15px;
+		}
+		footer div.left div.one-percent-container img.one-percent-dark {
+			display: none;
 		}
 		footer div.left p.planet {
 			width: 50%;
@@ -257,7 +292,6 @@ footer {
 			font-size: 24px;
 			line-height: 24px;
 			color: var(--accent-color);
-			letter-spacing: 2px;
 		}
 		footer div.right div.social-icons {
 			display: flex;
@@ -275,10 +309,6 @@ footer {
 			align-items: center;
 			margin-bottom: 135px;
 		}
-			footer div.right div.page-links img {
-				height: 25px;
-				margin-left: 15px;
-			}
 		footer div.right div.office-info {
 			margin-top: 15px;
 		}
@@ -307,6 +337,26 @@ footer {
 
 /* MOBILE */
 @media (max-width: 767px) {
+	div.trapezoid {
+		width: 100%;
+		min-width: initial;
+	}
+		div.trapezoid.left {
+			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+			padding: 0 8%;
+		}
+		div.trapezoid.right {
+			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+			padding: 0 8%;
+		}
+	.column-container {
+		flex-direction: column;
+		align-items: center;
+	}
+	.column-container div.column {
+		width: 100%;
+	}
+
 	header div.container {
 		padding: 0 20px;
 	}
@@ -339,8 +389,15 @@ footer {
 				width: 135px;
 				margin-right: 40px;
 			}
+			footer div.left div.one-percent-container img.one-percent-light {
+				display: none;
+			}
+			footer div.left div.one-percent-container img.one-percent-dark {
+				display: initial;
+			}
 			footer div.left p.planet {
 				font-size: 12px;
+				color: black;
 				margin: 0;
 			}
 	footer div.right {

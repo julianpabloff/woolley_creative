@@ -1,13 +1,3 @@
-div.diagonal-text-container {
-	width: calc(100vw - 500px);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 0 50px;
-	z-index: 1;
-}
-
 section.half-and-half {
 	height: 700px;
 	display: flex;
@@ -42,7 +32,6 @@ section.half-and-half {
 
 section.top {
 	height: 1100px;
-	/* background-image: url("assets/home-hero-tablet.webp"); */
 	background-image: url("assets/home-hero.webp");
 	background-size: cover;
 	background-position: 0 0;
@@ -54,15 +43,8 @@ section.top {
 		top: 360px;
 		font-family: "Qonquer";
 		overflow: hidden;
-		/* background-color: rgba(12,150,200,0.5); */
-		/* transition: transform 1s cubic-bezier(0,.33,.07,1.03); */
 	}
 		section.top div.motto h1 {
-			font-size: 105px;
-			line-height: 105px;
-			transform-origin: 0 0;
-			transform: scale(0.85, 1);
-			letter-spacing: 4px;
 			color: var(--grey-text-color);
 			position: relative;
 			left: 0;
@@ -74,13 +56,8 @@ section.top {
 
 
 section.elevator {
-	display: flex;
-	justify-content: flex-end;
-	height: 500px;
-	background-image: url("assets/box_midnight_diagonal-left-2.png");
-	background-position: center left;
 }
-	section.elevator div.text-container h6 {
+	section.elevator h6 {
 		color: white;
 		margin-top: 10px;
 	}
@@ -109,20 +86,12 @@ section.category {
 			/* opacity: 0; */
 			opacity: 1;
 		}
-			div.category-container div.category span {
-				color: var(--woolley-orange);
-				font-family: "Impact";
-				font-size: 48px;
-				font-weight: bold;
-				font-style: italic;
-				margin-bottom: 10px;
-			}
 			div.category-container div.category h2 {
-				font-size: 44px;
-				color: var(--accent-color);
-				margin-bottom: 50px;
+				font-size: 48px;
+				line-height: 65px;
 			}
 			div.category-container div.category ul {
+				margin-top: 50px;
 				list-style: none;
 				display: flex;
 				flex-direction: column;
@@ -137,51 +106,28 @@ section.category {
 				}
 
 
-section.why-whoolley {
-	height: 700px;
+section.why-whoolley div.text-box {
 	display: flex;
-	background-image: url("assets/box_midnight_diagonal-right.png");
-	background-position: center right;
+	flex-direction: column;
+	align-items: center;
 }
-	section.why-whoolley div.text-container {
-		width: calc(100vw - 450px);
-		padding: 0;
-		z-index: 1;
+	section.why-whoolley div.text-box h2 {
+		font-size: 44px;
+		width: 117%;
+		text-align: center;
 	}
-		section.why-whoolley div.text-box {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-			section.why-whoolley div.text-box h2 {
-				font-size: 48px;
-				width: 117%;
-				text-align: center;
-			}
-			section.why-whoolley div.text-box h2#why-whoolley-header {
-				margin-bottom: 35px;
-			}
-			section.why-whoolley div.text-box h2.grey {
-				color: var(--grey-text-color);
-			}
-			section.why-whoolley div.text-box p {
-				color: var(--grey-text-color);
-			}
-			section.why-whoolley div.text-box img {
-				margin-top: 55px;
-				width: 100px;
-			}
-	section.why-whoolley div.background-fill {
-		height: 700px;
-		width: calc(100vw - 700px);
+	section.why-whoolley div.text-box h2#why-whoolley-header {
+		margin-bottom: 35px;
+	}
+	section.why-whoolley div.text-box img {
+		margin-top: 55px;
+		width: 100px;
 	}
 
 
 section.dreamers {
 	height: 500px;
-	display: flex;
 	align-items: center;
-	justify-content: flex-end;
 	background-image: url("assets/dreamers.webp");
 	background-size: cover;
 	margin-top: 250px;
@@ -225,21 +171,8 @@ section.who-we-are {
 	section.top {
 		background-image: url("assets/home-hero-tablet.webp");
 	}
-	section.elevator {
-		background-position: center left calc(100vw - 1024px);
-	}
-		section.elevator div.diagonal-text-container {
-			width: 524px;
-		}
 	section.why-whoolley {
 		background-position: center right calc(100vw - 1024px);
-	}
-	section.why-whoolley div.diagonal-text-container {
-		width: 574px;
-		padding: 0 50px;
-	}
-	section.why-whoolley div.text-box h2 {
-		font-size: 40px;
 	}
 	section.dreamers {
 		background-image: url("assets/dreamers-tablet.webp");
@@ -272,9 +205,6 @@ section.who-we-are {
 			left: 20px;
 			top: 550px;
 		}
-			section.top div.motto h1 {
-				/* left: 100vw; */
-			}
 	section.elevator div.text-container {
 		padding: 0 25px;
 	}
@@ -293,9 +223,6 @@ section.who-we-are {
 		section.dreamers div.dreamers-container {
 			width: 100%;
 		}
-				section.dreamers div.dreamers-container h2 {
-					font-size: 25px;
-				}
 	section.who-we-are div.half-and-half {
 		padding: 100px 0;
 	}
