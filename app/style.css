@@ -25,6 +25,10 @@
 	src: url("assets/Gotham Book Regular.otf");
 }
 @font-face {
+	font-family: "Gotham Bold";
+	src: url("assets/Gotham Bold.otf");
+}
+@font-face {
 	font-family: "Qonquer Actual";
 	src: url("assets/Qonquer.otf");
 }
@@ -103,6 +107,10 @@ a.cta img {
 	height: 25px;
 }
 
+.slideout-left, .slideout-right {
+	opacity: 0;
+}
+
 .centered-column {
 	display: flex;
 	flex-direction: column;
@@ -111,7 +119,9 @@ a.cta img {
 .cap-width {
 	width: 100%;
 	max-width: 1120px;
-	padding: 0 50px;
+}
+.standard-padding {
+	padding: 0 8%;
 }
 .align-right {
 	display: flex;
@@ -139,13 +149,16 @@ div.trapezoid.right {
 .column-container {
 	display: flex;
 }
-div.column.half {
+	.column-container.reverse {
+		flex-direction: row-reverse
+	}
+.column.half {
 	width: 50%;
 }
-div.column.twothird {
+.column.twothird {
 	width: 66.667%;
 }
-div.column.third {
+.column.third {
 	width: 33.333%;
 }
 
@@ -155,9 +168,9 @@ div.column.third {
 body {
 	display: flex;
 	flex-direction: column;
+	overflow-x: hidden;
 }
 div#root {
-	overflow-x: hidden;
 	padding-top: 97px;
 }
 div.background-fill {
@@ -238,7 +251,7 @@ div#nav-overlay-container {
 					font-size: 55px;
 				}
 				nav a:hover h2 {
-					transform: scale(1.3);
+					transform: scale(1.5);
 					transform-origin: center right;
 				}
 
@@ -340,20 +353,26 @@ footer {
 	div.trapezoid {
 		width: 100%;
 		min-width: initial;
+		height: fit-content;
 	}
 		div.trapezoid.left {
 			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-			padding: 0 8%;
+			/* padding: 50px 25px; */
+			padding: 50px 8%;
 		}
 		div.trapezoid.right {
 			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-			padding: 0 8%;
+			/* padding: 50px 25px; */
+			padding: 50px 8%;
 		}
-	.column-container {
+	.column-container, .column-container.reverse {
 		flex-direction: column;
 		align-items: center;
 	}
-	.column-container div.column {
+	/* .column-container.reverse { */
+	/* 	flex-direction: column-reverse; */
+	/* } */
+	.column-container .column {
 		width: 100%;
 	}
 

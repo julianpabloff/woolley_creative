@@ -1,9 +1,15 @@
 const HomeComponent = function(root) {
 	this.name = 'home';
-	console.log('running about comp');
 	const header = document.getElementById('header');
 	const headerHeight = header.clientHeight;
-	const slideouts = createSlideoutsInContainer(document, headerHeight + 50, 50);
+	const slideouts = new SlideoutManager(document, headerHeight + 50, 50);
+
+	const slideListElement = document.getElementById('about-slide-list');
+	const slideList = new SlideList(slideListElement).start();
+
+	this.update = function() {
+		slideouts.update();
+	}
 }
 
 export default HomeComponent;

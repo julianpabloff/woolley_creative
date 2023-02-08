@@ -23,7 +23,7 @@ class scrollFadeInElement {
 	}
 }
 
-class slideInElement {
+class SlideoutElement {
 	constructor(element, side = true, topPadding = 0, bottomPadding = 0) {
 		this.element = element;
 		this.container = document.createElement('div');
@@ -40,10 +40,11 @@ class slideInElement {
 
 		this.element.style.opacity = '0';
 		this.element.style.position = 'relative';
+		this.element.style.transition = 'left ease-out 0.75s, opacity 1s';
+		this.hideElement();
 		setTimeout(() => {
-			this.element.style.transition = 'left ease-out 0.75s, opacity 1s';
 			this.revealed = false;
-			this.update();
+			this.update(window.scrollY, window.innerHeight);
 		}, 0);
 
 	}
@@ -56,29 +57,113 @@ class slideInElement {
 		}
 		else this.element.style.left = `calc(100vw - ${this.x - 5}px`;
 	}
-	update() {
+	update(scrollY, windowHeight) {
 		if (this.revealed) return;
 		this.hideElement();
-		const windowHeight = window.innerHeight;
-		const scrollY = window.scrollY;
 		const topVisible = this.y - windowHeight + this.bottomPadding;
 		const bottomVisible = this.y - this.topPadding;
 		if (scrollY > topVisible && scrollY < bottomVisible) {
 			this.element.style.left = '0';
 			this.element.style.opacity = '1';
-			console.log('revealing slideout: ' + this.element.innerText);
 			this.revealed = true;
 		}
 	}
 }
-function createSlideoutsInContainer(container, topPadding, bottomPadding) {
-	const slideouts = [];
-	const leftSlideouts = container.getElementsByClassName('slideout-left');
-	const rightSlideouts = container.getElementsByClassName('slideout-right');
-	for (const element of leftSlideouts) slideouts.push(new slideInElement(element, true, topPadding, bottomPadding));
-	for (const element of rightSlideouts) slideouts.push(new slideInElement(element, false, topPadding, bottomPadding));
-	// console.log(slideouts);
-	return slideouts;
+class SlideoutManager {
+	constructor(container, topPadding = 50, bottomPadding = 50) {
+		this.container = container;
+		this.instances = [];
+		const leftSlideouts = this.container.getElementsByClassName('slideout-left');
+		const rightSlideouts = this.container.getElementsByClassName('slideout-right');
+		for (const element of leftSlideouts) this.instances.push(new SlideoutElement(element, true, topPadding, bottomPadding));
+		for (const element of rightSlideouts) this.instances.push(new SlideoutElement(element, false, topPadding, bottomPadding));
+	}
+	update() {
+		const scrollY = window.scrollY;
+		const windowHeight = window.innerHeight;
+		for (const instance of this.instances) instance.update(scrollY, windowHeight);
+	}
+}
+
+class ParallaxScrollElement {
+	constructor(element, parallaxFactor = 0.08) {
+		this.element = element;
+		this.parallaxFactor = parallaxFactor;
+		this.element.style.transition = 'transform 0.2s';
+	}
+	update(scrollY, windowHeight) {
+		const top = this.element.offsetTop;
+		const height = this.element.clientHeight;
+		const vertCenteredScrollPoint = top + height / 2 - windowHeight / 2;
+		const translate = (vertCenteredScrollPoint - scrollY) * this.parallaxFactor;
+		this.element.style.transform = 'translateY(' + translate.toString() + 'px)';
+	}
+}
+class ParallaxScrollManager {
+	constructor(container, parallaxFactor = 0.08) {
+		this.container = container;
+		this.instances = [];
+		const elements = this.container.getElementsByClassName('parallax-scroll');
+		for (const element of elements) this.instances.push(new ParallaxScrollElement(element, parallaxFactor));
+	}
+	update() {
+		const scrollY = window.scrollY;
+		const windowHeight = window.innerHeight;
+		for (const instance of this.instances) instance.update(scrollY, windowHeight);
+	}
+}
+
+const intervalIterate = async (time, count, callback) => new Promise(resolve => {
+	let i = 0;
+	const interval = setInterval(() => {
+		callback(i);
+		i++;
+		if (i >= count) {
+			clearInterval(interval);
+			resolve();
+		}
+	}, time);
+});
+
+class SlideList {
+	constructor(ul, delay = 3000, speed = 100) {
+		this.ul = ul;
+		this.delay = delay;
+		this.speed = speed;
+
+		this.container = document.createElement('div');
+		this.ul.parentNode.insertBefore(this.container, this.ul);
+		this.container.appendChild(this.ul);
+		this.container.style.overflowY = 'hidden';
+
+		this.li = this.ul.children;
+		this.liHeight = this.li[0].clientHeight;
+		this.liCount = this.li.length;
+		this.timestep = speed / this.liHeight;
+
+		const ulStyle = this.ul.style;
+		ulStyle.height = this.liHeight.toString() + 'px';
+		ulStyle.position = 'relative';
+
+		return this;
+	}
+	async move() {
+		await intervalIterate(this.timestep, this.liHeight, i => {
+			this.ul.style.top = `-${i + 1}px`;
+		});
+		this.ul.appendChild(this.ul.removeChild(this.li[0]));
+		this.ul.style.top = '0';
+	}
+	start() {
+		this.animation = setInterval(() => {
+			this.move();
+		}, this.delay);
+		return this;
+	}
+	stop() {
+		if (this.animation) clearInterval(this.animation);
+		return this;
+	}
 }
 
 const homeLink = document.getElementById('home-link');

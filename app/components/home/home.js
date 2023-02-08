@@ -8,11 +8,13 @@ const HomeComponent = function(root) {
 	const headerHeight = header.clientHeight;
 
 	// SLIDEOUTS
-	const slideouts = createSlideoutsInContainer(document, headerHeight + 50, 50);
+	const slideouts = new SlideoutManager(document, headerHeight + 50, 50);
+	// PARALLAX SCROLL ELEMENTS
+	const parallaxScrolls = new ParallaxScrollManager(root);
 
 	// MOTTO
 	const topSection = document.getElementById('top-section');
-	const landingImageHeight = topSection.clientHeight;
+	const landingImageHeight = topSection.clientHeight + topSection.offsetTop;
 
 	const mottoContainer = document.getElementById('motto-container');
 	const mottoHeight = mottoContainer.clientHeight;
@@ -88,16 +90,6 @@ const HomeComponent = function(root) {
 	const whyWoolleyHeaderFadeIn = new scrollFadeInElement(whyWoolleyHeader, 50);
 
 
-	///// DREAMERS /////
-	const dreamers = document.getElementById('dreamers-container');
-	const dreamersParallaxFactor = 0.08;
-	function handleDreamers() {
-		const dreamersHalfScrollPoint = dreamers.offsetTop + dreamers.clientHeight / 2 - windowHeight / 2;
-		const translate = (dreamersHalfScrollPoint - scrollY) * dreamersParallaxFactor;
-		dreamers.style.transform = 'translateY(' + translate + 'px)';
-	}
-
-
 	this.update = function() {
 		windowWidth = window.innerWidth;
 		windowHeight = window.innerHeight;
@@ -120,9 +112,8 @@ const HomeComponent = function(root) {
 			i++;
 		}
 		whyWoolleyHeaderFadeIn.update();
-		handleDreamers();
-
-		for (const slideout of slideouts) slideout.update();
+		slideouts.update();
+		parallaxScrolls.update();
 	}
 	this.update();
 }
