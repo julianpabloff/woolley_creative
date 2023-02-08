@@ -5,7 +5,7 @@ const HomeComponent = function(root) {
 	const slideouts = new SlideoutManager(document, headerHeight + 50, 50);
 
 	const slideListElement = document.getElementById('about-slide-list');
-	const slideList = new SlideList(slideListElement).start();
+	const slideList = new SlideListAnimation(slideListElement).start();
 
 	this.update = function() {
 		slideouts.update();

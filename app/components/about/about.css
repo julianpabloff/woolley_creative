@@ -127,29 +127,28 @@ section.our-team {
 		section.our-team div.team-container div.column {
 			overflow: hidden;
 		}
-		section.our-team div.team-container div.image {
-			height: 500px;
-		}
 		section.our-team div.team-container div.info {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			padding: 50px 8%;
 		}
-		section.our-team div.team-container img {
-			width: 100%;
-			height: 500px;
-			object-fit: cover;
+		section.our-team div.team-container div.image {
+			position: relative;
 		}
-			section.our-team div.team-container img.secondary {
-				width: 50%;
-				position: absolute;
-				transition: left ease-out 0.3s, right ease-out 0.3s;
+			section.our-team div.team-container img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
 			}
-			section.our-team div.team-container img.secondary.left { left: -50%; }
-			section.our-team div.team-container img.secondary.right { right: -50%; }
+			section.our-team div.team-container img.secondary {
+				position: absolute;
+				transition: left ease-out 0.3s;
+			}
+			section.our-team div.team-container img.secondary.left { left: -100%; }
+			section.our-team div.team-container img.secondary.right { left: 100%; }
 			section.our-team div.image:hover img.secondary.left { left: 0; }
-			section.our-team div.image:hover img.secondary.right { right: 0; }
+			section.our-team div.image:hover img.secondary.right { left: 0; }
 
 		section.our-team div.team-container h2 {
 			font-size: 60px;
@@ -160,25 +159,26 @@ section.our-team {
 		section.our-team div.team-container p br {
 			margin-bottom: 10px;
 		}
-	section.our-team div.footer {
-		height: 400px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: var(--accent-color);
-	}
-		section.our-team div.footer > div {
-			display: flex;
-		}
-		section.our-team div.footer div > h6 {
-			color: var(--woolley-orange);
-			font-family: "Gotham Bold";
-			margin-right: 10px;
-		}
-		section.our-team div.footer ul {
-			list-style: none;
-		}
 
+section.woolley-is {
+	height: 400px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--accent-color);
+}
+	section.woolley-is > div {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	section.woolley-is div > h6 {
+		color: var(--woolley-orange);
+		font-family: "Gotham Bold";
+		margin-right: 10px;
+	}
+	section.woolley-is ul {
+		list-style: none;
+	}
 
 
 

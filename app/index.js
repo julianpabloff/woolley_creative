@@ -125,7 +125,7 @@ const intervalIterate = async (time, count, callback) => new Promise(resolve => 
 	}, time);
 });
 
-class SlideList {
+class SlideListAnimation {
 	constructor(ul, delay = 3000, speed = 100) {
 		this.ul = ul;
 		this.delay = delay;
@@ -134,7 +134,7 @@ class SlideList {
 		this.container = document.createElement('div');
 		this.ul.parentNode.insertBefore(this.container, this.ul);
 		this.container.appendChild(this.ul);
-		this.container.style.overflowY = 'hidden';
+		this.container.style.overflow = 'hidden';
 
 		this.li = this.ul.children;
 		this.liHeight = this.li[0].clientHeight;
@@ -144,20 +144,32 @@ class SlideList {
 		const ulStyle = this.ul.style;
 		ulStyle.height = this.liHeight.toString() + 'px';
 		ulStyle.position = 'relative';
+		this.setContainerHeight();
 
+		animations.add(this);
 		return this;
 	}
+	setContainerHeight() {
+		this.container.style.height = this.li[0].clientHeight.toString() + 'px';
+	}
 	async move() {
-		await intervalIterate(this.timestep, this.liHeight, i => {
+		// The amount of iterations in the loop is the height of the current li element in px
+		const currentHeight = this.li[0].clientHeight;
+		const nextHeight = this.li[1].clientHeight;
+		const heightDelta = (nextHeight - currentHeight) / currentHeight;
+		let heightChange = currentHeight;
+		await intervalIterate(this.timestep, currentHeight, i => {
 			this.ul.style.top = `-${i + 1}px`;
+			if (heightDelta) {
+				heightChange += heightDelta;
+				this.container.style.height = heightChange.toString() + 'px';
+			}
 		});
 		this.ul.appendChild(this.ul.removeChild(this.li[0]));
 		this.ul.style.top = '0';
 	}
 	start() {
-		this.animation = setInterval(() => {
-			this.move();
-		}, this.delay);
+		this.animation = setInterval(() => this.move(), this.delay);
 		return this;
 	}
 	stop() {
@@ -165,6 +177,15 @@ class SlideList {
 		return this;
 	}
 }
+const animations = new Set();
+const startAnimations = () => animations.forEach(a => a.start());
+const stopAnimations = () => animations.forEach(a => a.stop());
+
+document.addEventListener('visibilitychange', () => {
+	console.log(document.visibilityState);
+	if (document.hidden) stopAnimations();
+	else startAnimations();
+});
 
 const homeLink = document.getElementById('home-link');
 homeLink.addEventListener('click', e => route(e));
