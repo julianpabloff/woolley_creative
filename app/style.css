@@ -169,6 +169,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	overflow-x: hidden;
+	font-family: "Gotham Book";
+	color: var(--accent-color);
 }
 div#root {
 	padding-top: 97px;

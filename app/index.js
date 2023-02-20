@@ -182,7 +182,6 @@ const startAnimations = () => animations.forEach(a => a.start());
 const stopAnimations = () => animations.forEach(a => a.stop());
 
 document.addEventListener('visibilitychange', () => {
-	console.log(document.visibilityState);
 	if (document.hidden) stopAnimations();
 	else startAnimations();
 });
@@ -195,21 +194,20 @@ const navOverlay = document.getElementById('nav-overlay-container');
 const menuContainer = document.getElementById('menu-container');
 const menuExitButton = document.getElementById('menu-exit-button');
 
+let menuRevealed = false;
 const revealMenu = () => {
 	navOverlay.style.display = 'initial';
 	menuContainer.style.left = '0';
 	menuContainer.style.opacity = '1';
+	menuRevealed = true;
 };
 const hideMenu = () => {
 	navOverlay.style.display = 'none';
 	menuContainer.style.left = '-50%';
 	menuContainer.style.opacity = '0';
+	menuRevealed = false;
 };
 
 menuButton.addEventListener('click', revealMenu);
 menuExitButton.addEventListener('click', hideMenu);
 navOverlay.addEventListener('click', event => { if (event.target == navOverlay) hideMenu() });
-
-window.addEventListener('beforeunload', () => {
-	localStorage.setItem('scrollpos', window.scrollY);
-});

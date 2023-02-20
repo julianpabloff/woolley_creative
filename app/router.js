@@ -1,5 +1,6 @@
 import HomeComponent from './components/home/home.js';
 import AboutComponent from './components/about/about.js';
+import ContactComponent from './components/contact/contact.js';
 
 function specifyCSS(css, componentName) {
 	const selector = `div#${componentName}-component `;
@@ -53,7 +54,8 @@ const routes = {
 };
 const components = {
 	'home': HomeComponent,
-	'about': AboutComponent
+	'about': AboutComponent,
+	'contact': ContactComponent,
 }
 const componentInstances = {};
 let currentComponent;
@@ -63,8 +65,12 @@ const htmlFilePath = '../pages/';
 const cssFilePath = '../css/';
 
 function initComponent(componentName) {
-	const scrollpos = localStorage.getItem('scrollpos');
-	if (scrollpos) window.scrollTo(0, scrollpos);
+	const storedScrollpos = localStorage.getItem('scrollpos');
+	const storedCurrentComponent = localStorage.getItem('currentComponent');
+	if (storedScrollpos && componentName == storedCurrentComponent) {
+		console.log('resetting to stored scroll position:', storedScrollpos);
+		window.scrollTo(0, storedScrollpos);
+	} else window.scrollTo(0, 0);
 	localStorage.setItem('scrollpos', null);
 
 	const links = root.querySelectorAll('a.page-link');
@@ -74,6 +80,7 @@ function initComponent(componentName) {
 		componentInstances[componentName] = new components[componentName](root);
 	}
 	currentComponent = componentName;
+	if (menuRevealed) hideMenu();
 }
 
 async function handleLocation() {
@@ -103,4 +110,9 @@ window.addEventListener('scroll', () => {
 window.addEventListener('resize', () => {
 	const component = componentInstances[currentComponent];
 	if (component?.update) component.update();
+});
+window.addEventListener('beforeunload', () => {
+	console.log('remembering scroll position:', window.scrollY);
+	localStorage.setItem('scrollpos', window.scrollY);
+	localStorage.setItem('currentComponent', currentComponent);
 });

@@ -1,0 +1,42 @@
+section.form {
+	margin-top: 150px;
+}
+section.form > div {
+	gap: 8%;
+}
+h1 {
+	font-size: 72px;
+	line-height: 72px;
+	margin-bottom: 15px;
+}
+section.form img {
+	width: 100%;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	padding: 0 20px;
+}
+label {
+	font-family: "Qonquer";
+	font-size: 18px;
+	letter-spacing: 0.8px;
+	cursor: pointer;
+	color: var(--accent-color);
+	margin-bottom: 10px;
+}
+input, textarea {
+	border: 3px solid var(--accent-color);
+	padding: 8px 16px;
+	font-family: inherit;
+	font-size: 15px;
+	color: inherit;
+	margin-bottom: 15px;
+}
+input:focus, textarea:focus {
+	outline: none;
+}
+textarea {
+	resize: vertical;
+}
