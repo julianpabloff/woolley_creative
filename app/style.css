@@ -84,27 +84,33 @@ p {
 a {
 	text-decoration: none;
 }
+button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
 
 /* PAGE LINK BUTTON */
-a.cta {
+.cta {
 	width: fit-content;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
-a.cta h2 {
+.cta h2 {
 	transition: color 0.2s;
 	margin-right: 20px;
 	font-size: 30px;
 }
-a.cta.light:hover h2 {
+.cta img {
+	width: auto;
+	height: 25px;
+}
+.cta.light:hover h2 {
 	color: var(--accent-color);
 }
-a.cta.dark:hover h2 {
+.cta.dark:hover h2 {
 	color: var(--grey-text-color);
-}
-a.cta img {
-	height: 25px;
 }
 
 .slideout-left, .slideout-right {
@@ -207,6 +213,8 @@ header {
 			justify-content: center;
 			align-items: center;
 			cursor: pointer;
+			position: relative;
+			left: 28px;
 		}
 		div#menu-hamburger img {
 			width: 40px;
@@ -378,10 +386,6 @@ footer {
 		width: 100%;
 	}
 
-	header div.container {
-		padding: 0 20px;
-	}
-
 	footer {
 		height: fit-content;
 		padding-top: 100px;
@@ -405,6 +409,7 @@ footer {
 			display: flex;
 			align-items: center;
 			margin-bottom: 40px;
+			flex-wrap: wrap;
 		}
 			footer div.left div.one-percent-container img {
 				width: 135px;
@@ -423,9 +428,11 @@ footer {
 			}
 	footer div.right {
 		width: initial;
+		display: flex;
+		flex-wrap: wrap;
 	}
-		footer div.right div.half {
-			width: 50%;
+		footer div.right div.half:first-child {
+			margin-right: 60px;
 		}
 		footer div.right div.page-links {
 			flex-direction: column;

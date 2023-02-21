@@ -61,8 +61,6 @@ const componentInstances = {};
 let currentComponent;
 
 const root = document.getElementById('root');
-const htmlFilePath = '../pages/';
-const cssFilePath = '../css/';
 
 function initComponent(componentName) {
 	const storedScrollpos = localStorage.getItem('scrollpos');
@@ -86,8 +84,11 @@ function initComponent(componentName) {
 async function handleLocation() {
 	const path = window.location.pathname;
 	const componentName = routes[path] || routes[404];
-	if (componentName == currentComponent) return;
-	const filePath = `components/${componentName}/${componentName}`;
+	if (componentName == currentComponent) {
+		window.scrollTo(0, 0);
+		return;
+	}
+	const filePath = `/components/${componentName}/${componentName}`;
 	console.log('switching to ' + componentName + ' component "' + path + '"');
 
 	let html = await fetch(`${filePath}.html`).then(data => data.text());

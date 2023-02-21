@@ -1,22 +1,25 @@
 section.form {
-	margin-top: 150px;
+	margin: 150px 0;
 }
 section.form > div {
 	gap: 8%;
+}
+	section.form > div div:first-child {
+	margin-bottom: 150px;
 }
 h1 {
 	font-size: 72px;
 	line-height: 72px;
 	margin-bottom: 15px;
 }
-section.form img {
+section.form div > img {
 	width: 100%;
 }
 
 form {
 	display: flex;
 	flex-direction: column;
-	padding: 0 20px;
+	/* padding: 0 20px; */
 }
 label {
 	font-family: "Qonquer";
@@ -25,6 +28,12 @@ label {
 	cursor: pointer;
 	color: var(--accent-color);
 	margin-bottom: 10px;
+}
+label.required::after {
+	content: "*";
+	font-family: "Arial";
+	color: red;
+	margin-left: 10px;
 }
 input, textarea {
 	border: 3px solid var(--accent-color);
@@ -39,4 +48,20 @@ input:focus, textarea:focus {
 }
 textarea {
 	resize: vertical;
+	min-height: 86px;
+	max-height: 600px;
+}
+form button {
+	margin: 20px 0 100px 0;
+}
+
+a.email-link h2 {
+	letter-spacing: 1px;
+	margin-top: 20px;
+}
+
+@media (max-width: 767px) {
+	a.email-link h2 {
+		font-size: 25px;
+	}
 }

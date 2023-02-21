@@ -1,5 +1,5 @@
 const HomeComponent = function(root) {
-	this.name = 'home';
+	document.title = 'Woolley Creative – We create outside.';
 	let scrollY = window.scrollY;
 	let windowWidth = window.innerWidth;
 	let windowHeight = window.innerHeight;
