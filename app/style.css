@@ -8,6 +8,7 @@
 	--accent-color: #323E48;
 	--woolley-orange: #ff5100;
 	--grey-text-color: #d7d7d3;
+	--header-height: 95px;
 }
 .accent-color {
 	color: var(--accent-color);
@@ -179,7 +180,7 @@ body {
 	color: var(--accent-color);
 }
 div#root {
-	padding-top: 97px;
+	/* padding-top: 97px; */
 }
 div.background-fill {
 	position: absolute;
@@ -190,13 +191,18 @@ br {
 }
 
 header {
-	height: 97px;
+	height: var(--header-height);
 	width: 100%;
 	position: fixed;
 	display: flex;
 	justify-content: center;
-	background-color: var(--accent-color);
 	z-index: 2;
+	transition: background-color 0.5s, border-color 0.3s;
+	/* border-bottom: 4px solid transparent; */
+}
+header.fill {
+	background-color: var(--accent-color);
+	/* border-color: var(--grey-text-color); */
 }
 	header div.container {
 		display: flex;
@@ -219,6 +225,9 @@ header {
 		div#menu-hamburger img {
 			width: 40px;
 		}
+div.header-spacer {
+	height: var(--header-height);
+}
 
 
 div#nav-overlay-container {

@@ -86,6 +86,7 @@ async function handleLocation() {
 	const componentName = routes[path] || routes[404];
 	if (componentName == currentComponent) {
 		window.scrollTo(0, 0);
+		if (menuRevealed) hideMenu();
 		return;
 	}
 	const filePath = `/components/${componentName}/${componentName}`;

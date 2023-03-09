@@ -211,3 +211,12 @@ const hideMenu = () => {
 menuButton.addEventListener('click', revealMenu);
 menuExitButton.addEventListener('click', hideMenu);
 navOverlay.addEventListener('click', event => { if (event.target == navOverlay) hideMenu() });
+
+const header = document.getElementById('header');
+window.addEventListener('scroll', function() {
+	if (this.scrollY > 0) {
+		header.classList.add('fill');
+	} else {
+		header.classList.remove('fill');
+	}
+});

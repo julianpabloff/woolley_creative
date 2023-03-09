@@ -15,13 +15,14 @@ const HomeComponent = function(root) {
 	// MOTTO
 	const topSection = document.getElementById('top-section');
 	const landingImageHeight = topSection.clientHeight + topSection.offsetTop;
+	console.log(window.innerHeight);
+	console.log(landingImageHeight);
 
 	const mottoContainer = document.getElementById('motto-container');
 	const mottoHeight = mottoContainer.clientHeight;
 	let mottoTop = mottoContainer.offsetTop;
 	let currentMottoDisplacement = mottoTop;
-	const mottoChildren = [];
-	for (const child of mottoContainer.children) mottoChildren.push(child);
+	const mottoChildren = mottoContainer.children;
 	const mottoChildHeight = mottoChildren[0].clientHeight;
 
 	const setMottoChildOpacity = function(child, index) {
@@ -42,28 +43,50 @@ const HomeComponent = function(root) {
 		return opacity;
 	}
 
+	let mottoChildrenWithinView = 0 | 0;
 	let mottoChildrenRevealed = 0 | 0;
-	const handleMottoChildReveal = function(child, index, opacity) {
+
+	const isMottoChildWithinView = function(index) {
 		const indexDisplacement = mottoChildHeight * index + mottoChildHeight / 2;
 		const visibleFromAbove = scrollY + windowHeight > currentMottoDisplacement + indexDisplacement;
 		const visibleFromBelow = scrollY < currentMottoDisplacement - headerHeight + indexDisplacement;
-		if (opacity > 0.2 && visibleFromAbove && visibleFromBelow && (mottoChildrenRevealed & 1 << index) == 0) {
+		if (visibleFromAbove && visibleFromBelow) {
+			mottoChildrenWithinView |= 1 << index;
+			return true;
+		}
+		mottoChildrenWithinView &= ~(1 << index)
+		return false;
+	}
+
+	const handleMottoChildReveal = function(child, index, opacity) {
+		if (opacity > 0.2 && (mottoChildrenRevealed & 1 << index) == 0) {
 			child.style.left = 0;
 			setTimeout(() => child.style.transition = 'opacity 0.1s', 1000);
 			mottoChildrenRevealed |= 1 << index;
 		}
 	}
 
+	const revealMottoChild = function(child) {
+		child.style.left = 0;
+		setTimeout(() => child.style.transition = 'opacity 0.1s', 1000);
+		mottoChildrenRevealed |= 1 << index;
+	}
+
 	const parallaxRate = 0.4;
-	const handleMottoDisplay = function() {
-		const displacement = parallaxRate * scrollY;
+	let handleMottoDisplay = function() {
+		let displacement = parallaxRate * scrollY;
+		if (displacement > landingImageHeight) displacement = landingImageHeight;
 		mottoContainer.style.transform = 'translateY(' + displacement + 'px)';
 		currentMottoDisplacement = mottoTop + displacement;
 
+		const initialChildrenRevealed = mottoChildrenRevealed;
 		for (let i = 0; i < mottoChildren.length; i++) {
 			const child = mottoChildren[i];
 			const opacity = setMottoChildOpacity(child, i);
-			if (mottoChildrenRevealed < 7) handleMottoChildReveal(child, i, opacity);
+			const withinView = isMottoChildWithinView(i);
+			if (withinView) setTimeout(() => handleMottoChildReveal(child, i, opacity), 200 * i);
+		}
+		if (mottoChildrenWithinView == 7) {
 		}
 	}
 	setTimeout(() => mottoContainer.style.transition = 'transform 1s cubic-bezier(0, 0.33, 0.07, 1.03)', 200);
@@ -115,7 +138,7 @@ const HomeComponent = function(root) {
 		slideouts.update();
 		parallaxScrolls.update();
 	}
-	this.update();
+	setTimeout(this.update, 300);
 }
 
 export default HomeComponent;
