@@ -1,4 +1,5 @@
-const HomeComponent = function(root) {
+const HomeComponent = function(container) {
+	this.container = container;
 	document.title = 'Woolley Creative – We create outside.';
 	let scrollY = window.scrollY;
 	let windowWidth = window.innerWidth;
@@ -10,7 +11,7 @@ const HomeComponent = function(root) {
 	// SLIDEOUTS
 	const slideouts = new SlideoutManager(document, headerHeight + 50, 50);
 	// PARALLAX SCROLL ELEMENTS
-	const parallaxScrolls = new ParallaxScrollManager(root);
+	const parallaxScrolls = new ParallaxScrollManager(this.container);
 
 	// MOTTO
 	const topSection = document.getElementById('top-section');
@@ -85,8 +86,6 @@ const HomeComponent = function(root) {
 			const opacity = setMottoChildOpacity(child, i);
 			const withinView = isMottoChildWithinView(i);
 			if (withinView) setTimeout(() => handleMottoChildReveal(child, i, opacity), 200 * i);
-		}
-		if (mottoChildrenWithinView == 7) {
 		}
 	}
 	setTimeout(() => mottoContainer.style.transition = 'transform 1s cubic-bezier(0, 0.33, 0.07, 1.03)', 200);

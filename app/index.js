@@ -113,6 +113,23 @@ class ParallaxScrollManager {
 	}
 }
 
+class NewParallaxScrollElement {
+	constructor(element, parallaxFactor, alignment = 'center') {
+		this.element = element;
+		this.parallaxFactor = parallaxFactor;
+		this.element.style.transition = 'transform 0.2s';
+	}
+}
+class NewParallaxScrollManager {
+	constructor(container, parallaxFactor = 0.08) {
+		this.container = container;
+		this.instances = [];
+		const elements = this.container.getElementsByClassName('parallax-scroll');
+		const topElements = this.container.getElementsByClassName('parallax-scroll parallax-align-top');
+		for (const e of elements) this.instances.push(new NewParallaxScrollElement(element, parallaxFactor));
+	}
+}
+
 const intervalIterate = async (time, count, callback) => new Promise(resolve => {
 	let i = 0;
 	const interval = setInterval(() => {
@@ -213,10 +230,14 @@ menuExitButton.addEventListener('click', hideMenu);
 navOverlay.addEventListener('click', event => { if (event.target == navOverlay) hideMenu() });
 
 const header = document.getElementById('header');
-window.addEventListener('scroll', function() {
-	if (this.scrollY > 0) {
-		header.classList.add('fill');
-	} else {
-		header.classList.remove('fill');
-	}
-});
+const headerBackground = document.getElementById('header-background');
+
+const updateIndex = () => {
+	headerBackground.style.opacity = window.scrollY ? '1' : '0';
+	// const threshold = 200;
+	// let percentage = (threshold - window.scrollY) / threshold;
+	// if (percentage < 0) percentage = 0;
+	// else if (percentage > 1) percentage = 1;
+	// console.log(1 - percentage);
+	// headerBackground.style.opacity = (1 - percentage).toString();
+}

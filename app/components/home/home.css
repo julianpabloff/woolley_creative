@@ -42,11 +42,9 @@ section.top {
 		width: 50%;
 		left: 50%;
 		top: 360px;
-		font-family: "Qonquer";
 		overflow: hidden;
 	}
 		section.top div.motto h1 {
-			color: var(--grey-text-color);
 			position: relative;
 			left: 0;
 			opacity: 1;
@@ -54,20 +52,19 @@ section.top {
 			opacity: 0;
 			transition: left 0.7s cubic-bezier(0,.33,.07,1.03), opacity 1s;
 			/* transition: left 0.7s cubic-bezier(0, 0.8, 0.7, 1), opacity 1s; */
+			color: var(--grey-text-color);
 		}
 
 
-section.elevator {
+section.elevator h6 {
+	color: white;
+	margin-top: 10px;
 }
-	section.elevator h6 {
-		color: white;
-		margin-top: 10px;
-	}
-	section.elevator div.background-fill {
-		width: calc(100% - 600px);
-		height: 500px;
-		left: 600px;
-	}
+section.elevator div.background-fill {
+	width: calc(100% - 600px);
+	height: 500px;
+	left: 600px;
+}
 
 
 section.category {

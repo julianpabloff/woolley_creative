@@ -19,26 +19,22 @@
 
 @font-face {
 	font-family: "Qonquer";
-	src: url("assets/Face Off M54.ttf");
+	src: url("assets/fonts/Qonquer.otf");
 }
 @font-face {
 	font-family: "Gotham Book";
-	src: url("assets/Gotham Book Regular.otf");
+	src: url("assets/fonts/Gotham Book Regular.otf");
 }
 @font-face {
 	font-family: "Gotham Bold";
-	src: url("assets/Gotham Bold.otf");
-}
-@font-face {
-	font-family: "Qonquer Actual";
-	src: url("assets/Qonquer.otf");
+	src: url("assets/fonts/Gotham Bold.otf");
 }
 .white {
 	color: white;
 }
 
 h1, h2 {
-	font-family: "Qonquer Actual";
+	font-family: "Qonquer";
 	font-weight: normal;
 	color: var(--woolley-orange);
 	letter-spacing: 0.4px;
@@ -152,6 +148,10 @@ div.trapezoid.right {
 	clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 250px 100.00%);
 	padding: 0 100px 0 225px;
 }
+div.trapezoid h2 {
+	font-size: 60px;
+	line-height: 60px;
+}
 
 .column-container {
 	display: flex;
@@ -197,17 +197,24 @@ header {
 	display: flex;
 	justify-content: center;
 	z-index: 2;
-	transition: background-color 0.5s, border-color 0.3s;
-	/* border-bottom: 4px solid transparent; */
+	/* transition: background-color 0.1s; */
 }
-header.fill {
+div#header-background {
+	width: 100%;
+	height: 100%;
+	position: absolute;
 	background-color: var(--accent-color);
-	/* border-color: var(--grey-text-color); */
+	opacity: 0;
+	transition: opacity 0.5s;
 }
+/* header.fill { */
+/* 	background-color: var(--accent-color); */
+/* } */
 	header div.container {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		z-index: 1;
 	}
 		header div.container a img {
 			width: 100px;

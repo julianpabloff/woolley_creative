@@ -19,7 +19,6 @@ section.form div > img {
 form {
 	display: flex;
 	flex-direction: column;
-	/* padding: 0 20px; */
 }
 label {
 	font-family: "Qonquer";
@@ -31,7 +30,6 @@ label {
 }
 label.required::after {
 	content: "*";
-	font-family: "Arial";
 	color: red;
 	margin-left: 10px;
 }

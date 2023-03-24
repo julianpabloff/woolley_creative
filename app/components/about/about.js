@@ -1,4 +1,5 @@
-const AboutComponent = function(root) {
+const AboutComponent = function(container) {
+	this.container = container;
 	document.title = 'About – Woolley Creative';
 	const header = document.getElementById('header');
 	const headerHeight = header.clientHeight;

@@ -1,6 +1,7 @@
 import HomeComponent from './components/home/home.js';
 import AboutComponent from './components/about/about.js';
 import ContactComponent from './components/contact/contact.js';
+import CareersComponent from './components/careers/careers.js';
 
 function specifyCSS(css, componentName) {
 	const selector = `div#${componentName}-component `;
@@ -56,6 +57,7 @@ const components = {
 	'home': HomeComponent,
 	'about': AboutComponent,
 	'contact': ContactComponent,
+	'careers': CareersComponent,
 }
 const componentInstances = {};
 let currentComponent;
@@ -75,7 +77,8 @@ function initComponent(componentName) {
 	for (const link of links) link.addEventListener('click', e => route(e));
 
 	if (components[componentName]) {
-		componentInstances[componentName] = new components[componentName](root);
+		const container = document.getElementById(componentName + '-component');
+		componentInstances[componentName] = new components[componentName](container);
 	}
 	currentComponent = componentName;
 	if (menuRevealed) hideMenu();
@@ -106,6 +109,7 @@ handleLocation();
 window.onpopstate = handleLocation;
 
 window.addEventListener('scroll', () => {
+	updateIndex();
 	const component = componentInstances[currentComponent];
 	if (component?.update) component.update();
 });

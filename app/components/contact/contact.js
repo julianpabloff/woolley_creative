@@ -1,4 +1,5 @@
-const ContactComponent = function(root) {
+const ContactComponent = function(container) {
+	this.container = container;
 	console.log('running contact comp');
 	document.title = 'Contact – Woolley Creative';
 	const header = document.getElementById('header');
