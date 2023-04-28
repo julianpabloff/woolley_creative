@@ -1,0 +1,41 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--woolley-blue: #323E48;
+	--woolley-orange: #ff5100;
+	--woolley-grey: #d7d7d3;
+}
+
+@font-face {
+	font-family: "Qonquer";
+	src: url("assets/fonts/Qonquer.otf");
+}
+@font-face {
+	font-family: "Gotham Book";
+	src: url("assets/fonts/Gotham Book Regular.otf");
+}
+
+h1, h2 {
+	font-family: "Qonquer";
+	font-weight: normal;
+	color: var(--woolley-orange);
+	letter-spacing: 0.05em;
+}
+
+h1 {
+	font-size: 6rem;
+	line-height: 6rem;
+}
+h2 {
+	font-size: 3rem;
+	line-height: 3rem;
+}
+
+html {
+	font-size: 16px;
+	font-family: "Gotham Book";
+}
