@@ -1,4 +1,22 @@
 {
+  "name": "woolley_creative",
+  "version": "2.0.0",
+  "description": "2nd version of vanilla SPA and new page designs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianpabloff/woolley_creative.git"
+  },
+  "author": "Julian Pabloff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julianpabloff/woolley_creative/issues"
+  },
+  "homepage": "https://github.com/julianpabloff/woolley_creative#readme",
   "dependencies": {
     "express": "^4.18.2"
   }
