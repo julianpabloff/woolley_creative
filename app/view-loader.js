@@ -25,31 +25,28 @@ export function activateLinks(container) {
 	});
 }
 
-const containerId = name => name + '-container';
+export function assignContainer(name) {
+	const container = document.createElement('div');
+	container.id = name + '-container';
+	return container;
+}
 
-export async function loadHTML(filepath, root, name) {
-	const viewContainer = document.createElement('div');
-	viewContainer.id = containerId(name);
+export async function loadHTML(filepath, destination, container) {
 	// const start = window.performance.now();
 	const html = await fetch(filepath).then(data => data.text());
 	// console.log('fetch took', window.performance.now() - start, 'ms');
-
-	root.innerHTML = '';
-	root.appendChild(viewContainer);
-	viewContainer.innerHTML = html;
-
-	return viewContainer;
+	destination.innerHTML = '';
+	destination.appendChild(container);
+	container.innerHTML = html;
 }
 
-export async function loadCSS(filepath, name) {
+export async function loadCSS(filepath, container) {
 	const styleSheet = new CSSStyleSheet();
 	const css = await fetch(filepath).then(data => data.text());
 	styleSheet.replaceSync(css);
 
 	// Specify CSS to component container
-	const rules = styleSheet.cssRules;
-	const selector = 'div#' + containerId(name) + ' ';
-
+	const selector = container.tagName.toLowerCase() + '#' + container.id + ' ';
 	function replaceCSSRule(styleSheet, rule, index) {
 		if (rule.selectorText) {
 			const specifiedRule = selector + rule.cssText;
@@ -58,6 +55,7 @@ export async function loadCSS(filepath, name) {
 		}
 	}
 
+	const rules = styleSheet.cssRules;
 	let i = 0;
 	while (i < rules.length) {
 		const rule = rules.item(i);
@@ -73,5 +71,5 @@ export async function loadCSS(filepath, name) {
 		i++;
 	};
 
-	document.adoptedStyleSheets.push(styleSheet);
+	document.adoptedStyleSheets = [styleSheet];
 }
