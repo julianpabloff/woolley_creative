@@ -1,4 +1,10 @@
-import { activateLinks, createLinkEvents, loadHTML, loadCSS } from './view-loader.js';
+import {
+	activateLinks,
+	createLinkEvents,
+	assignContainer,
+	loadHTML,
+	loadCSS
+} from './view-loader.js';
 import About from '/views/about/about.js';
 import Contact from '/views/contact/contact.js';
 
@@ -43,10 +49,13 @@ async function handleLocation() {
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
-		if (view.styles) await loadCSS(view.styles, view.name);
-		const viewContainer = await loadHTML(view.template, root, view.name);
-		activateLinks(viewContainer);
-		view.initializer();
+		const viewContainer = assignContainer(view.name);
+		if (view.styles) await loadCSS(view.styles, viewContainer);
+		if (view.template) {
+			await loadHTML(view.template, root, viewContainer);
+			activateLinks(viewContainer);
+		}
+		if (view.initializer) view.initializer();
 	} else {
 		root.innerHTML = '';
 	}
