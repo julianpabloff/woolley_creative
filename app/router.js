@@ -35,18 +35,15 @@ async function handleLocation() {
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
-		console.log(document.links);
 		console.log('loading view:', view);
 		const viewContainer = assignContainer(view.name);
 		if (view.styles) await loadCSS(view.styles, viewContainer);
-		if (view.template) {
-			await loadHTML(view.template, root, viewContainer);
-			activateLinks(viewContainer);
-		}
+		if (view.template) await loadHTML(view.template, root, viewContainer);
 		if (view.initializer) view.initializer();
 	} else {
 		root.innerHTML = '';
 	}
+	activateLinks();
 }
 
 const prefetched = new Set();
@@ -67,6 +64,5 @@ window.onpopstate = handleLocation;
 document.addEventListener('DOMContentLoaded', () => {
 	root = document.getElementById('root');
 	createLinkEvents(handleLocation, preLoad);
-	activateLinks(document.body);
 	handleLocation();
 });

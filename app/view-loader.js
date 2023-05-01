@@ -2,8 +2,8 @@ let handleLinkClick, handleLinkHover;
 export function createLinkEvents(onClick, onHover) {
 	handleLinkClick = function(event) {
 		event.preventDefault();
-		const href = event.target.href;
-		if (href != document.location.href) {
+		const href = event.currentTarget.href;
+		if (href !== (document.location.href || document.location.href + '/')) {
 			window.history.pushState(null, null, href);
 			onClick();
 		}
@@ -12,9 +12,11 @@ export function createLinkEvents(onClick, onHover) {
 		onHover(new URL(event.target.href));
 	}
 }
-export function activateLinks(container) {
-	// const links = container.querySelectorAll('a');
-	document.links.forEach(link => {
+export function activateLinks() {
+	const linkCount = document.links.length;
+	let i = 0;
+	while (i < linkCount) {
+		const link = document.links.item(i);
 		if (
 			link.href.includes(document.location.origin) &&
 			!link.href.includes('#')
@@ -22,7 +24,8 @@ export function activateLinks(container) {
 			link.addEventListener('click', handleLinkClick);
 			link.addEventListener('pointerenter', handleLinkHover, { once: true });
 		}
-	});
+		i++;
+	}
 }
 
 export function assignContainer(name) {
@@ -39,6 +42,8 @@ export async function loadHTML(filepath, destination, container) {
 	destination.appendChild(container);
 	container.innerHTML = html;
 }
+
+const styleSheetMap = new Map();
 
 export async function loadCSS(filepath, container) {
 	const styleSheet = new CSSStyleSheet();
@@ -71,5 +76,6 @@ export async function loadCSS(filepath, container) {
 		i++;
 	};
 
-	document.adoptedStyleSheets = [styleSheet];
+	styleSheetMap.set(container.id, styleSheet);
+	document.adoptedStyleSheets = Array.from(styleSheetMap.values());
 }
