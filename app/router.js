@@ -5,25 +5,11 @@ import {
 	loadHTML,
 	loadCSS
 } from './view-loader.js';
-import About from '/views/about/about.js';
-import Contact from '/views/contact/contact.js';
 
+// '/route': { name, template, styles, initializer },
 const routes = {
 	'/': {
-		name: 'home',
-		template: '/views/home/home.html',
-	},
-	'/about': {
-		name: 'about',
-		template: '/views/about/about.html',
-		styles: '/views/about/about.css',
-		initializer: About
-	},
-	'/contact': {
-		name: 'contact',
-		template: '/views/contact/contact.html',
-		styles: '/views/contact/contact.css',
-		initializer: Contact
+		name: 'home'
 	}
 }
 
@@ -49,6 +35,8 @@ async function handleLocation() {
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
+		console.log(document.links);
+		console.log('loading view:', view);
 		const viewContainer = assignContainer(view.name);
 		if (view.styles) await loadCSS(view.styles, viewContainer);
 		if (view.template) {
@@ -75,9 +63,9 @@ async function preLoad(url) {
 	}
 }
 
+window.onpopstate = handleLocation;
 document.addEventListener('DOMContentLoaded', () => {
 	root = document.getElementById('root');
-	window.onpopstate = handleLocation;
 	createLinkEvents(handleLocation, preLoad);
 	activateLinks(document.body);
 	handleLocation();
