@@ -13,8 +13,8 @@ export function createLinkEvents(onClick, onHover) {
 	}
 }
 export function activateLinks(container) {
-	const links = container.querySelectorAll('a');
-	links.forEach(link => {
+	// const links = container.querySelectorAll('a');
+	document.links.forEach(link => {
 		if (
 			link.href.includes(document.location.origin) &&
 			!link.href.includes('#')
