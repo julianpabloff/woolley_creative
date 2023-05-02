@@ -8,6 +8,8 @@
 	--woolley-blue: #323E48;
 	--woolley-orange: #ff5100;
 	--woolley-grey: #d7d7d3;
+	--column-width: 75px;
+	--column-gap: 20px;
 }
 
 @font-face {
@@ -22,20 +24,50 @@
 h1, h2 {
 	font-family: "Qonquer";
 	font-weight: normal;
-	color: var(--woolley-orange);
-	letter-spacing: 0.05em;
 }
 
 h1 {
-	font-size: 6rem;
-	line-height: 6rem;
+	font-size: 5rem;
+	line-height: 5rem;
 }
 h2 {
-	font-size: 3rem;
-	line-height: 3rem;
+	font-size: 4.3rem;
+	line-height: 4.3rem;
+	letter-spacing: 0.04em;
 }
 
 html {
-	font-size: 16px;
+	font-size: 14px;
 	font-family: "Gotham Book";
+	color: var(--woolley-blue);
+}
+
+.col {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	/* gap: min(var(--column-gap), 3.2vw); */
+	gap: var(--column-gap);
+	padding: 0 8vw;
+}
+.col-12 {
+	width: calc(12 * var(--column-width) + 11 * var(--column-gap));
+}
+.col-6 {
+	width: calc(6 * var(--column-width) + 5 * var(--column-gap));
+}
+.col-4 {
+	width: calc(4 * var(--column-width) + 3 * var(--column-gap));
+}
+.col-3 {
+	width: calc(3 * var(--column-width) + 2 * var(--column-gap));
+}
+.col-2 {
+	width: calc(2 * var(--column-width) + var(--column-gap));
+}
+.col-1 {
+	width: var(--column-width);
+}
+
+@media screen and (max-width: 767px) {
 }

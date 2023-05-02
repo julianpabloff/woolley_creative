@@ -6,10 +6,17 @@ import {
 	loadCSS
 } from './view-loader.js';
 
+import Index from './index.js';
+import Home from './views/home/home.js';
+import addHandlers from './utils/events.js';
+
 // '/route': { name, template, styles, initializer },
 const routes = {
 	'/': {
-		name: 'home'
+		name: 'home',
+		template: '/views/home/home.html',
+		styles: '/views/home/home.css',
+		initializer: Home
 	}
 }
 
@@ -39,7 +46,10 @@ async function handleLocation() {
 		const viewContainer = assignContainer(view.name);
 		if (view.styles) await loadCSS(view.styles, viewContainer);
 		if (view.template) await loadHTML(view.template, root, viewContainer);
-		if (view.initializer) view.initializer();
+		if (view.initializer) {
+			const handlers = view.initializer();
+			addHandlers('root', handlers);
+		}
 	} else {
 		root.innerHTML = '';
 	}
@@ -62,6 +72,8 @@ async function preLoad(url) {
 
 window.onpopstate = handleLocation;
 document.addEventListener('DOMContentLoaded', () => {
+	const indexHandlers = Index();
+	addHandlers('index', indexHandlers);
 	root = document.getElementById('root');
 	createLinkEvents(handleLocation, preLoad);
 	handleLocation();
