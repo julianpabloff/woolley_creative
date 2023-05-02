@@ -1,0 +1,40 @@
+section.landing {
+	/* height: 1000px; */
+	height: 100vh;
+	background-color: rgb(114, 154, 196);
+	overflow-y: hidden;
+	position: relative;
+}
+section.landing img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: absolute;
+}
+
+img#landing-fg {
+	object-position: 70% center;
+	z-index: 1;
+}
+img#landing-bg {
+}
+
+div#motto-container {
+	position: absolute;
+	right: 18%;
+	color: white;
+	transition: opacity 1s ease-out;
+	z-index: 1;
+}
+
+div#motto-container h1 {
+	position: relative;
+	right: 0;
+	transition: right 0.3s ease-out;
+	opacity: 0;
+}
+
+section.tall {
+	height: 3000px;
+	background-color: var(--woolley-grey);
+}
