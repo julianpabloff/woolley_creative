@@ -11,7 +11,7 @@ window.addEventListener('scroll', e => sendEventToHandlers(scrollHandlers, e));
 window.addEventListener('resize', e => sendEventToHandlers(resizeHandlers, e))
 
 // key enables having multiple handlers for the same event (i.e. index level and view level)
-export default function addHandlers(key, { onScroll, onResize }) {
-	if (onScroll) scrollHandlers.set(key, onScroll);
-	if (onResize) resizeHandlers.set(key, onResize);
+export default function addHandlers(key, handlers) {
+	if (handlers.onScroll) scrollHandlers.set(key, handlers.onScroll);
+	if (handlers.onResize) resizeHandlers.set(key, handlers.onResize);
 }

@@ -10,7 +10,6 @@ import Index from './index.js';
 import Home from './views/home/home.js';
 import addHandlers from './utils/events.js';
 
-// '/route': { name, template, styles, initializer },
 const routes = {
 	'/': {
 		name: 'home',
@@ -52,7 +51,7 @@ async function handleLocation() {
 		if (view.template) await loadHTML(view.template, root, viewContainer);
 		if (view.initializer) {
 			const handlers = view.initializer();
-			addHandlers('root', handlers);
+			if (handlers) addHandlers('root', handlers);
 		}
 	} else {
 		root.innerHTML = '';

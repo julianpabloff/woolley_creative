@@ -1,38 +1,44 @@
 import { forEachElement } from '../../utils/functions.js';
-import { scrollFadeIn, ScrollFadeInElement } from '../../utils/animations.js';
+import { AnimationManager, ScrollFadeInElement } from '../../utils/animations.js';
 
 export default function Home() {
 	// Get DOM elements
+	const header = document.getElementById('header');
 	const landingFg = document.getElementById('landing-fg');
 	const landingBg = document.getElementById('landing-bg');
-	const landingBgOverlay = document.getElementById('landing-bg-overlay');
+	const clipPathOverlay = document.getElementById('landing-bg-overlay');
 	const mottoContainer = document.getElementById('motto-container');
 	const categories = document.getElementById('categories-section');
 
+	// DOM element dimensions
+	function setSize() {
+		headerHeight = header.clientHeight;
+		landingHeight = landingFg.clientHeight;
+		initMottoDispY = landingHeight / 2 - mottoContainer.clientHeight / 2;
+		mottoLeft = mottoContainer.offsetLeft;
+		mottoWidth = mottoContainer.clientWidth;
+	}
+	let headerHeight, landingHeight, initMottoDispY, mottoLeft, mottoWidth;
+	setSize();
+
 	// Initial values
-	const headerHeight = 100; // px
 	const initFgDisp = 100; // px
 	const bgParallax = 0.3; // multiplier
 	const mottoOffset = 75; // px
 	const mottoFadeInOffset = 300; // ms
 	const mottoVelocity = 0.0015; // multiplier
 
-	let landingHeight, initMottoDispY;
-	function setSize() {
-		landingHeight = landingFg.clientHeight; // px
-		initMottoDispY = landingHeight / 2 - mottoContainer.clientHeight / 2; // px
-	}
-	setSize();
-
-	function setFgDisplacement(displacement) {
+	// Set vertical displacement CSS
+	const setFgDisp = displacement =>
 		landingFg.style.top = (initFgDisp - displacement).toString() + 'px';
-	}
-	function setBgDisplacement(displacement) {
+	const setBgDisp = displacement => {
 		mottoContainer.style.top = (initMottoDispY + displacement).toString() + 'px';
-		landingBg.style.top = landingBgOverlay.style.top = (displacement * 2).toString() + 'px';
+		landingBg.style.top = clipPathOverlay.style.top = (displacement * 2).toString() + 'px';
 	}
-	setFgDisplacement(0);
-	setBgDisplacement(0);
+
+	// Initial load
+	setFgDisp(0);
+	setBgDisp(0);
 
 	// Motto fade-in animation
 	const rightTransition = 'right 0.2s ease-out';
@@ -49,53 +55,49 @@ export default function Home() {
 		}, (index + 1) * mottoFadeInOffset);
 	});
 
-	const scrollFadeIns = [];
+	// Scroll fade in elements
+	const scrollFadeIns = new AnimationManager(ScrollFadeInElement);
 	forEachElement(categories.children, (category, index) => {
-		scrollFadeIns.push(new ScrollFadeInElement(category));
+		const member = scrollFadeIns.addElement(category, 50);
+		member.index = index;
 	});
+	function determineCategoryFadeOffset() {
+		scrollFadeIns.forEach(member =>
+			member.offset = 50 + 90 * member.index * (window.innerWidth > 767)
+		);
+	}
+	determineCategoryFadeOffset();
 
 	function onScroll() {
 		const scrollY = window.scrollY;
-
-		// Landing image vertical displacements
 		let scrollDownPercentage = scrollY / (landingHeight - headerHeight);
 		if (scrollDownPercentage > 1) scrollDownPercentage = 1;
-		const fgDisp = initFgDisp * scrollDownPercentage;
-		setFgDisplacement(fgDisp);
 
-		let bgDisp = scrollY * bgParallax;
-		if (scrollY > landingHeight) bgDisp = landingHeight * bgParallax;
-		setBgDisplacement(bgDisp);
-		landingBgOverlay.style.opacity = 1 - scrollDownPercentage * 2;
+		setFgDisp(initFgDisp * scrollDownPercentage);
+		setBgDisp(landingHeight * scrollDownPercentage * bgParallax);
+		clipPathOverlay.style.opacity = 1 - scrollDownPercentage * 2;
 
-		// Landing image motto horizontal displacement
-		const maxChildDisplacement = mottoContainer.offsetLeft + mottoContainer.clientWidth;
 		forEachElement(mottoContainer.children, (h1, index) => {
 			const threshold = index * mottoOffset;
 			let displacement = Math.pow(scrollY - threshold, 2) * mottoVelocity;
-			if (scrollY >= threshold) {
-				if (displacement > maxChildDisplacement) displacement = maxChildDisplacement;
+			if (
+				scrollY >= threshold && // delay until offset factor reached
+				scrollY < landingHeight && // stop after scroll passes landing
+				displacement < mottoLeft // stop after motto reaches left side
+			)
 				h1.style.right = displacement.toString() + 'px';
-			} else h1.style.right = '0';
-			if (revealedH1s[index]) h1.style.opacity = 1 - displacement / (window.innerWidth / 4);
+			else h1.style.right = '0';
 		});
 
-		// Category fade-in
-		// categoriesOnScroll.forEach(onScroll => onScroll(scrollY));
-		let i = 0;
-		scrollFadeIns.forEach(scrollFadeIn => {
-			scrollFadeIn.offset = 50 + 90 * i * (window.innerWidth > 767);
-			scrollFadeIn.onScroll(scrollY);
-			i++;
-		});
+		scrollFadeIns.onScroll(scrollY);
 	}
 
 	function onResize() {
-		scrollFadeIns.forEach(scrollFadeIn => scrollFadeIn.onResize());
 		setSize();
+		scrollFadeIns.onResize();
+		determineCategoryFadeOffset();
 		onScroll();
 	}
-	onResize();
 
 	return { onScroll, onResize };
 }
