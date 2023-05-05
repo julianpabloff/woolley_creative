@@ -10,6 +10,10 @@
 	--woolley-grey: #d7d7d3;
 	--column-width: 75px;
 	--column-gap: 20px;
+	--header-height: 7.14rem;
+	--tablet: 1024px;
+	--phone: 767px;
+	--side-padding: 8vw;
 }
 
 @font-face {
@@ -19,6 +23,10 @@
 @font-face {
 	font-family: "Gotham Book";
 	src: url("assets/fonts/Gotham Book Regular.otf");
+}
+@font-face {
+	font-family: "Gotham Bold";
+	src: url("assets/fonts/Gotham Bold.otf");
 }
 
 h1, h2 {
@@ -30,11 +38,29 @@ h1 {
 	font-size: 5rem;
 	line-height: 5rem;
 }
-h2 {
+h2, span.slash {
 	font-size: 4.3rem;
 	line-height: 4.3rem;
+}
+h2 {
 	letter-spacing: 0.04em;
 }
+h5 {
+	font-size: 1.3rem;
+	font-weight: normal;
+	text-transform: uppercase;
+	margin-bottom: 0.3em;
+}
+span.slash {
+	font-family: "Gotham Bold";
+	color: var(--woolley-orange);
+}
+a {
+	color: inherit;
+}
+
+.white { color: white; }
+.orange { color: var(--woolley-orange) }
 
 html {
 	font-size: 14px;
@@ -42,19 +68,28 @@ html {
 	color: var(--woolley-blue);
 }
 
-.col {
+/* Columns */
+.row {
 	width: 100%;
 	display: flex;
 	justify-content: center;
-	/* gap: min(var(--column-gap), 3.2vw); */
-	gap: var(--column-gap);
-	padding: 0 8vw;
+	column-gap: var(--column-gap);
+	padding: 0 var(--side-padding);
 }
 .col-12 {
 	width: calc(12 * var(--column-width) + 11 * var(--column-gap));
 }
+.col-8 {
+	width: calc(8 * var(--column-width) + 7 * var(--column-gap));
+}
+.col-7 {
+	width: calc(7 * var(--column-width) + 6 * var(--column-gap));
+}
 .col-6 {
 	width: calc(6 * var(--column-width) + 5 * var(--column-gap));
+}
+.col-5 {
+	width: calc(5 * var(--column-width) + 4 * var(--column-gap));
 }
 .col-4 {
 	width: calc(4 * var(--column-width) + 3 * var(--column-gap));
@@ -69,5 +104,53 @@ html {
 	width: var(--column-width);
 }
 
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Trapezoid */
+section.trapezoid {
+	height: 500px;
+	display: flex;
+}
+
+section.trapezoid.right {
+	justify-content: flex-end;
+}
+
+section.trapezoid > div {
+	width: calc(100vw - 330px);
+	min-width: var(--phone);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+section.trapezoid.right > div {
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 250px 100.00%);
+	padding: 0 100px 0 225px;
+}
+
+@media screen and (max-width: 1024px) {
+	html { font-size: 12px; }
+}
+
 @media screen and (max-width: 767px) {
+	.row {
+		flex-wrap: wrap;
+	}
+	.col-4 {
+		width: 100%;
+	}
+	section.trapezoid > div {
+		width: 100%;
+		min-width: initial;
+	}
+	section.trapezoid.right > div {
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 15vw 100%, 0 calc(100% - 30vw));
+		padding: 0 var(--side-padding);
+	}
 }
