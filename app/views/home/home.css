@@ -1,5 +1,6 @@
 section.landing {
 	/* height: 1000px; */
+	/* min-height: 100vh; */
 	height: 100vh;
 	background-color: rgb(114, 154, 196);
 	overflow-y: hidden;
@@ -19,6 +20,17 @@ img#landing-fg {
 img#landing-bg {
 }
 
+div#landing-bg-overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.3);
+	clip-path: polygon(60% 0px, 100% 0px, 100% 100%, calc(60% - 50vh) 100%);
+	mix-blend-mode: overlay;
+	/* opacity: 0; */
+	/* transition: opacity 0.5s; */
+}
+
 div#motto-container {
 	position: absolute;
 	right: 18%;
@@ -30,11 +42,49 @@ div#motto-container {
 div#motto-container h1 {
 	position: relative;
 	right: 0;
-	transition: right 0.3s ease-out;
+	transition: right 0.2s ease-out;
 	opacity: 0;
 }
 
-section.tall {
-	height: 3000px;
-	background-color: var(--woolley-grey);
+section.trapezoid {
+	background-color: var(--woolley-blue);
+}
+
+section.trapezoid.right > div {
+	background-color: var(--woolley-orange);
+}
+
+/* Categories */
+section.categories {
+	padding: 200px var(--side-padding);
+}
+
+div.category {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* opacity: 0; */
+	opacity: 1;
+	/* background-color: aliceblue; */
+}
+
+div.category h2 {
+	margin: 0.5em 0 1em 0;
+}
+
+div.category h5 {
+	margin-bottom: 1em;
+}
+
+div.category ul {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	list-style: none;
+}
+
+@media screen and (max-width: 767px) {
+	section.categories {
+		row-gap: 100px;
+	}
 }

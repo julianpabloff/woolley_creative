@@ -17,6 +17,11 @@ const routes = {
 		template: '/views/home/home.html',
 		styles: '/views/home/home.css',
 		initializer: Home
+	},
+	'/columns': {
+		name: 'columns',
+		template: '/views/columns/columns.html',
+		styles: '/views/columns/columns.css'
 	}
 }
 
@@ -34,7 +39,7 @@ function getView(pathname) {
 		if (match) return routes[path];
 		i++;
 	} while (i < regexRoutes.length);
-	return null;
+	return null; // 404
 }
 
 let root;
@@ -42,7 +47,6 @@ async function handleLocation() {
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
-		console.log('loading view:', view);
 		const viewContainer = assignContainer(view.name);
 		if (view.styles) await loadCSS(view.styles, viewContainer);
 		if (view.template) await loadHTML(view.template, root, viewContainer);

@@ -1,13 +1,14 @@
 const scrollHandlers = new Map();
 const resizeHandlers = new Map();
 
-function sendEventToHandlers(handlers, data) {
+function sendEventToHandlers(handlers, event) {
 	handlers.forEach(handler => {
-		handler(data);
+		handler(event);
 	});
 }
 
-window.addEventListener('scroll', () => sendEventToHandlers(scrollHandlers, window.scrollY));
+window.addEventListener('scroll', e => sendEventToHandlers(scrollHandlers, e));
+window.addEventListener('resize', e => sendEventToHandlers(resizeHandlers, e))
 
 // key enables having multiple handlers for the same event (i.e. index level and view level)
 export default function addHandlers(key, { onScroll, onResize }) {

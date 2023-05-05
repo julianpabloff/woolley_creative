@@ -1,67 +1,101 @@
+import { forEachElement } from '../../utils/functions.js';
+import { scrollFadeIn, ScrollFadeInElement } from '../../utils/animations.js';
+
 export default function Home() {
 	// Get DOM elements
 	const landingFg = document.getElementById('landing-fg');
-	const landingFgHeight = landingFg.clientHeight;
+	const landingBg = document.getElementById('landing-bg');
+	const landingBgOverlay = document.getElementById('landing-bg-overlay');
 	const mottoContainer = document.getElementById('motto-container');
-	const mottoChildren = mottoContainer.children;
+	const categories = document.getElementById('categories-section');
 
 	// Initial values
 	const headerHeight = 100; // px
-	const initLandingDisp = 100; // px
-	const initMottoDispY = landingFgHeight / 2 - mottoContainer.clientHeight / 2; // px
-	const mottoParallax = 0.3; // multiplier
-	const mottoOffset = 70; // px
+	const initFgDisp = 100; // px
+	const bgParallax = 0.3; // multiplier
+	const mottoOffset = 75; // px
 	const mottoFadeInOffset = 300; // ms
 	const mottoVelocity = 0.0015; // multiplier
 
+	let landingHeight, initMottoDispY;
+	function setSize() {
+		landingHeight = landingFg.clientHeight; // px
+		initMottoDispY = landingHeight / 2 - mottoContainer.clientHeight / 2; // px
+	}
+	setSize();
+
 	function setFgDisplacement(displacement) {
-		landingFg.style.top = (initLandingDisp - displacement).toString() + 'px';
+		landingFg.style.top = (initFgDisp - displacement).toString() + 'px';
 	}
 	function setBgDisplacement(displacement) {
 		mottoContainer.style.top = (initMottoDispY + displacement).toString() + 'px';
+		landingBg.style.top = landingBgOverlay.style.top = (displacement * 2).toString() + 'px';
 	}
 	setFgDisplacement(0);
 	setBgDisplacement(0);
 
-	function forEachMottoChild(callback) {
-		const mottoChildCount = mottoChildren.length;
-		let i = 0;
-		while (i < mottoChildCount) {
-			callback(mottoChildren[i], i);
-			i++;
-		}
-	}
-
-	// Fade-in animation
-	const rightTransition = 'right 0.3s ease-out';
-	forEachMottoChild((h1, index) => {
-		h1.style.transition = rightTransition + ', opacity 1s ease-out';
+	// Motto fade-in animation
+	const rightTransition = 'right 0.2s ease-out';
+	const revealedH1s = []; // Wait to set opacity on scroll until faded in on load
+	forEachElement(mottoContainer.children, (h1, index) => {
+		h1.style.transition = rightTransition + ', opacity 0.5s ease-out';
+		revealedH1s.push(false);
 		setTimeout(() => {
 			h1.style.opacity = '1';
-			setTimeout(() => h1.style.transition = rightTransition, 1000);
-		}, index * mottoFadeInOffset);
+			setTimeout(() => {
+				h1.style.transition = rightTransition
+				revealedH1s[index] = true;
+			}, 500);
+		}, (index + 1) * mottoFadeInOffset);
 	});
 
-	function onScroll(scrollY) {
-		let landingDisp = initLandingDisp * scrollY / (landingFgHeight - headerHeight);
-		if (landingDisp > initLandingDisp) landingDisp = initLandingDisp;
-		setFgDisplacement(landingDisp);
+	const scrollFadeIns = [];
+	forEachElement(categories.children, (category, index) => {
+		scrollFadeIns.push(new ScrollFadeInElement(category));
+	});
 
-		let mottoDispY = scrollY * mottoParallax;
-		if (scrollY > landingFgHeight) mottoDispY = landingFgHeight * mottoParallax;
-		setBgDisplacement(mottoDispY);
+	function onScroll() {
+		const scrollY = window.scrollY;
 
+		// Landing image vertical displacements
+		let scrollDownPercentage = scrollY / (landingHeight - headerHeight);
+		if (scrollDownPercentage > 1) scrollDownPercentage = 1;
+		const fgDisp = initFgDisp * scrollDownPercentage;
+		setFgDisplacement(fgDisp);
+
+		let bgDisp = scrollY * bgParallax;
+		if (scrollY > landingHeight) bgDisp = landingHeight * bgParallax;
+		setBgDisplacement(bgDisp);
+		landingBgOverlay.style.opacity = 1 - scrollDownPercentage * 2;
+
+		// Landing image motto horizontal displacement
 		const maxChildDisplacement = mottoContainer.offsetLeft + mottoContainer.clientWidth;
-		forEachMottoChild((h1, index) => {
+		forEachElement(mottoContainer.children, (h1, index) => {
 			const threshold = index * mottoOffset;
+			let displacement = Math.pow(scrollY - threshold, 2) * mottoVelocity;
 			if (scrollY >= threshold) {
-				let displacement = Math.pow(scrollY - threshold, 2) * mottoVelocity;
 				if (displacement > maxChildDisplacement) displacement = maxChildDisplacement;
 				h1.style.right = displacement.toString() + 'px';
-				h1.style.opacity = 1 - displacement / (window.innerWidth / 4);
 			} else h1.style.right = '0';
+			if (revealedH1s[index]) h1.style.opacity = 1 - displacement / (window.innerWidth / 4);
+		});
+
+		// Category fade-in
+		// categoriesOnScroll.forEach(onScroll => onScroll(scrollY));
+		let i = 0;
+		scrollFadeIns.forEach(scrollFadeIn => {
+			scrollFadeIn.offset = 50 + 90 * i * (window.innerWidth > 767);
+			scrollFadeIn.onScroll(scrollY);
+			i++;
 		});
 	}
 
-	return { onScroll };
+	function onResize() {
+		scrollFadeIns.forEach(scrollFadeIn => scrollFadeIn.onResize());
+		setSize();
+		onScroll();
+	}
+	onResize();
+
+	return { onScroll, onResize };
 }

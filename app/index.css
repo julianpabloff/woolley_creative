@@ -1,10 +1,9 @@
 body {
 	background-color: var(--woolley-blue);
-	/* background-color: skyblue; */
 }
 
 header {
-	height: 100px;
+	height: var(--header-height);
 	position: fixed;
 	top: 0;
 	z-index: 2;
@@ -13,6 +12,7 @@ header {
 header div.header-container {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	z-index: 1;
 }
 
@@ -25,20 +25,84 @@ header div#header-background {
 	transition: opacity 0.1s;
 }
 
-header img {
-	height: 45px;
+header img.logo { height: 3.2rem; }
+header img.menu { width: 3.2rem; }
+
+div#menu-hamburger {
+	height: 100%;
+	width: var(--header-height);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	position: relative;
+	left: 27px;
 }
 
-div.column-container-guide {
-	height: 100px;
-	background-color: aliceblue;
-	margin-bottom: 20px;
+div#menu-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 5;
+	display: none;
+	opacity: 0;
+	transition: opacity 0.2s;
 }
 
-div.column-guide {
-	background-color: rgba(250, 100, 40, 0.3);
+div#menu {
+	width: 50%;
+	height: 100%;
+	padding: 50px;
+	/* display: flex; */
+	display: none;
+	flex-direction: column;
+	align-items: flex-end;
+	background-color: var(--woolley-blue);
+	overflow-y: scroll;
+	z-index: 5;
+	position: fixed;
+	left: -50%;
+	opacity: 0;
+	transition: left 0.5s, opacity 0.4s;
 }
+
+div#menu-exit-button {
+	height: 2.8rem;
+	width: 2.8rem;
+	margin-bottom: 85px;
+	cursor: pointer;
+}
+
+div#menu nav {
+	width: 100%;
+}
+
+div#menu nav a {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 1.4rem;
+}
+
+div#menu nav a:focus > *,
+div#menu nav a:hover > *
+{
+	transform: scale(1.3);
+	transform-origin: center right;
+}
+
+
+
+
+
+div.header-spacer { height: var(--header-height); }
 
 main {
 	background-color: white;
+}
+
+@media screen and (max-width: 767px) {
+	div#menu {
+		width: 100%;
+	}
 }
