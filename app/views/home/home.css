@@ -63,9 +63,6 @@ div.category {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* opacity: 0; */
-	opacity: 1;
-	/* background-color: aliceblue; */
 }
 
 div.category h2 {
@@ -81,6 +78,18 @@ div.category ul {
 	flex-direction: column;
 	align-items: center;
 	list-style: none;
+}
+
+section.camera > div {
+	height: 400px;
+}
+section.camera p {
+	margin-bottom: 60px;
+}
+section.camera div.camera img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 @media screen and (max-width: 767px) {

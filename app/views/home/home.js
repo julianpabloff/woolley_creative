@@ -87,6 +87,8 @@ export default function Home() {
 			)
 				h1.style.right = displacement.toString() + 'px';
 			else h1.style.right = '0';
+			if (revealedH1s[index])
+				h1.style.opacity = 1 - displacement / (window.innerWidth / 4);
 		});
 
 		scrollFadeIns.onScroll(scrollY);
