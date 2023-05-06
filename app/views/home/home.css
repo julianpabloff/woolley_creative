@@ -55,8 +55,8 @@ section.trapezoid.right > div {
 }
 
 /* Categories */
-section.categories {
-	padding: 200px var(--side-padding);
+div.categories {
+	margin: 200px 0;
 }
 
 div.category {
@@ -84,6 +84,7 @@ section.camera {
 	padding-bottom: 200px;
 }
 section.camera > div {
+	gap: var(--side-padding);
 }
 section.camera p {
 	margin-bottom: 80px;
@@ -98,12 +99,11 @@ section.camera div.camera img {
 }
 
 @media screen and (max-width: 767px) {
-	section.categories {
-		row-gap: 100px;
+	div.categories {
+		gap: 100px;
 	}
-	section.camera {
+	section.camera > div {
 		flex-direction: column-reverse;
-		align-items: center;
-		row-gap: 60px;
+		gap: calc(var(--side-padding) * 2);
 	}
 }

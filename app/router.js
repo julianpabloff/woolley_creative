@@ -5,10 +5,10 @@ import {
 	loadHTML,
 	loadCSS
 } from './view-loader.js';
+import addHandlers from './utils/events.js';
 
 import Index from './index.js';
 import Home from './views/home/home.js';
-import addHandlers from './utils/events.js';
 
 const routes = {
 	'/': {
@@ -16,11 +16,6 @@ const routes = {
 		template: '/views/home/home.html',
 		styles: '/views/home/home.css',
 		initializer: Home
-	},
-	'/columns': {
-		name: 'columns',
-		template: '/views/columns/columns.html',
-		styles: '/views/columns/columns.css'
 	}
 }
 
