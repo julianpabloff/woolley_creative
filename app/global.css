@@ -80,7 +80,7 @@ html {
 	column-gap: var(--column-gap);
 	row-gap: var(--column-gap);
 	padding: 0 var(--side-padding);
-	}
+}
 .col-12 {
 	width: calc(12 * var(--column-width) + 11 * var(--column-gap));
 }
@@ -149,23 +149,34 @@ a.cta {
 	align-items: center;
 	color: var(--woolley-orange);
 	text-decoration: none;
+	position: relative;
+	transition: color 0.5s;
 }
-a.cta::after {
+a.cta::before, a.cta::after {
 	content: "";
 	width: 0.95em;
 	height: 1em;
 	margin-left: 3rem;
-	background: url("/assets/woolley_lines.svg") center/contain no-repeat;
 	transition: transform 0.2s;
 }
-a.cta:hover::after {
+a.cta::before {
+	background: url("/assets/woolley_lines.svg") center/contain no-repeat;
+	position: absolute;
+	right: 0;
+	z-index: 1;
+	transition: transform 0.2s opacity 0.5s;
+}
+a.cta.light::after {
+	background: url("/assets/woolley_lines_blue.svg") center/contain no-repeat;
+}
+a.cta:hover::before, a.cta:hover::after {
 	transform: translate(0.3em);
+}
+a.cta:hover::before {
+	opacity: 0;
 }
 a.cta.light:hover {
 	color: var(--woolley-blue);
-}
-a.cta.light:hover::after {
-	background: url("/assets/woolley_lines_blue.svg") center/contain no-repeat;
 }
 
 @media screen and (max-width: 1024px) {

@@ -80,11 +80,16 @@ div.category ul {
 	list-style: none;
 }
 
+section.camera {
+	padding-bottom: 200px;
+}
 section.camera > div {
-	height: 400px;
 }
 section.camera p {
-	margin-bottom: 60px;
+	margin-bottom: 80px;
+}
+section.camera div.camera {
+	height: 400px;
 }
 section.camera div.camera img {
 	width: 100%;
@@ -95,5 +100,10 @@ section.camera div.camera img {
 @media screen and (max-width: 767px) {
 	section.categories {
 		row-gap: 100px;
+	}
+	section.camera {
+		flex-direction: column-reverse;
+		align-items: center;
+		row-gap: 60px;
 	}
 }
