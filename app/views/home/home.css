@@ -41,9 +41,9 @@ div#motto-container {
 
 div#motto-container h1 {
 	position: relative;
-	right: 0;
-	transition: right 0.2s ease-out;
 	opacity: 0;
+	right: 0;
+	transition: opacity 0.5s ease-out, right 0.2s ease-out;
 }
 
 
@@ -109,7 +109,6 @@ div.work-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: min(20px, 4vw);
-	padding-bottom: 200px;
 }
 
 div.work-grid > div.double {
@@ -122,6 +121,8 @@ div.work-grid > div {
 
 div.work-grid > div img {
 	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 div.work-grid > div h6 {
@@ -136,23 +137,55 @@ div.work-grid > div h6 {
 	text-align: center;
 	color: var(--woolley-grey);
 	background-color: rgba(82, 95, 106, 0.51);
+	overflow: hidden;
 	opacity: 0;
 	transition: opacity 0.6s;
 }
-
 div.work-grid > div h6 span {
 	transform: scale(1.2);
 	transition: transform 0.4s;
 }
+div.work-grid > div:hover h6 {
+	opacity: 1;
+}
+div.work-grid > div:hover h6 span {
+	transform: scale(1);
+}
 
 
-@media screen and (min-width: 768px) {
-	div.work-grid > div:hover h6 {
-		opacity: 1;
-	}
-	div.work-grid > div:hover h6 span {
-		transform: scale(1);
-	}
+section.partners {
+	min-height: 500px;
+	padding: 200px 0;
+	--width-divisor: 12;
+}
+
+section.partners div.image-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: space-between;
+	justify-content: center;
+	gap: 50px;
+}
+
+section.partners div.image-container.tablet { display: none; }
+section.partners div.image-container.phone { display: none; }
+
+section.partners img.w-100 { width: min(130px, calc(130% / var(--width-divisor))); }
+section.partners img.w-130 { width: min(130px, calc(130% / var(--width-divisor))); }
+section.partners img.w-170 { width: min(170px, calc(170% / var(--width-divisor))); }
+
+section.partners h3 {
+	position: absolute;
+	top: -60px;
+	color: var(--woolley-orange);
+}
+
+
+@media screen and (max-width: 1024px) {
+	section.partners div.image-container { display: none; }
+	section.partners div.image-container.tablet { display: flex; }
+	section.partners { --width-divisor: 8; }
 }
 
 @media screen and (max-width: 767px) {
@@ -163,4 +196,12 @@ div.work-grid > div h6 span {
 		flex-direction: column-reverse;
 		gap: calc(var(--side-padding) * 2);
 	}
+
+	div.work-grid > div h6 { display: none; }
+
+	section.partners div.image-container.tablet { display: none; }
+	section.partners div.image-container.phone {
+		display: flex;
+	}
+	section.partners { --width-divisor: 4; }
 }

@@ -26,7 +26,7 @@ export default function Home() {
 	const bgParallax = 0.3; // multiplier
 	const mottoOffset = 75; // px
 	const mottoFadeInOffset = 300; // ms
-	const mottoVelocity = 0.0015; // multiplier
+	const mottoVelocity = 0.0010; // multiplier
 
 	// Set vertical displacement CSS
 	const setFgDisp = displacement =>
@@ -41,17 +41,12 @@ export default function Home() {
 	setBgDisp(0);
 
 	// Motto fade-in animation
-	const rightTransition = 'right 0.2s ease-out';
 	const revealedH1s = []; // Wait to set opacity on scroll until faded in on load
 	forEachElement(mottoContainer.children, (h1, index) => {
-		h1.style.transition = rightTransition + ', opacity 0.5s ease-out';
 		revealedH1s.push(false);
 		setTimeout(() => {
 			h1.style.opacity = '1';
-			setTimeout(() => {
-				h1.style.transition = rightTransition
-				revealedH1s[index] = true;
-			}, 500);
+			setTimeout(() => revealedH1s[index] = true, 500);
 		}, (index + 1) * mottoFadeInOffset);
 	});
 
@@ -83,7 +78,7 @@ export default function Home() {
 			if (
 				scrollY >= threshold && // delay until offset factor reached
 				scrollY < landingHeight && // stop after scroll passes landing
-				displacement < mottoLeft // stop after motto reaches left side
+				displacement < mottoLeft + mottoWidth // stop after motto reaches left side
 			)
 				h1.style.right = displacement.toString() + 'px';
 			else h1.style.right = '0';

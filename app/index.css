@@ -87,7 +87,7 @@ div#menu nav a {
 
 div#menu nav a > * {
 	transform-origin: center right;
-	transition: transform 0.03s ease-out;
+	transition: transform 0.01s ease-out;
 }
 
 div#menu nav a:focus > *,

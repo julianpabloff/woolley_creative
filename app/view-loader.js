@@ -40,7 +40,7 @@ export async function loadHTML(filepath, destination, container) {
 	const html = await fetch(filepath).then(data => data.text());
 	// console.log('fetch took', window.performance.now() - start, 'ms');
 	destination.innerHTML = '';
-	window.scrollTo(0, 0);
+	// window.scrollTo(0, 0);
 	destination.appendChild(container);
 	container.innerHTML = html;
 }
