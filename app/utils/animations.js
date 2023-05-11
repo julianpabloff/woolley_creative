@@ -1,5 +1,9 @@
 import { getAbsoluteOffset } from './elements.js';
 
+export async function wait(milliseconds) {
+	return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 export async function intervalIterate(step, count, callback) {
 	return new Promise(resolve => {
 		let i = 0;
@@ -73,53 +77,62 @@ export class ScrollFadeInGroup {
 
 
 // IntersectionObserver Animations
-// Each must include an IntersectionObserver with a callback, and an add() method
+//     initializer: prepares element for the animation
+//     options: IntersectionObserver options
+//     run: runs the animation
 
-export class SlideoutObserver {
-	constructor() { // Set up IntersectionObserver
-		const options = {
-			root: null,
-			rootMargin: '-50px 0px',
-			threshold: 0.5
-		}
-		this.observer = new IntersectionObserver(this.callback, options);
-	}
-
-	add(element) { // Pre-process and observe each element
+const slideout = {
+	initializer: element => {
 		const x = getAbsoluteOffset(element, 'left');
 		const width = element.clientWidth;
 		const leftSide = x + width / 2 < window.innerWidth / 2;
 		element.dataset.side = leftSide ? 'left' : 'right';
-
 		element.style.opacity = '0';
-		this.observer.observe(element);
+	},
+	options: {
+		root: null,
+		rootMargin: '-50px 0px',
+		threshold: 0.5
+	},
+	run: async element => {
+		const x = getAbsoluteOffset(element, 'left');
+		const width = element.clientWidth;
+		let offset;
+		if (element.dataset.side == 'left') offset = 0 - x - width + 10;
+		else if (element.dataset.side == 'right') offset = window.innerWidth - x - 10;
+		element.style.transform = 'translateX(' + offset.toString() + 'px';
+
+		await wait(10);
+		element.style.transition = 'transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
+		element.style.transform = 'translateX(0px)';
+		element.style.opacity = '1';
+	}
+}
+
+export class IntersectionAnimation {
+	constructor({ initializer, options, run }) {
+		this.elementInitializer = initializer;
+		this.observer = new IntersectionObserver((entries, observer) => {
+			entries.forEach(async entry => {
+				if (entry.isIntersecting) {
+					const element = entry.target;
+					await run(element);
+					observer.unobserve(element);
+				}
+			});
+		}, options);
 	}
 
-	callback(entries, observer) { // Gets called when element intersects viewport
-		entries.forEach(entry => {
-			if (entry.isIntersecting) {
-				const element = entry.target;
-				console.log('revealing', element);
-				const x = getAbsoluteOffset(element, 'left');
-				const width = element.clientWidth;
-				let offset;
-				if (element.dataset.side == 'left') offset = 0 - x - width + 10;
-				else if (element.dataset.side == 'right') offset = window.innerWidth - x - 10;
-				element.style.transform = 'translateX(' + offset.toString() + 'px';
-				setTimeout(() => {
-					element.style.transition = 'transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
-					element.style.transform = 'translateX(0px)';
-					element.style.opacity = '1';
-					observer.unobserve(element);
-				}, 10);
-			}
-		});
+	add(element) {
+		this.elementInitializer(element);
+		setTimeout(() => this.observer.observe(element), 250);
 	}
 }
 
 // Automatically set up IntersectionObserver Animations based on className
 const classMap = new Map()
-	.set('slideout', new SlideoutObserver())
+	.set('slideout', new IntersectionAnimation(slideout))
+	// .set('slideout', new SlideoutObserver())
 
 // Call from the router, to add className based animation elements at the root level
 export function addIntersectionAnimations(container) {
