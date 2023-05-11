@@ -167,7 +167,7 @@ a.cta::before,
 a.cta::after,
 .hover-rotate
 {
-	transition: transform 0.1s ease-out;
+	transition: transform 0.2s ease-out;
 }
 a.cta:hover::before,
 a.cta:hover::after,

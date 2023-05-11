@@ -73,106 +73,58 @@ export class ScrollFadeInGroup {
 
 
 // IntersectionObserver Animations
+// Each must include an IntersectionObserver with a callback, and an add() method
 
-const slideoutAnimation = {
-	initializer: (element, leftSide) => {
-		const container = document.createElement('div');
-		container.style.width = 'fit-content';
-		element.parentNode.insertBefore(container, element);
-		container.appendChild(element);
+export class SlideoutObserver {
+	constructor() { // Set up IntersectionObserver
+		const options = {
+			root: null,
+			rootMargin: '-50px 0px',
+			threshold: 0.5
+		}
+		this.observer = new IntersectionObserver(this.callback, options);
+	}
 
+	add(element) { // Pre-process and observe each element
 		const x = getAbsoluteOffset(element, 'left');
 		const width = element.clientWidth;
-		let offset;
-		if (leftSide) offset = 0 - x - width - 10;
-		else offset = window.innerWidth - width + 10;
+		const leftSide = x + width / 2 < window.innerWidth / 2;
+		element.dataset.side = leftSide ? 'left' : 'right';
 
 		element.style.opacity = '0';
-		element.style.transform = 'translateX(' + offset.toString() + 'px';
-		setTimeout(() =>
-			element.style.transition = 'transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease-in'
-		, 0);
+		this.observer.observe(element);
+	}
 
-		return container;
-	},
-	options: {
-		rootMargin: '-50px 0px',
-		threshold: 1.0
-	},
-	callback: entries => {
+	callback(entries, observer) { // Gets called when element intersects viewport
 		entries.forEach(entry => {
 			if (entry.isIntersecting) {
-				const element = entry.target.children.item(0);
-				element.style.transform = 'translateX(0px)';
-				element.style.opacity = '1';
+				const element = entry.target;
 				console.log('revealing', element);
+				const x = getAbsoluteOffset(element, 'left');
+				const width = element.clientWidth;
+				let offset;
+				if (element.dataset.side == 'left') offset = 0 - x - width + 10;
+				else if (element.dataset.side == 'right') offset = window.innerWidth - x - 10;
+				element.style.transform = 'translateX(' + offset.toString() + 'px';
+				setTimeout(() => {
+					element.style.transition = 'transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
+					element.style.transform = 'translateX(0px)';
+					element.style.opacity = '1';
+					observer.unobserve(element);
+				}, 10);
 			}
 		});
 	}
-};
-
-class IntersectionAnimation {
-	constructor(animation, initializerArgs) {
-		this.animation = animation;
-		this.initializerArgs = initializerArgs;
-		this.targets = [];
-		this.observer = new IntersectionObserver(animation.callback, animation.options);
-	}
-
-	add(element) {
-		const target = this.animation.initializer(element, ...this.initializerArgs);
-		// Wait for the user to see the page for a bit before triggering the animation
-		setTimeout(() => {
-			this.observer.observe(target);
-			this.targets.push(target);
-		}, 250);
-	}
 }
 
+// Automatically set up IntersectionObserver Animations based on className
 const classMap = new Map()
-	.set('slideout-left', new IntersectionAnimation(slideoutAnimation, [true]))
-	.set('slideout-right', new IntersectionAnimation(slideoutAnimation, [false]))
+	.set('slideout', new SlideoutObserver())
 
 // Call from the router, to add className based animation elements at the root level
 export function addIntersectionAnimations(container) {
-	classMap.forEach((intersectionAnimation, className) => {
+	classMap.forEach((animation, className) => {
 		const elements = container.getElementsByClassName(className);
-		if (elements.length) for (const element of elements) intersectionAnimation.add(element);
+		if (elements.length) for (const element of elements) animation.add(element);
 	});
 }
-
-/* Ehh
-export class AnimationManager {
-	constructor(animation) {
-		this.animation = animation;
-		this.members = [];
-		this.methodMap = new Map();
-	}
-
-	add() {
-		const member = new this.animation(...arguments);
-		this.members.push(member);
-		const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(member));
-		methodNames.forEach(name => {
-			if (name !== 'constructor') {
-				const method = member[name];
-
-				// Groups all elements' handlers by name (e.x. onScroll)
-				if (!this.methodMap.has(name))
-					this.methodMap.set(name, []);
-				this.methodMap.get(name).push(method.bind(member));
-
-				// Add public method with the handler name (e.x. onScroll) that calls
-				// each members' handler of the same name
-				if (!this[name]) this[name] = args =>
-					this.methodMap.get(name).forEach(method => method(args));
-			}
-		});
-		return member;
-	}
-
-	forEach(callback) {
-		this.members.forEach(member => callback(member));
-	}
-}
-*/

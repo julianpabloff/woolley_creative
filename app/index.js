@@ -14,6 +14,7 @@ export default function Index() {
 		}
 		else headerBackground.style.opacity = '1';
 	}
+	onScroll();
 
 	function onResize() {
 		setThreshold();
