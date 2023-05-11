@@ -64,6 +64,7 @@ span.slash {
 }
 a {
 	color: inherit;
+	text-decoration: none;
 }
 
 .white { color: white; }
@@ -105,11 +106,9 @@ section.trapezoid {
 	height: 500px;
 	display: flex;
 }
-
 section.trapezoid.right {
 	justify-content: flex-end;
 }
-
 section.trapezoid > div {
 	width: calc(100vw - 330px);
 	min-width: var(--phone);
@@ -119,7 +118,6 @@ section.trapezoid > div {
 	align-items: center;
 	justify-content: center;
 }
-
 section.trapezoid.right > div {
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 250px 100.00%);
 	padding: 0 100px 0 225px;
@@ -140,27 +138,42 @@ a.cta::before, a.cta::after {
 	content: "";
 	width: 0.95em;
 	height: 1em;
-	margin-left: 2em;
-	transition: transform 0.2s;
+	margin-left: 1.6em;
+	/* transition: transform 0.2s; */
 }
 a.cta::before {
 	background: url("/assets/woolley_lines.svg") center/contain no-repeat;
 	position: absolute;
 	right: 0;
 	z-index: 1;
-	transition: transform 0.2s opacity 0.5s;
+	transition: transform 0.1s opacity 0.5s;
 }
 a.cta.light::after {
 	background: url("/assets/woolley_lines_blue.svg") center/contain no-repeat;
 }
 a.cta:hover::before, a.cta:hover::after {
-	transform: translate(0.3em);
+	/* transform: translate(0.3em); */
+	/* transform: rotate(0.5turn); */
 }
 a.cta:hover::before {
 	opacity: 0;
 }
 a.cta.light:hover {
 	color: var(--woolley-blue);
+}
+
+/* Rotating buttons */
+a.cta::before,
+a.cta::after,
+.hover-rotate
+{
+	transition: transform 0.1s ease-out;
+}
+a.cta:hover::before,
+a.cta:hover::after,
+.hover-rotate:hover
+{
+	transform: rotate(0.5turn);
 }
 
 @media screen and (max-width: 1024px) {

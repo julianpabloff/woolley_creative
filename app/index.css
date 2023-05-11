@@ -28,7 +28,6 @@ header div#header-background {
 header img.logo { height: 3.2rem; }
 header img.menu { width: 3.2rem; }
 
-
 div#menu-hamburger {
 	height: 100%;
 	width: var(--header-height);
@@ -39,6 +38,7 @@ div#menu-hamburger {
 	position: relative;
 	left: 27px;
 }
+
 
 div#menu-overlay {
 	position: fixed;
@@ -69,7 +69,6 @@ div#menu {
 }
 
 div#menu-exit-button {
-	height: 2.8rem;
 	width: 2.8rem;
 	margin-bottom: 85px;
 	cursor: pointer;
@@ -99,9 +98,15 @@ div#menu nav a:hover > *
 
 div.header-spacer { height: var(--header-height); }
 
+
 main {
 	min-height: 100vh;
 	background-color: white;
+}
+
+
+footer {
+	height: 900px;
 }
 
 

@@ -5,6 +5,7 @@ import {
 	loadHTML,
 	loadCSS
 } from './view-loader.js';
+import { addIntersectionAnimations } from './utils/animations.js';
 import addHandlers from './utils/events.js';
 
 import Index from './index.js';
@@ -48,6 +49,7 @@ async function handleLocation() {
 			const handlers = view.initializer();
 			if (handlers) addHandlers('root', handlers);
 		}
+		addIntersectionAnimations(root);
 	} else {
 		root.innerHTML = '';
 	}
@@ -76,3 +78,4 @@ document.addEventListener('DOMContentLoaded', () => {
 	createLinkEvents(handleLocation, preLoad);
 	handleLocation();
 });
+

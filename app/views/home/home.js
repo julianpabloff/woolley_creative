@@ -1,5 +1,5 @@
-import { forEachElement } from '../../utils/functions.js';
-import { AnimationManager, ScrollFadeInElement } from '../../utils/animations.js';
+import { forEachElement } from '../../utils/elements.js';
+import { ScrollFadeInGroup } from '../../utils/animations.js';
 
 export default function Home() {
 	// Get DOM elements
@@ -9,16 +9,18 @@ export default function Home() {
 	const clipPathOverlay = document.getElementById('landing-bg-overlay');
 	const mottoContainer = document.getElementById('motto-container');
 	const categories = document.getElementById('categories-section');
+	const partners = document.getElementById('partner-links');
 
 	// DOM element dimensions
 	function setSize() {
+		windowWidth = window.innerWidth;
 		headerHeight = header.clientHeight;
 		landingHeight = landingFg.clientHeight;
 		initMottoDispY = landingHeight / 2 - mottoContainer.clientHeight / 2;
 		mottoLeft = mottoContainer.offsetLeft;
 		mottoWidth = mottoContainer.clientWidth;
 	}
-	let headerHeight, landingHeight, initMottoDispY, mottoLeft, mottoWidth;
+	let windowWidth, headerHeight, landingHeight, initMottoDispY, mottoLeft, mottoWidth;
 	setSize();
 
 	// Initial values
@@ -51,18 +53,10 @@ export default function Home() {
 	});
 
 	// Scroll fade in elements
-	const scrollFadeIns = new AnimationManager(ScrollFadeInElement);
-	forEachElement(categories.children, (category, index) => {
-		const member = scrollFadeIns.addElement(category, 50);
-		member.index = index;
-	});
-	function determineCategoryFadeOffset() {
-		scrollFadeIns.forEach(member =>
-			member.offset = 50 + 90 * member.index * (window.innerWidth > 767)
-		);
-	}
-	determineCategoryFadeOffset();
+	const categoryScrollFade = new ScrollFadeInGroup(90, 50, 50);
+	forEachElement(categories.children, category => categoryScrollFade.addElement(category));
 
+	// Events
 	function onScroll() {
 		const scrollY = window.scrollY;
 		let scrollDownPercentage = scrollY / (landingHeight - headerHeight);
@@ -83,16 +77,16 @@ export default function Home() {
 				h1.style.right = displacement.toString() + 'px';
 			else h1.style.right = '0';
 			if (revealedH1s[index])
-				h1.style.opacity = 1 - displacement / (window.innerWidth / 4);
+				h1.style.opacity = 1 - displacement / (windowWidth / 4);
 		});
 
-		scrollFadeIns.onScroll(scrollY);
+		categoryScrollFade.onScroll(scrollY);
 	}
+	onScroll();
 
 	function onResize() {
 		setSize();
-		scrollFadeIns.onResize();
-		determineCategoryFadeOffset();
+		categoryScrollFade.toggleOffset(windowWidth > 767);
 		onScroll();
 	}
 
