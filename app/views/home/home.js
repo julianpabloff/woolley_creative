@@ -52,7 +52,7 @@ export default function Home() {
 	});
 
 	// Scroll fade in elements
-	const categoryScrollFade = new ScrollFadeInGroup(90, 50, 50);
+	const categoryScrollFade = new ScrollFadeInGroup(90, 50, 0.2);
 	forEachElement(categories.children, category => categoryScrollFade.addElement(category));
 
 	// Events

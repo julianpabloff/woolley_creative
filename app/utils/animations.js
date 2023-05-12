@@ -19,11 +19,14 @@ export async function intervalIterate(step, count, callback) {
 }
 
 export class ScrollFadeInElement {
-	constructor(element, inPadding = 0, outPadding = 0) {
+	constructor(element, inPadding = 0, threshold = 0.5) {
 		this.element = element;
-		this.inPadding = inPadding;
-		this.outPadding = outPadding;
 		this.element.style.transition = 'opacity 0.1s';
+		// How many pixels from the bottom to wait before fading in
+		this.inPadding = inPadding;
+		// At what percentage down the element, when that point reaches halfway up the
+		// viewport, the element will be fully faded in
+		this.threshold = threshold;
 	}
 
 	onScroll(scrollY) {
@@ -31,10 +34,12 @@ export class ScrollFadeInElement {
 		const height = this.element.clientHeight;
 		const windowHeight = window.innerHeight;
 
+		// scrollY value that the element starts to fade in
 		const beginning = top - windowHeight + this.inPadding;
-		const halfway = top + height / 2 - windowHeight / 2;
-		let opacity = (scrollY - beginning) / (halfway - beginning);
+		// scrollY value that the element is fully faded in
+		const end = top + height * this.threshold - windowHeight / 2;
 
+		let opacity = (scrollY - beginning) / (end - beginning);
 		if (opacity < 0) opacity = 0;
 		else if (opacity > 1) opacity = 1;
 
@@ -53,7 +58,7 @@ export class ScrollFadeInGroup {
 
 	addElement(element) {
 		const inPadding = this.inPadding + this.members.length * this.offset * this.doOffset;
-		const member = new ScrollFadeInElement(element, inPadding, 0);
+		const member = new ScrollFadeInElement(element, inPadding, this.outPadding);
 		this.members.push(member);
 		return member;
 	}

@@ -54,6 +54,9 @@ async function handleLocation() {
 		root.innerHTML = '';
 	}
 	activateLinks();
+	const storedScrollY = localStorage.getItem('scrollpos');
+	window.scrollTo(0, storedScrollY)
+	localStorage.setItem('scrollpos', null);
 }
 
 const prefetched = new Set();
@@ -79,3 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	handleLocation();
 });
 
+window.addEventListener('beforeunload', () => {
+	localStorage.setItem('scrollpos', window.scrollY);
+});
