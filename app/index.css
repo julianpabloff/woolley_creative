@@ -102,6 +102,7 @@ div.header-spacer { height: var(--header-height); }
 main {
 	min-height: 100vh;
 	background-color: white;
+	overflow-x: hidden;
 }
 
 

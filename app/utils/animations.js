@@ -81,6 +81,26 @@ export class ScrollFadeInGroup {
 //     options: IntersectionObserver options
 //     run: runs the animation
 
+export class IntersectionAnimation {
+	constructor({ initializer, options, run }) {
+		this.elementInitializer = initializer;
+		this.observer = new IntersectionObserver((entries, observer) => {
+			entries.forEach(async entry => {
+				if (entry.isIntersecting) {
+					const element = entry.target;
+					run(element);
+					observer.unobserve(element);
+				}
+			});
+		}, options);
+	}
+
+	add(element) {
+		this.elementInitializer(element);
+		setTimeout(() => this.observer.observe(element), 250);
+	}
+}
+
 const slideout = {
 	initializer: element => {
 		const x = getAbsoluteOffset(element, 'left');
@@ -91,7 +111,7 @@ const slideout = {
 	},
 	options: {
 		root: null,
-		rootMargin: '-50px 0px',
+		rootMargin: '-150px 0px -50px 0px',
 		threshold: 0.5
 	},
 	run: async element => {
@@ -109,30 +129,37 @@ const slideout = {
 	}
 }
 
-export class IntersectionAnimation {
-	constructor({ initializer, options, run }) {
-		this.elementInitializer = initializer;
-		this.observer = new IntersectionObserver((entries, observer) => {
-			entries.forEach(async entry => {
-				if (entry.isIntersecting) {
-					const element = entry.target;
-					await run(element);
-					observer.unobserve(element);
-				}
-			});
-		}, options);
-	}
-
-	add(element) {
-		this.elementInitializer(element);
-		setTimeout(() => this.observer.observe(element), 250);
+const childrenFadeIn = {
+	initializer: container => {
+		for (const child of container.children) {
+			child.style.opacity = '0';
+			child.style.transform = 'scale(1.2)';
+		}
+	},
+	options: {
+		root: null,
+		rootMargin: '-100px 0px 0px 0px',
+		threshold: 0.5
+	},
+	run: container => {
+		const count = container.children.length;
+		intervalIterate(150, count, i => {
+			const child = container.children.item(i);
+			child.style.transition = 'transform 0.6s, opacity 0.8s';
+			child.style.transform = 'none';
+			child.style.opacity = '1';
+		});
 	}
 }
 
+// For using animations elsewhere (without the className)
+export function SlideoutObserver() { return new IntersectionAnimation(slideout) }
+export function ChildrenFadeInObserver() { return new IntersectionAnimation(childrenFadeIn) }
+
 // Automatically set up IntersectionObserver Animations based on className
 const classMap = new Map()
-	.set('slideout', new IntersectionAnimation(slideout))
-	// .set('slideout', new SlideoutObserver())
+	.set('slideout', new SlideoutObserver())
+	.set('fade-in-children', new ChildrenFadeInObserver())
 
 // Call from the router, to add className based animation elements at the root level
 export function addIntersectionAnimations(container) {

@@ -21,7 +21,6 @@ export default function Home() {
 		mottoWidth = mottoContainer.clientWidth;
 	}
 	let windowWidth, headerHeight, landingHeight, initMottoDispY, mottoLeft, mottoWidth;
-	setSize();
 
 	// Initial values
 	const initFgDisp = 100; // px
@@ -82,13 +81,14 @@ export default function Home() {
 
 		categoryScrollFade.onScroll(scrollY);
 	}
-	onScroll();
 
 	function onResize() {
 		setSize();
 		categoryScrollFade.toggleOffset(windowWidth > 767);
 		onScroll();
 	}
+
+	onResize();
 
 	return { onScroll, onResize };
 }
