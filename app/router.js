@@ -37,8 +37,19 @@ function getView(pathname) {
 	return null; // 404
 }
 
+/*
+async function onReady() {
+	activateLinks();
+	const storedScrollY = localStorage.getItem('scrollpos');
+	window.scrollTo(0, storedScrollY)
+	localStorage.setItem('scrollpos', null);
+	indexHandlers.toggleLoading(false);
+}
+*/
+
 let root;
 async function handleLocation() {
+	// indexHandlers.toggleLoading(true);
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
@@ -46,12 +57,14 @@ async function handleLocation() {
 		if (view.styles) await loadCSS(view.styles, viewContainer);
 		if (view.template) await loadHTML(view.template, root, viewContainer);
 		if (view.initializer) {
+			// const handlers = view.initializer(onReady);
 			const handlers = view.initializer();
 			if (handlers) addHandlers('root', handlers);
 		}
 		addIntersectionAnimations(root);
 	} else {
 		root.innerHTML = '';
+		// indexHandlers.toggleLoading(false);
 	}
 	activateLinks();
 	const storedScrollY = localStorage.getItem('scrollpos');
@@ -74,8 +87,9 @@ async function preLoad(url) {
 }
 
 window.onpopstate = handleLocation;
+let indexHandlers;
 document.addEventListener('DOMContentLoaded', () => {
-	const indexHandlers = Index();
+	indexHandlers = Index();
 	addHandlers('index', indexHandlers);
 	root = document.getElementById('root');
 	createLinkEvents(handleLocation, preLoad);

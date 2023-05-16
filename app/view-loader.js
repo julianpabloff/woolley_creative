@@ -1,3 +1,4 @@
+import { wait } from './utils/animations.js';
 import { addStyleSheet } from './utils/elements.js';
 
 let handleLinkClick, handleLinkHover;
@@ -38,8 +39,8 @@ export function assignContainer(name) {
 
 export async function loadHTML(filepath, destination, container) {
 	// const start = window.performance.now();
-	const wait = await new Promise(resolve => setTimeout(resolve, 500));
 	const html = await fetch(filepath).then(data => data.text());
+	// await wait(2000);
 	// console.log('fetch took', window.performance.now() - start, 'ms');
 	destination.innerHTML = '';
 	// window.scrollTo(0, 0);

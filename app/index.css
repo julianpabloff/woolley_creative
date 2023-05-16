@@ -1,3 +1,10 @@
+/* z-stack
+	9: div#menu
+	8: div#menu-overlay
+	7: header
+	6: div#loading-overlay
+*/
+
 body {
 	background-color: var(--woolley-blue);
 }
@@ -6,7 +13,7 @@ header {
 	height: var(--header-height);
 	position: fixed;
 	top: 0;
-	z-index: 2;
+	z-index: 7;
 }
 
 header div.header-container {
@@ -45,7 +52,7 @@ div#menu-overlay {
 	width: 100%;
 	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.6);
-	z-index: 5;
+	z-index: 8;
 	display: none;
 	opacity: 0;
 	transition: opacity 0.2s;
@@ -61,7 +68,7 @@ div#menu {
 	align-items: flex-end;
 	background-color: var(--woolley-blue);
 	overflow-y: scroll;
-	z-index: 5;
+	z-index: 9;
 	position: fixed;
 	left: -50%;
 	opacity: 0;
@@ -96,7 +103,18 @@ div#menu nav a:hover > *
 }
 
 
-div.header-spacer { height: var(--header-height); }
+div#loading-overlay {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	z-index: 6;
+	background-color: white;
+	align-items: center;
+	justify-content: center;
+
+	display: none;
+	opacity: 0;
+}
 
 
 main {
@@ -108,8 +126,19 @@ main {
 
 footer {
 	height: 900px;
+	/* display: none; */
+	background-image: url("/assets/footer/footer_background.webp");
+	background-size: cover;
+	background-position: center;
+	position: relative;
 }
 
+footer div.clip-path-overlay {
+	clip-path: polygon(60% 0, 100% 0, 100% 100%, calc(60% - 450px) 100%);
+	mix-blend-mode: soft-light;
+}
+
+div.header-spacer { height: var(--header-height); }
 
 @media screen and (max-width: 767px) {
 	div#menu {

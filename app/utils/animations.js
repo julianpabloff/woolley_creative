@@ -108,14 +108,12 @@ class SpriteSheet {
 	get height() { return this.frame.clientHeight; }
 
 	toFrame(index) {
-		if (index != this.index) {
-			const x = index % this.columns;
-			const y = Math.floor(index / this.columns);
-			const rows = Math.ceil(this.count / this.columns);
-			this.frame.style.backgroundPositionX = `calc(100% * ${x} / ${this.columns - 1}`;
-			this.frame.style.backgroundPositionY = `calc(100% * ${y} / ${rows - 1}`;
-			this.index = index;
-		}
+		const x = index % this.columns;
+		const y = Math.floor(index / this.columns);
+		const rows = Math.ceil(this.count / this.columns);
+		this.frame.style.backgroundPositionX = `calc(100% * ${x} / ${this.columns - 1}`;
+		this.frame.style.backgroundPositionY = `calc(100% * ${y} / ${rows - 1}`;
+		this.index = index;
 	}
 
 	onResize() {
@@ -149,7 +147,7 @@ export class SpriteSheetScroll {
 		if (scrollY >= start && scrollY <= end) {
 			let index = Math.floor((scrollY - center) / this.interval) % this.sprite.count;
 			if (index < 0) index += this.sprite.count;
-			this.sprite.toFrame(index);
+			if (index != this.sprite.index) this.sprite.toFrame(index);
 		}
 	}
 	

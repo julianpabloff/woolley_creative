@@ -1,3 +1,4 @@
+import { intervalIterate } from './utils/animations.js';
 import { forEachElement } from './utils/elements.js';
 
 export default function Index() {
@@ -22,34 +23,57 @@ export default function Index() {
 	}
 
 	// Nav menu
-	const overlay = document.getElementById('menu-overlay');
+	const menuOverlay = document.getElementById('menu-overlay');
 	const menu = document.getElementById('menu');
 	const menuButton = document.getElementById('menu-hamburger');
 	const menuExit = document.getElementById('menu-exit-button');
 	const menuLinks = document.getElementById('menu-nav').children;
 
-	function revealMenu()  {
-		overlay.style.display = 'initial';
+	function showMenu() {
+		menuOverlay.style.display = 'initial';
 		menu.style.display = 'flex';
 		setTimeout(() => {
-			overlay.style.opacity = menu.style.opacity = '1'
+			menuOverlay.style.opacity = menu.style.opacity = '1'
 			menu.style.left = '0';
 		}, 10);
 		menuButton.style.transform = "rotate(0.5turn)";
 	}
 
 	function hideMenu() {
-		overlay.style.opacity = '0';
-		setTimeout(() => overlay.style.display = menu.style.display = 'none', 200);
+		menuOverlay.style.opacity = '0';
+		setTimeout(() => menuOverlay.style.display = menu.style.display = 'none', 200);
 		menu.style.left = '-50%';
 		menu.style.opacity = '0';
 		menuButton.style.transform = "";
 	}
 
-	menuButton.addEventListener('click', revealMenu);
+	menuButton.addEventListener('click', showMenu);
 	menuExit.addEventListener('click', hideMenu);
-	overlay.addEventListener('click', e => { if (e.target == overlay) hideMenu() });
+	menuOverlay.addEventListener('click', e => { if (e.target == menuOverlay) hideMenu() });
 	forEachElement(menuLinks, link => link.addEventListener('click', hideMenu));
 
-	return { onScroll, onResize };
+	// Loading overlay
+	const loadingOverlay = document.getElementById('loading-overlay');
+	const footer = document.getElementById('footer');
+
+	async function toggleLoading(bool) {
+		document.body.style.overflowY = 'hidden';
+		if (bool) { // show
+			window.scrollTo(0, 0);
+			footer.style.display = 'none';
+			loadingOverlay.style.display = 'flex';
+			loadingOverlay.style.opacity = '1';
+		} else { // hide
+			footer.style.display = 'block';
+			await intervalIterate(10, 100, i => {
+				const opacity = 1 - (i + 1) / 100;
+				console.log(opacity);
+				loadingOverlay.style.opacity = opacity.toString();
+			});
+			document.body.style.overflowY = 'visible';
+			loadingOverlay.style.display = 'none';
+		}
+	}
+
+	return { onScroll, onResize, toggleLoading };
 }
