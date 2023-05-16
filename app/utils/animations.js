@@ -80,11 +80,84 @@ export class ScrollFadeInGroup {
 	}
 }
 
+class SpriteSheet {
+	constructor(spriteSheetData) {
+		const { container, filepath, columns, count, imgWidth, imgHeight } = spriteSheetData;
+		for (const [key, value] of Object.entries(spriteSheetData)) this[key] = value;
 
-// IntersectionObserver Animations
-//     initializer: prepares element for the animation
-//     options: IntersectionObserver options
-//     run: runs the animation
+		container.style.overflow = 'hidden';
+		container.style.display = 'flex';
+		container.style.alignItems = container.style.justifyContent = 'center';
+
+		const frame = document.createElement('div');
+		frame.style.aspectRatio = imgWidth.toString() + '/' + imgHeight.toString();
+		frame.style.backgroundImage = 'url(' + filepath + ')';
+		frame.style.backgroundSize = 'calc(100% * ' + columns + ')';
+		frame.style.backgroundPosition = '0px 0px';
+
+		this.frame = frame;
+		this.index = 0;
+		this.onResize();
+
+		container.innerHTML = '';
+		container.appendChild(frame);
+
+	}
+
+	get y() { return getAbsoluteOffset(this.frame, 'top'); }
+	get height() { return this.frame.clientHeight; }
+
+	toFrame(index) {
+		if (index != this.index) {
+			const x = index % this.columns;
+			const y = Math.floor(index / this.columns);
+			const rows = Math.ceil(this.count / this.columns);
+			this.frame.style.backgroundPositionX = `calc(100% * ${x} / ${this.columns - 1}`;
+			this.frame.style.backgroundPositionY = `calc(100% * ${y} / ${rows - 1}`;
+			this.index = index;
+		}
+	}
+
+	onResize() {
+		this.frame.style.width = this.frame.style.height = '0';
+		if (this.container.clientWidth >= this.container.clientHeight) {
+			this.frame.style.width = 'fit-content';
+			this.frame.style.height = '100%';
+		} else {
+			this.frame.style.width = '100%';
+			this.frame.style.height = 'fit-content';
+		}
+	}
+}
+
+export class SpriteSheetScroll {
+	constructor(spriteSheetData, scrollYInterval = 50) {
+		this.sprite = new SpriteSheet(spriteSheetData);
+		this.interval = scrollYInterval;
+	}
+
+	onScroll(scrollY) {
+		const windowHeight = window.innerHeight;
+		const spriteY = this.sprite.y;
+		const spriteHeight = this.sprite.height;
+		const header = 100; // moves center point down by half of this value
+
+		const start = spriteY - windowHeight;
+		const center = spriteY + (spriteHeight - windowHeight - header) / 2;
+		const end = spriteY + spriteHeight - header;
+
+		if (scrollY >= start && scrollY <= end) {
+			let index = Math.floor((scrollY - center) / this.interval) % this.sprite.count;
+			if (index < 0) index += this.sprite.count;
+			this.sprite.toFrame(index);
+		}
+	}
+	
+	onResize() {
+		this.sprite.onResize();
+	}
+}
+
 
 export class IntersectionAnimation {
 	constructor({ initializer, options, run }) {
@@ -105,6 +178,11 @@ export class IntersectionAnimation {
 		setTimeout(() => this.observer.observe(element), 250);
 	}
 }
+
+// IntersectionObserver Animations
+//     initializer: prepares element for the animation
+//     options: IntersectionObserver options
+//     run: runs the animation
 
 const slideout = {
 	initializer: element => {
@@ -128,7 +206,10 @@ const slideout = {
 		element.style.transform = 'translateX(' + offset.toString() + 'px';
 
 		await wait(10);
-		element.style.transition = 'transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
+		const currentTranstion = window.getComputedStyle(element).transition;
+		element.style.transition =
+			window.getComputedStyle(element).transition +
+			', transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
 		element.style.transform = 'translateX(0px)';
 		element.style.opacity = '1';
 	}

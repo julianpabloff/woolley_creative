@@ -1,3 +1,5 @@
+import { addStyleSheet } from './utils/elements.js';
+
 let handleLinkClick, handleLinkHover;
 export function createLinkEvents(onClick, onHover) {
 	handleLinkClick = function(event) {
@@ -45,8 +47,6 @@ export async function loadHTML(filepath, destination, container) {
 	container.innerHTML = html;
 }
 
-const styleSheetMap = new Map();
-
 export async function loadCSS(filepath, container) {
 	const styleSheet = new CSSStyleSheet();
 	const css = await fetch(filepath).then(data => data.text());
@@ -78,6 +78,5 @@ export async function loadCSS(filepath, container) {
 		i++;
 	};
 
-	styleSheetMap.set(container.id, styleSheet);
-	document.adoptedStyleSheets = Array.from(styleSheetMap.values());
+	addStyleSheet(container.id, styleSheet);
 }

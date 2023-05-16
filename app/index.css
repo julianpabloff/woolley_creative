@@ -22,7 +22,7 @@ header div#header-background {
 	position: absolute;
 	background-color: var(--woolley-blue);
 	opacity: 0;
-	transition: opacity 0.1s;
+	transition: opacity 0.3s ease-out;
 }
 
 header img.logo { height: 3.2rem; }

@@ -1,5 +1,5 @@
 import { forEachElement } from '../../utils/elements.js';
-import { ScrollFadeInGroup } from '../../utils/animations.js';
+import { ScrollFadeInGroup, SpriteSheetScroll } from '../../utils/animations.js';
 
 export default function Home() {
 	// Get DOM elements
@@ -52,8 +52,19 @@ export default function Home() {
 	});
 
 	// Scroll fade in elements
-	const categoryScrollFade = new ScrollFadeInGroup(90, 50, 0.2);
+	const categoryScrollFade = new ScrollFadeInGroup(90, 100, 0.2);
 	forEachElement(categories.children, category => categoryScrollFade.addElement(category));
+
+	// 5D Spinning on scroll
+	const cameraSpinData = {
+		container: document.getElementById('camera-spin-container'),
+		filepath: '/assets/home/360_spritesheet.webp',
+		columns: 8,
+		count: 21,
+		imgWidth: 810, // 810
+		imgHeight: 780 // 780
+	}
+	const cameraSpin = new SpriteSheetScroll(cameraSpinData);
 
 	// Events
 	function onScroll() {
@@ -80,11 +91,13 @@ export default function Home() {
 		});
 
 		categoryScrollFade.onScroll(scrollY);
+		cameraSpin.onScroll(scrollY);
 	}
 
 	function onResize() {
 		setSize();
 		categoryScrollFade.toggleOffset(windowWidth > 767);
+		cameraSpin.onResize();
 		onScroll();
 	}
 
