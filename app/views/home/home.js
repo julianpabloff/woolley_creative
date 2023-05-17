@@ -8,7 +8,6 @@ export default function Home() {
 	const landingBg = document.getElementById('landing-bg');
 	const clipPathOverlay = document.getElementById('landing-bg-overlay');
 	const mottoContainer = document.getElementById('motto-container');
-	const trapezoidContainer = document.getElementById('trapezoid');
 	const categories = document.getElementById('categories-section');
 	const showcaseContainer = document.getElementById('showcase-container');
 	const partners = document.getElementById('partner-links');
@@ -66,9 +65,6 @@ export default function Home() {
 		landingBgLoaded = true;
 		assessImageLoad();
 	}
-
-	// Trapezoid
-	const trapezoid = new Trapezoid(trapezoidContainer);
 
 	// Scroll fade in elements
 	const categoryScrollFade = new ScrollFadeInGroup(90, 100, 0.2);
@@ -145,14 +141,12 @@ export default function Home() {
 				h1.style.opacity = 1 - displacement / (windowWidth / 4);
 		});
 
-		trapezoid.onScroll(scrollY);
 		categoryScrollFade.onScroll(scrollY);
 		cameraSpin.onScroll(scrollY);
 	}
 
 	function onResize() {
 		setSize();
-		trapezoid.onResize();
 		categoryScrollFade.toggleOffset(windowWidth > 767);
 		cameraSpin.onResize();
 		onScroll();

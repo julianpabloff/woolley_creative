@@ -1,6 +1,6 @@
 import { loadCSS } from '../view-loader.js';
 import { forEachElement, getAbsoluteOffset } from './elements.js';
-import addHandlers from './events.js';
+import { addAnimationToListeners } from './events.js';
 
 export async function wait(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -23,6 +23,11 @@ export async function intervalIterate(step, count, callback) {
 loadCSS('/utils/animations.css');
 
 const getTValue = (start, point, end) => (point - start) / (end - start);
+
+
+// Configurable Animations
+//     must be instanciated in a view js file
+//     configurable on an element to element basis
 
 export class ScrollFadeInElement {
 	constructor(element, inPadding = 0, threshold = 0.5) {
@@ -155,9 +160,16 @@ export class SpriteSheetScroll {
 	}
 }
 
-export class Trapezoid {
+// Scroll Animations
+//     must have an onScroll() and onResize() <-- no arguments!
+//     must not have any constructor parameters other than element
+//     which means behavior is not configurable element to element
+//     you can still add configuarablity throught element class names
+
+export class Trapezoid { // class="trapezoid {left/right}"
 	constructor(container) {
 		const content = document.createElement('div');
+		content.classList.add('trapezoid-content');
 		if (container.hasChildNodes())
 			content.replaceChildren(...container.children);
 
@@ -168,38 +180,56 @@ export class Trapezoid {
 		const background = document.createElement('div');
 		background.classList.add('trapezoid-background');
 
-		container.classList.add('max-w-container', 'trapezoid-container');
+		container.classList.add('max-w-container');
 		container.append(contentContainer, background);
 
+		if (container.classList.contains('left')) this.draw = this.drawLeftTrapezoid;
+		else if (container.classList.contains('right')) this.draw = this.drawRightTrapezoid;
+
+		this.container = container;
 		this.content = content;
 		this.background = background;
+		this.delta = background.clientHeight / 4;
 		this.displacement = 150;
 
 		this.onResize();
 	}
 
-	onScroll(scrollY) {
-		if (scrollY >= this.start && scrollY <= this.end) {
-			const t = getTValue(this.start, scrollY, this.end);
-			const distance = t * this.displacement;
+	get distance() { return getTValue(this.start, window.scrollY, this.end) * this.displacement; }
 
-			const contentX = getAbsoluteOffset(this.content, 'left');
-			const distanceToEdge = window.innerWidth - contentX - this.content.clientWidth;
-			const trapezoidX = contentX - distanceToEdge - this.displacement + distance;
-			const delta = this.background.clientHeight / 4;
-			this.background.style.clipPath =
-				`polygon(${trapezoidX - delta}px 0, 100% 0, 100% 100%, ${trapezoidX + delta}px 100%)`;
-		}
+	drawLeftTrapezoid() {
+		const edgeX = this.contentX * 2 + this.contentW + this.displacement - this.distance;
+		this.background.style.clipPath =
+			`polygon(0 0, ${edgeX + this.delta}px 0, ${edgeX - this.delta}px 100%, 0 100%)`;
+	}
+
+	drawRightTrapezoid() {
+		const distanceToEdge = window.innerWidth - this.contentX - this.contentW;
+		const edgeX = this.contentX - distanceToEdge - this.displacement + this.distance;
+		this.background.style.clipPath =
+			`polygon(${edgeX - this.delta}px 0, 100% 0, 100% 100%, ${edgeX + this.delta}px 100%)`;
+	}
+
+	onScroll() {
+		const scrollY = window.scrollY;
+		if (scrollY >= this.start && scrollY <= this.end) this.draw();
 	}
 
 	onResize() {
 		const windowHeight = window.innerHeight;
 		this.start = getAbsoluteOffset(this.background, 'top') - windowHeight;
 		this.end = this.start + windowHeight + this.background.clientHeight;
+		this.contentX = getAbsoluteOffset(this.content, 'left');
+		this.contentW = this.content.clientWidth;
 		this.onScroll(window.scrollY)
 	}
 }
 
+
+// IntersectionObserver Animations
+//     initializer: prepares element for the animation
+//     options: IntersectionObserver options
+//     run: runs the animation
 
 export class IntersectionAnimation {
 	constructor({ initializer, options, run }) {
@@ -220,11 +250,6 @@ export class IntersectionAnimation {
 		setTimeout(() => this.observer.observe(element), 250);
 	}
 }
-
-// IntersectionObserver Animations
-//     initializer: prepares element for the animation
-//     options: IntersectionObserver options
-//     run: runs the animation
 
 const slideout = {
 	initializer: element => {
@@ -288,6 +313,28 @@ const classMap = new Map()
 // Call from the router, to add className based animation elements at the root level
 export function addIntersectionAnimations(container) {
 	classMap.forEach((animation, className) => {
+		const elements = container.getElementsByClassName(className);
+		if (elements.length) for (const element of elements) animation.add(element);
+	});
+}
+
+const intersectionClassMap = new Map()
+	.set('slideout', new SlideoutObserver())
+	.set('fade-in-children', new ChildrenFadeInObserver())
+
+const scrollClassMap = new Map()
+	.set('trapezoid', Trapezoid)
+
+export function searchForAnimations(container) {
+	scrollClassMap.forEach((ScrollAnimation, className) => {
+		const elements = container.getElementsByClassName(className);
+		if (elements.length) for (const element of elements) {
+			const animation = new ScrollAnimation(element);
+			addAnimationToListeners(animation);
+		}
+	});
+
+	intersectionClassMap.forEach((animation, className) => {
 		const elements = container.getElementsByClassName(className);
 		if (elements.length) for (const element of elements) animation.add(element);
 	});

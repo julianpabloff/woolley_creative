@@ -5,7 +5,7 @@ import {
 	insertHTML,
 	insertCSS
 } from './view-loader.js';
-import { addIntersectionAnimations } from './utils/animations.js';
+import { searchForAnimations } from './utils/animations.js';
 import addHandlers from './utils/events.js';
 
 import Index from './index.js';
@@ -13,7 +13,7 @@ import Home from './views/home/home.js';
 
 const routes = {
 	'/': {
-		name: 'home',
+		selector: 'home',
 		template: '/views/home/home.html',
 		styles: '/views/home/home.css',
 		initializer: Home
@@ -53,7 +53,7 @@ async function handleLocation() {
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
-		const viewContainer = assignContainer(view.name);
+		const viewContainer = assignContainer(view.selector);
 		if (view.styles) await insertCSS(view.styles, viewContainer);
 		if (view.template) await insertHTML(view.template, root, viewContainer);
 		if (view.initializer) {
@@ -61,7 +61,8 @@ async function handleLocation() {
 			const handlers = view.initializer();
 			if (handlers) addHandlers('root', handlers);
 		}
-		addIntersectionAnimations(root);
+		searchForAnimations(root);
+		if (handlers) addHandlers('animations', handlers);
 	} else {
 		root.innerHTML = '';
 		// indexHandlers.toggleLoading(false);
