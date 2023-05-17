@@ -1,5 +1,5 @@
 import { forEachElement } from '../../utils/elements.js';
-import { ScrollFadeInGroup, SlideoutObserver, SpriteSheetScroll } from '../../utils/animations.js';
+import { ScrollFadeInGroup, SlideoutObserver, SpriteSheetScroll, Trapezoid } from '../../utils/animations.js';
 
 export default function Home() {
 	// Get DOM elements
@@ -8,6 +8,7 @@ export default function Home() {
 	const landingBg = document.getElementById('landing-bg');
 	const clipPathOverlay = document.getElementById('landing-bg-overlay');
 	const mottoContainer = document.getElementById('motto-container');
+	const trapezoidContainer = document.getElementById('trapezoid');
 	const categories = document.getElementById('categories-section');
 	const showcaseContainer = document.getElementById('showcase-container');
 	const partners = document.getElementById('partner-links');
@@ -66,6 +67,9 @@ export default function Home() {
 		assessImageLoad();
 	}
 
+	// Trapezoid
+	const trapezoid = new Trapezoid(trapezoidContainer);
+
 	// Scroll fade in elements
 	const categoryScrollFade = new ScrollFadeInGroup(90, 100, 0.2);
 	forEachElement(categories.children, category => categoryScrollFade.addElement(category));
@@ -109,8 +113,7 @@ export default function Home() {
 		h6.appendChild(span);
 
 		const showcase = document.createElement('div');
-		showcase.style.opacity = '0';
-		if (double) showcase.className = 'double';
+		if (double) showcase.classList.add('double');
 
 		image.onload = () => showcaseSlidout.add(showcase);
 
@@ -138,10 +141,11 @@ export default function Home() {
 			)
 				h1.style.right = displacement.toString() + 'px';
 			else h1.style.right = '0';
-			if (revealedH1s[index])
+			if (revealedH1s[index]) // only calc opacity if visible
 				h1.style.opacity = 1 - displacement / (windowWidth / 4);
 		});
 
+		trapezoid.onScroll(scrollY);
 		categoryScrollFade.onScroll(scrollY);
 		cameraSpin.onScroll(scrollY);
 	}

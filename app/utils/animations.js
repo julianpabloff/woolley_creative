@@ -1,4 +1,5 @@
-import { getAbsoluteOffset } from './elements.js';
+import { loadCSS } from '../view-loader.js';
+import { forEachElement, getAbsoluteOffset } from './elements.js';
 
 export async function wait(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -17,6 +18,8 @@ export async function intervalIterate(step, count, callback) {
 		}, step);
 	});
 }
+
+loadCSS('/utils/animations.css');
 
 export class ScrollFadeInElement {
 	constructor(element, inPadding = 0, threshold = 0.5) {
@@ -85,10 +88,6 @@ class SpriteSheet {
 		const { container, filepath, columns, count, imgWidth, imgHeight } = spriteSheetData;
 		for (const [key, value] of Object.entries(spriteSheetData)) this[key] = value;
 
-		container.style.overflow = 'hidden';
-		container.style.display = 'flex';
-		container.style.alignItems = container.style.justifyContent = 'center';
-
 		const frame = document.createElement('div');
 		frame.style.aspectRatio = imgWidth.toString() + '/' + imgHeight.toString();
 		frame.style.backgroundImage = 'url(' + filepath + ')';
@@ -100,6 +99,7 @@ class SpriteSheet {
 		this.onResize();
 
 		container.innerHTML = '';
+		container.classList.add('sprite-sheet-container');
 		container.appendChild(frame);
 
 	}
@@ -111,20 +111,15 @@ class SpriteSheet {
 		const x = index % this.columns;
 		const y = Math.floor(index / this.columns);
 		const rows = Math.ceil(this.count / this.columns);
-		this.frame.style.backgroundPositionX = `calc(100% * ${x} / ${this.columns - 1}`;
-		this.frame.style.backgroundPositionY = `calc(100% * ${y} / ${rows - 1}`;
+		this.frame.style.backgroundPositionX = `calc(100% * ${x} / ${this.columns - 1})`;
+		this.frame.style.backgroundPositionY = `calc(100% * ${y} / ${rows - 1})`;
 		this.index = index;
 	}
 
 	onResize() {
-		this.frame.style.width = this.frame.style.height = '0';
-		if (this.container.clientWidth >= this.container.clientHeight) {
-			this.frame.style.width = 'fit-content';
-			this.frame.style.height = '100%';
-		} else {
-			this.frame.style.width = '100%';
-			this.frame.style.height = 'fit-content';
-		}
+		this.frame.className = 'frame';
+		const landscape = this.container.clientWidth >= this.container.clientHeight;
+		this.frame.className = landscape ? 'frame landscape' : 'frame portrait';
 	}
 }
 
@@ -153,6 +148,54 @@ export class SpriteSheetScroll {
 	
 	onResize() {
 		this.sprite.onResize();
+	}
+}
+
+const sidePadding = () => {
+	const rootStyles = window.getComputedStyle(document.body);
+	const sidePadding = rootStyles.getPropertyValue('--side-padding')
+	if (sidePadding.includes('vw')) {
+		const vw = sidePadding.match(/.*(?=vw)/g)[0];
+		return window.innerWidth * vw / 100;
+	} else if (sidePadding.includes('px')) {
+		const px = sidePadding.match(/.*(?=px)/g)[0];
+		return px * 1;
+	}
+}
+export class Trapezoid {
+	constructor(container) {
+		const content = document.createElement('div');
+		if (container.hasChildNodes())
+			content.replaceChildren(...container.children);
+
+		const contentContainer = document.createElement('div');
+		contentContainer.classList.add('max-w', 'trapezoid-content-container');
+		contentContainer.appendChild(content);
+
+		const background = document.createElement('div');
+		background.classList.add('trapezoid-background');
+
+		container.classList.add('max-w-container', 'trapezoid-container');
+		container.append(contentContainer, background);
+
+		this.content = content;
+		this.background = background;
+		this.onScroll(window.scrollY);
+	}
+
+	onScroll(scrollY) {
+		const contentX = getAbsoluteOffset(this.content, 'left');
+		const contentW = this.content.clientWidth;
+		const distanceToEdge = window.innerWidth - contentX - contentW;
+		const backgroundHeight = this.background.clientHeight;
+		const topLeftX = contentX - distanceToEdge - backgroundHeight / 4;
+		const botLeftX = contentX - distanceToEdge + backgroundHeight / 4;
+		this.background.style.clipPath = `polygon(${topLeftX}px 0, 100% 0, 100% 100%, ${botLeftX}px 100%)`;
+
+		const windowHeight = window.innerHeight;
+		const start = getAbsoluteOffset(this.background, 'top') - windowHeight;
+		const end = start + windowHeight + backgroundHeight;
+		const distance = 200;
 	}
 }
 
@@ -187,8 +230,8 @@ const slideout = {
 		const x = getAbsoluteOffset(element, 'left');
 		const width = element.clientWidth;
 		const leftSide = x + width / 2 < window.innerWidth / 2;
-		element.dataset.side = leftSide ? 'left' : 'right';
 		element.style.opacity = '0';
+		element.dataset.side = leftSide ? 'left' : 'right';
 	},
 	options: {
 		root: null,
@@ -215,10 +258,8 @@ const slideout = {
 
 const childrenFadeIn = {
 	initializer: container => {
-		for (const child of container.children) {
-			child.style.opacity = '0';
-			child.style.transform = 'scale(1.2)';
-		}
+		for (const child of container.children)
+			child.classList.add('children-fade-in', 'hidden');
 	},
 	options: {
 		root: null,
@@ -229,9 +270,7 @@ const childrenFadeIn = {
 		const count = container.children.length;
 		intervalIterate(150, count, i => {
 			const child = container.children.item(i);
-			child.style.transition = 'transform 0.6s, opacity 0.8s';
-			child.style.transform = 'none';
-			child.style.opacity = '1';
+			child.classList.replace('hidden', 'revealed');
 		});
 	}
 }
@@ -251,4 +290,7 @@ export function addIntersectionAnimations(container) {
 		const elements = container.getElementsByClassName(className);
 		if (elements.length) for (const element of elements) animation.add(element);
 	});
+}
+
+export function searchForAnimations(container) {
 }

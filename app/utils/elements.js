@@ -23,10 +23,3 @@ export function getAbsoluteOffset(element, side) {
 
 	return offset;
 }
-
-const styleSheetMap = new Map();
-
-export function addStyleSheet(name, styleSheet) {
-	styleSheetMap.set(name, styleSheet);
-	document.adoptedStyleSheets = Array.from(styleSheetMap.values());
-}

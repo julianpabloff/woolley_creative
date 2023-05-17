@@ -102,27 +102,6 @@ html {
 .third { width: 33.333%; }
 .quarter { width: 25%; }
 
-/* Trapezoid */
-section.trapezoid {
-	height: 500px;
-	display: flex;
-}
-section.trapezoid.right {
-	justify-content: flex-end;
-}
-section.trapezoid > div {
-	width: calc(100vw - 330px);
-	min-width: var(--phone);
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-section.trapezoid.right > div {
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 250px 100.00%);
-	padding: 0 100px 0 225px;
-}
 
 /* CTA Link */
 a.cta {

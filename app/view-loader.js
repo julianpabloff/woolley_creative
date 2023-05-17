@@ -1,5 +1,4 @@
 import { wait } from './utils/animations.js';
-import { addStyleSheet } from './utils/elements.js';
 
 let handleLinkClick, handleLinkHover;
 export function createLinkEvents(onClick, onHover) {
@@ -31,38 +30,47 @@ export function activateLinks() {
 	}
 }
 
+const styleSheetMap = new Map();
+
+function addStyleSheet(name, styleSheet) {
+	styleSheetMap.set(name, styleSheet);
+	document.adoptedStyleSheets = Array.from(styleSheetMap.values());
+}
+
+export async function loadCSS(filepath, callback) {
+	const styleSheet = new CSSStyleSheet();
+	const css = await fetch(filepath).then(data => data.text());
+	styleSheet.replaceSync(css);
+
+	if (callback) callback(styleSheet);
+	addStyleSheet(filepath, styleSheet);
+	return styleSheet;
+}
+
+// For loading HTML & CSS into a container and specifying it to that container
+
 export function assignContainer(name) {
 	const container = document.createElement('div');
 	container.id = name + '-container';
 	return container;
 }
 
-export async function loadHTML(filepath, destination, container) {
-	// const start = window.performance.now();
+export async function insertHTML(filepath, destination, container) {
 	const html = await fetch(filepath).then(data => data.text());
-	// await wait(2000);
-	// console.log('fetch took', window.performance.now() - start, 'ms');
 	destination.innerHTML = '';
-	// window.scrollTo(0, 0);
 	destination.appendChild(container);
 	container.innerHTML = html;
 }
 
-export async function loadCSS(filepath, container) {
-	const styleSheet = new CSSStyleSheet();
-	const css = await fetch(filepath).then(data => data.text());
-	styleSheet.replaceSync(css);
-
-	// Specify CSS to component container
-	const selector = container.tagName.toLowerCase() + '#' + container.id + ' ';
-	function replaceCSSRule(styleSheet, rule, index) {
-		if (rule.selectorText) {
-			const specifiedRule = selector + rule.cssText;
-			styleSheet.deleteRule(index);
-			styleSheet.insertRule(specifiedRule, index);
-		}
+function specifyCSSRule(styleSheet, selector, rule, index) {
+	if (rule.selectorText) {
+		const specifiedRule = selector + rule.cssText;
+		styleSheet.deleteRule(index);
+		styleSheet.insertRule(specifiedRule, index);
 	}
+}
 
+function specifyCSS(styleSheet, selector) {
 	const rules = styleSheet.cssRules;
 	let i = 0;
 	while (i < rules.length) {
@@ -72,12 +80,15 @@ export async function loadCSS(filepath, container) {
 			let j = 0;
 			while (j < subRules.length) {
 				const subRule = subRules.item(j);
-				replaceCSSRule(rule, subRule, j);
+				specifyCSSRule(rule, selector, subRule, j);
 				j++;
-			};
-		} else replaceCSSRule(styleSheet, rule, i);
+			}
+		} else specifyCSSRule(styleSheet, selector, rule, i);
 		i++;
-	};
+	}
+}
 
-	addStyleSheet(container.id, styleSheet);
+export async function insertCSS(filepath, container) {
+	const selector = container.tagName.toLowerCase() + '#' + container.id + ' ';
+	await loadCSS(filepath, styleSheet => specifyCSS(styleSheet, selector));
 }

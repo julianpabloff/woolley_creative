@@ -41,17 +41,45 @@ div#motto-container h1 {
 }
 
 
-section.trapezoid {
+section.new-trapezoid {
+	position: relative;
+	height: 500px;
 	background-color: var(--woolley-blue);
 }
 
-section.trapezoid.right > div {
+section.new-trapezoid div.content-container {
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	position: relative;
+	z-index: 1;
+}
+
+section#trapezoid h5 {
+	margin-bottom: 0.3em;
+}
+
+section.new-trapezoid div.background {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	clip-path: polygon(5% 0px, 100% 0px, 100% 100%, calc(5% + 250px) 100%);
 	background-color: var(--woolley-orange);
 }
 
-section.trapezoid h5 {
-	margin-bottom: 0.3em;
-}
+/* section.trapezoid { */
+/* 	background-color: var(--woolley-blue); */
+/* } */
+
+/* section.trapezoid.right > div { */
+/* 	background-color: var(--woolley-orange); */
+/* } */
+
+/* section.trapezoid h5 { */
+/* 	margin-bottom: 0.3em; */
+/* } */
 
 
 div.categories {
@@ -102,16 +130,16 @@ div#camera-spin-container {
 
 
 div.work-grid {
-	--row-height: 340px;
+	/* --row-height: 340px; */
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: repeat(auto-fill, var(--row-height));
+	/* grid-template-rows: repeat(auto-fill, var(--row-height)); */
 	gap: min(20px, 4vw);
 }
 
 div.work-grid > div {
 	position: relative;
-	min-height: var(--row-height);
+	/* min-height: var(--row-height); */
 	background-color: var(--woolley-blue-faded);
 }
 
