@@ -19,7 +19,7 @@
 	top: 0;
 	right: 0;
 	background-color: var(--woolley-orange);
-	transition: clip-path 0.5s;
+	/* transition: clip-path 0.1s; */
 }
 
 

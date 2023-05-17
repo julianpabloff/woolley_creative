@@ -1,5 +1,6 @@
 import { loadCSS } from '../view-loader.js';
 import { forEachElement, getAbsoluteOffset } from './elements.js';
+import addHandlers from './events.js';
 
 export async function wait(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -20,6 +21,8 @@ export async function intervalIterate(step, count, callback) {
 }
 
 loadCSS('/utils/animations.css');
+
+const getTValue = (start, point, end) => (point - start) / (end - start);
 
 export class ScrollFadeInElement {
 	constructor(element, inPadding = 0, threshold = 0.5) {
@@ -42,7 +45,8 @@ export class ScrollFadeInElement {
 		// scrollY value that the element is fully faded in
 		const end = top + height * this.threshold - windowHeight / 2;
 
-		let opacity = (scrollY - beginning) / (end - beginning);
+		// let opacity = (scrollY - beginning) / (end - beginning);
+		let opacity = getTValue(beginning, scrollY, end);
 		if (opacity < 0) opacity = 0;
 		else if (opacity > 1) opacity = 1;
 
@@ -151,17 +155,6 @@ export class SpriteSheetScroll {
 	}
 }
 
-const sidePadding = () => {
-	const rootStyles = window.getComputedStyle(document.body);
-	const sidePadding = rootStyles.getPropertyValue('--side-padding')
-	if (sidePadding.includes('vw')) {
-		const vw = sidePadding.match(/.*(?=vw)/g)[0];
-		return window.innerWidth * vw / 100;
-	} else if (sidePadding.includes('px')) {
-		const px = sidePadding.match(/.*(?=px)/g)[0];
-		return px * 1;
-	}
-}
 export class Trapezoid {
 	constructor(container) {
 		const content = document.createElement('div');
@@ -180,22 +173,30 @@ export class Trapezoid {
 
 		this.content = content;
 		this.background = background;
-		this.onScroll(window.scrollY);
+		this.displacement = 150;
+
+		this.onResize();
 	}
 
 	onScroll(scrollY) {
-		const contentX = getAbsoluteOffset(this.content, 'left');
-		const contentW = this.content.clientWidth;
-		const distanceToEdge = window.innerWidth - contentX - contentW;
-		const backgroundHeight = this.background.clientHeight;
-		const topLeftX = contentX - distanceToEdge - backgroundHeight / 4;
-		const botLeftX = contentX - distanceToEdge + backgroundHeight / 4;
-		this.background.style.clipPath = `polygon(${topLeftX}px 0, 100% 0, 100% 100%, ${botLeftX}px 100%)`;
+		if (scrollY >= this.start && scrollY <= this.end) {
+			const t = getTValue(this.start, scrollY, this.end);
+			const distance = t * this.displacement;
 
+			const contentX = getAbsoluteOffset(this.content, 'left');
+			const distanceToEdge = window.innerWidth - contentX - this.content.clientWidth;
+			const trapezoidX = contentX - distanceToEdge - this.displacement + distance;
+			const delta = this.background.clientHeight / 4;
+			this.background.style.clipPath =
+				`polygon(${trapezoidX - delta}px 0, 100% 0, 100% 100%, ${trapezoidX + delta}px 100%)`;
+		}
+	}
+
+	onResize() {
 		const windowHeight = window.innerHeight;
-		const start = getAbsoluteOffset(this.background, 'top') - windowHeight;
-		const end = start + windowHeight + backgroundHeight;
-		const distance = 200;
+		this.start = getAbsoluteOffset(this.background, 'top') - windowHeight;
+		this.end = this.start + windowHeight + this.background.clientHeight;
+		this.onScroll(window.scrollY)
 	}
 }
 
@@ -290,7 +291,4 @@ export function addIntersectionAnimations(container) {
 		const elements = container.getElementsByClassName(className);
 		if (elements.length) for (const element of elements) animation.add(element);
 	});
-}
-
-export function searchForAnimations(container) {
 }

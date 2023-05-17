@@ -152,6 +152,7 @@ export default function Home() {
 
 	function onResize() {
 		setSize();
+		trapezoid.onResize();
 		categoryScrollFade.toggleOffset(windowWidth > 767);
 		cameraSpin.onResize();
 		onScroll();
