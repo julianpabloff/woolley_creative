@@ -301,23 +301,11 @@ const childrenFadeIn = {
 	}
 }
 
-// For using animations elsewhere (without the className)
+// For using intersection animations elsewhere (without the className)
 export function SlideoutObserver() { return new IntersectionAnimation(slideout) }
 export function ChildrenFadeInObserver() { return new IntersectionAnimation(childrenFadeIn) }
 
-// Automatically set up IntersectionObserver Animations based on className
-const classMap = new Map()
-	.set('slideout', new SlideoutObserver())
-	.set('fade-in-children', new ChildrenFadeInObserver())
-
-// Call from the router, to add className based animation elements at the root level
-export function addIntersectionAnimations(container) {
-	classMap.forEach((animation, className) => {
-		const elements = container.getElementsByClassName(className);
-		if (elements.length) for (const element of elements) animation.add(element);
-	});
-}
-
+// Automatically set up animations based on className
 const intersectionClassMap = new Map()
 	.set('slideout', new SlideoutObserver())
 	.set('fade-in-children', new ChildrenFadeInObserver())

@@ -62,7 +62,6 @@ async function handleLocation() {
 			if (handlers) addHandlers('root', handlers);
 		}
 		searchForAnimations(root);
-		if (handlers) addHandlers('animations', handlers);
 	} else {
 		root.innerHTML = '';
 		// indexHandlers.toggleLoading(false);
