@@ -131,6 +131,7 @@ footer {
 	background-position: center;
 	position: relative;
 	/* display: none; */
+	--footer-row-gap: min(80px, calc(var(--side-padding) * 2));
 }
 
 footer div.footer-container {
@@ -142,15 +143,19 @@ footer div.footer-container {
 
 footer div.footer-content {
 	width: 100%;
-	margin-bottom: min(100px, var(--side-padding));
+	margin-bottom: min(80px, var(--side-padding));
 	display: flex;
 	justify-content: space-between;
-	gap: var(--side-padding);
+	gap: var(--footer-row-gap);
 }
 
 footer div.fixed-height { height: 200px; }
 
-footer h3.hashtag { font-size: 2rem; }
+footer h3.hashtag {
+	font-size: 2rem;
+	line-height: 1.5rem;
+}
+
 footer div.links,
 footer div.social {
 	display: flex;
@@ -158,6 +163,14 @@ footer div.social {
 }
 
 footer div.social img { height: 1.43rem; }
+
+footer div.social > * {
+	transition: transform 0.1s;
+}
+
+footer div.social > *:hover {
+	transform: scale(1.2);
+}
 
 footer div.one-percent {
 	max-width: 300px;
@@ -199,7 +212,7 @@ div.header-spacer { height: var(--header-height); }
 
 	footer div.fixed-height {
 		height: initial;
-		margin-bottom: min(100px, calc(var(--side-padding) * 2));
+		margin-bottom: var(--footer-row-gap);
 	}
 
 	footer div.links {
