@@ -54,8 +54,15 @@ async function handleLocation() {
 	const view = getView(pathname);
 	if (view) {
 		const viewContainer = assignContainer(view.selector);
-		if (view.styles) await insertCSS(view.styles, viewContainer);
-		if (view.template) await insertHTML(view.template, root, viewContainer);
+
+		// if (view.styles) await insertCSS(view.styles, viewContainer);
+		if (view.styles) {
+			const cssData = await fetch(view.styles);
+			const cssText = await cssData.text();
+			root.innerText = cssText;
+		}
+
+		// if (view.template) await insertHTML(view.template, root, viewContainer);
 		// if (view.initializer) {
 			// const handlers = view.initializer(onReady);
 			// const handlers = view.initializer();
