@@ -63,13 +63,13 @@ async function handleLocation() {
 		}
 		searchForAnimations(root);
 	} else {
-		root.innerHTML = '';
+		root.innerHTML = 'no page here';
 		// indexHandlers.toggleLoading(false);
 	}
 	activateLinks();
 	const storedScrollY = localStorage.getItem('scrollpos');
 	window.scrollTo(0, storedScrollY)
-	localStorage.setItem('scrollpos', null);
+	localStorage.setItem('scrollpos', 0);
 }
 
 const prefetched = new Set();

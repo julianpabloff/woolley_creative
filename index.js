@@ -9,7 +9,7 @@ export default function Index() {
 	setThreshold();
 
 	function onScroll() {
-		const scrollY = window.scrollY
+		const scrollY = window.scrollY;
 		if (scrollY < threshold) {
 			headerBackground.style.opacity = 1 - (threshold - scrollY) / threshold;
 		}
