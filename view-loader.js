@@ -59,7 +59,7 @@ export async function insertHTML(filepath, destination, container) {
 	const html = await fetch(filepath).then(data => data.text());
 	destination.innerHTML = '';
 	destination.appendChild(container);
-	container.innerHTML = html;
+	container.innerHTML = '<h1>Here\'s the page</h1';
 }
 
 function specifyCSSRule(styleSheet, selector, rule, index) {

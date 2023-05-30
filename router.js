@@ -58,10 +58,10 @@ async function handleLocation() {
 		if (view.template) await insertHTML(view.template, root, viewContainer);
 		if (view.initializer) {
 			// const handlers = view.initializer(onReady);
-			const handlers = view.initializer();
-			if (handlers) addHandlers('root', handlers);
+			// const handlers = view.initializer();
+			// if (handlers) addHandlers('root', handlers);
 		}
-		searchForAnimations(root);
+		// searchForAnimations(root);
 	} else {
 		root.innerHTML = 'no page here';
 		// indexHandlers.toggleLoading(false);
