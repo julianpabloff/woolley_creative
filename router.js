@@ -59,10 +59,14 @@ async function handleLocation() {
 		if (view.styles) {
 			const cssData = await fetch(view.styles);
 			const cssText = await cssData.text();
-			root.innerText = cssText;
+
+			const styleSheet = new CSSStyleSheet();
+			console.log(cssText);
+			styleSheet.replaceSync(cssText);
+			document.adoptedStyleSheets.push(styleSheet);
 		}
 
-		// if (view.template) await insertHTML(view.template, root, viewContainer);
+		if (view.template) await insertHTML(view.template, root, viewContainer);
 		// if (view.initializer) {
 			// const handlers = view.initializer(onReady);
 			// const handlers = view.initializer();
