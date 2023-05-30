@@ -53,7 +53,9 @@ async function handleLocation() {
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
-		// const viewContainer = assignContainer(view.selector);
+		const viewContainer = assignContainer(view.selector);
+		console.log(viewContainer);
+		viewContainer.innerHTML = '<h1>Here\'s the page</h1';
 		// if (view.styles) await insertCSS(view.styles, viewContainer);
 		// if (view.template) await insertHTML(view.template, root, viewContainer);
 		// if (view.initializer) {
@@ -62,7 +64,8 @@ async function handleLocation() {
 			// if (handlers) addHandlers('root', handlers);
 		// }
 		// searchForAnimations(root);
-		root.innerHTML = '<h1>Here\'s the page</h1';
+		root.innerHTML = '';
+		root.appendChild(viewContainer);
 	} else {
 		root.innerHTML = 'no page here';
 		// indexHandlers.toggleLoading(false);
