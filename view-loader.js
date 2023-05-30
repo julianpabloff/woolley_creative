@@ -39,8 +39,9 @@ function addStyleSheet(name, styleSheet) {
 
 export async function loadCSS(filepath, callback) {
 	const styleSheet = new CSSStyleSheet();
-	const css = await fetch(filepath).then(data => data.text());
-	styleSheet.replaceSync(css);
+	const cssData = await fetch(filepath);
+	const cssText = await cssData.text();
+	styleSheet.replaceSync(cssText);
 
 	if (callback) callback(styleSheet);
 	addStyleSheet(filepath, styleSheet);
