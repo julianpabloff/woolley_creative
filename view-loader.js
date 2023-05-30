@@ -56,10 +56,11 @@ export function assignContainer(name) {
 }
 
 export async function insertHTML(filepath, destination, container) {
-	const html = await fetch(filepath).then(data => data.text());
+	const htmlData = await fetch(filepath);
+	const htmlText = await htmlData.text();
+	container.innerHTML = htmlText;
 	destination.innerHTML = '';
 	destination.appendChild(container);
-	container.innerHTML = '<h1>Here\'s the page</h1';
 }
 
 function specifyCSSRule(styleSheet, selector, rule, index) {

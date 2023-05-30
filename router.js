@@ -55,17 +55,17 @@ async function handleLocation() {
 	if (view) {
 		const viewContainer = assignContainer(view.selector);
 		console.log(viewContainer);
-		viewContainer.innerHTML = '<h1>Here\'s the page</h1';
+		// viewContainer.innerHTML = '<h1>Here\'s the page</h1';
 		// if (view.styles) await insertCSS(view.styles, viewContainer);
-		// if (view.template) await insertHTML(view.template, root, viewContainer);
+		if (view.template) await insertHTML(view.template, root, viewContainer);
 		// if (view.initializer) {
 			// const handlers = view.initializer(onReady);
 			// const handlers = view.initializer();
 			// if (handlers) addHandlers('root', handlers);
 		// }
 		// searchForAnimations(root);
-		root.innerHTML = '';
-		root.appendChild(viewContainer);
+		// root.innerHTML = '';
+		// root.appendChild(viewContainer);
 	} else {
 		root.innerHTML = 'no page here';
 		// indexHandlers.toggleLoading(false);
