@@ -65,8 +65,12 @@ async function handleLocation() {
 				const cssData = await fetch(view.styles);
 				const cssText = await cssData.text();
 
-				root.innerHTML = htmlText.concat('<style>\n', cssText, '</style>');
-			} else root.innerHTML = htmlText;
+				// root.innerHTML = htmlText.concat('<style>\n', cssText, '</style>');
+				const styleSheet = new CSSStyleSheet();
+				await styleSheet.replace(cssText);
+				document.adoptedStyleSheets = [styleSheet];
+			}
+			root.innerHTML = htmlText;
 		}
 
 		// if (view.initializer) {
