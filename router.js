@@ -56,17 +56,19 @@ async function handleLocation() {
 		const viewContainer = assignContainer(view.selector);
 
 		// if (view.styles) await insertCSS(view.styles, viewContainer);
-		if (view.styles) {
-			const cssData = await fetch(view.styles);
-			const cssText = await cssData.text();
+		// if (view.template) await insertHTML(view.template, root, viewContainer);
 
-			const styleSheet = new CSSStyleSheet();
-			console.log(cssText);
-			styleSheet.replaceSync(cssText);
-			document.adoptedStyleSheets.push(styleSheet);
+		if (view.template) {
+			const htmlData = await fetch(view.template);
+			const htmlText = await htmlData.text();
+			if (view.styles) {
+				const cssData = await fetch(view.styles);
+				const cssText = await cssData.text();
+
+				root.innerHTML = htmlText.concat('<style>\n', cssText, '</style>');
+			} else root.innerHTML = htmlText;
 		}
 
-		if (view.template) await insertHTML(view.template, root, viewContainer);
 		// if (view.initializer) {
 			// const handlers = view.initializer(onReady);
 			// const handlers = view.initializer();
