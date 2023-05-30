@@ -56,12 +56,12 @@ async function handleLocation() {
 		const viewContainer = assignContainer(view.selector);
 		if (view.styles) await insertCSS(view.styles, viewContainer);
 		if (view.template) await insertHTML(view.template, root, viewContainer);
-		if (view.initializer) {
+		// if (view.initializer) {
 			// const handlers = view.initializer(onReady);
-			const handlers = view.initializer();
-			if (handlers) addHandlers('root', handlers);
-		}
-		searchForAnimations(root);
+			// const handlers = view.initializer();
+			// if (handlers) addHandlers('root', handlers);
+		// }
+		// searchForAnimations(root);
 	} else {
 		root.innerHTML = '';
 		// indexHandlers.toggleLoading(false);
