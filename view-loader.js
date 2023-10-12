@@ -32,9 +32,10 @@ export function activateLinks() {
 
 const styleSheetMap = new Map();
 
-function addStyleSheet(name, styleSheet) {
+export function addStyleSheet(name, styleSheet) {
 	styleSheetMap.set(name, styleSheet);
 	document.adoptedStyleSheets = Array.from(styleSheetMap.values());
+	console.log(document.adoptedStyleSheets);
 }
 
 export async function loadCSS(filepath, callback) {

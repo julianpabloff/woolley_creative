@@ -1,5 +1,6 @@
 import {
 	activateLinks,
+	addStyleSheet,
 	createLinkEvents,
 	assignContainer,
 	insertHTML,
@@ -65,10 +66,17 @@ async function handleLocation() {
 				const cssData = await fetch(view.styles);
 				const cssText = await cssData.text();
 
-				// root.innerHTML = htmlText.concat('<style>\n', cssText, '</style>');
+				// root.innerHTML = htmlText.concat('<style>\n', cssText, '\n</style>');
 				const styleSheet = new CSSStyleSheet();
 				await styleSheet.replace(cssText);
-				document.adoptedStyleSheets = [styleSheet];
+				// document.adoptedStyleSheets = [styleSheet];
+				addStyleSheet(view.styles, styleSheet);
+
+				const debug = document.getElementById('debug');
+				const message = document.createElement('p');
+				message.style.color = 'white';
+				message.innerHTML = cssText;
+				debug.appendChild(message);
 			}
 			root.innerHTML = htmlText;
 		}
