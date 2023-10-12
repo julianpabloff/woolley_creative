@@ -44,6 +44,13 @@ export async function loadCSS(filepath, callback) {
 	const cssText = await cssData.text();
 	styleSheet.replaceSync(cssText);
 
+
+	const debug = document.getElementById('debug');
+	const message = document.createElement('p');
+	message.style.color = 'white';
+	message.innerHTML = cssText;
+	debug.appendChild(message);
+
 	if (callback) callback(styleSheet);
 	addStyleSheet(filepath, styleSheet);
 	return styleSheet;

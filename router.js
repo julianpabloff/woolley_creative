@@ -56,9 +56,10 @@ async function handleLocation() {
 	if (view) {
 		const viewContainer = assignContainer(view.selector);
 
-		// if (view.styles) await insertCSS(view.styles, viewContainer);
-		// if (view.template) await insertHTML(view.template, root, viewContainer);
+		if (view.styles) await insertCSS(view.styles, viewContainer);
+		if (view.template) await insertHTML(view.template, root, viewContainer);
 
+		/*
 		if (view.template) {
 			const htmlData = await fetch(view.template);
 			const htmlText = await htmlData.text();
@@ -67,10 +68,10 @@ async function handleLocation() {
 				const cssText = await cssData.text();
 
 				// root.innerHTML = htmlText.concat('<style>\n', cssText, '\n</style>');
-				const styleSheet = new CSSStyleSheet();
-				await styleSheet.replace(cssText);
+				// const styleSheet = new CSSStyleSheet();
+				// await styleSheet.replace(cssText);
 				// document.adoptedStyleSheets = [styleSheet];
-				addStyleSheet(view.styles, styleSheet);
+				// addStyleSheet(view.styles, styleSheet);
 
 				const debug = document.getElementById('debug');
 				const message = document.createElement('p');
@@ -80,6 +81,7 @@ async function handleLocation() {
 			}
 			root.innerHTML = htmlText;
 		}
+		*/
 
 		// if (view.initializer) {
 			// const handlers = view.initializer(onReady);
