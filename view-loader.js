@@ -45,11 +45,12 @@ export async function loadCSS(filepath, callback) {
 	styleSheet.replaceSync(cssText);
 
 
-	const debug = document.getElementById('debug');
-	const message = document.createElement('p');
-	message.style.color = 'white';
-	message.innerHTML = cssText;
-	debug.appendChild(message);
+	// const debug = document.getElementById('debug');
+	// const message = document.createElement('p');
+	// message.style.color = 'white';
+	// message.innerHTML = cssText;
+	// debug.appendChild(message);
+	// debug.appendChild(document.createElement('br'));
 
 	if (callback) callback(styleSheet);
 	addStyleSheet(filepath, styleSheet);

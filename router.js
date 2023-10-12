@@ -83,12 +83,13 @@ async function handleLocation() {
 		}
 		*/
 
-		// if (view.initializer) {
+		if (view.initializer) {
 			// const handlers = view.initializer(onReady);
-			// const handlers = view.initializer();
-			// if (handlers) addHandlers('root', handlers);
-		// }
-		// searchForAnimations(root);
+			const handlers = view.initializer();
+			if (handlers) addHandlers('root', handlers);
+		}
+		searchForAnimations(root);
+		// indexHandlers.toggleLoading(false);
 	} else {
 		root.innerHTML = '';
 		// indexHandlers.toggleLoading(false);
@@ -118,6 +119,7 @@ let indexHandlers;
 document.addEventListener('DOMContentLoaded', () => {
 	indexHandlers = Index();
 	addHandlers('index', indexHandlers);
+	searchForAnimations(document.body);
 	root = document.getElementById('root');
 	createLinkEvents(handleLocation, preLoad);
 	handleLocation();
