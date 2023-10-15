@@ -5,18 +5,13 @@ export default function Work() {
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
-		fgFilepath: '/assets/home/landing_image_foreground.webp',
-		bgFilepath: '/assets/home/landing_image_background.webp',
-		heroText: ['We', 'Create', 'Outside.']
+		bgFilepath: '/assets/work/landing_image_background.webp',
+		heroText: ['We', 'Do', 'Creative.'],
+		height: 'min(100vh, 900px)'
 	});
 
-	// Custom positioning for home foreground image
-	landingImage.fg.style.objectPosition = '70% center';
-
-	setTimeout(() => {
-		landingImage.init();
-		console.log('foreground loaded');
-	}, 750);
+	// Initialize landingImage heroText on image load
+	landingImage.bg.onload = () => landingImage.init();
 
 	function onScroll() {
 		const scrollY = window.scrollY;

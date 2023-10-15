@@ -162,8 +162,9 @@ export class SpriteSheetScroll {
 
 export class LandingImage {
 	constructor(landingImageData) {
-		const { container, fgFilepath, bgFilepath, heroText } = landingImageData;
+		const { container, fgFilepath, bgFilepath, heroText, height } = landingImageData;
 		container.className = "landing-container";
+		container.style.height = height ? height : '100vh';
 
 		this.heroText = document.createElement('div');
 		this.heroText.className = 'hero-text';
@@ -225,12 +226,12 @@ export class LandingImage {
 	}
 
 	onScroll(scrollY) {
-		let scrollDownPercentage = scrollY / (this.landingHeight - this.headerHeight);
-		if (scrollDownPercentage > 1) scrollDownPercentage = 1;
+		let scrollT = scrollY / (this.landingHeight - this.headerHeight);
+		if (scrollT > 1) scrollT = 1;
 
-		this.setFgDisp(this.initFgDisp * scrollDownPercentage);
-		this.setBgDisp(this.landingHeight * scrollDownPercentage * this.bgParallax);
-		this.overlay.style.opacity = 1 - scrollDownPercentage * (this.fg ? 2 : 1);
+		this.setFgDisp(this.initFgDisp * scrollT);
+		this.setBgDisp(this.landingHeight * scrollT * this.bgParallax);
+		this.overlay.style.opacity = 1 - scrollT * (this.fg ? 2 : 1);
 
 		forEachElement(this.heroText.children, (h1, index) => {
 			const threshold = index * this.heroTextOffset;

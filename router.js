@@ -23,6 +23,7 @@ const routes = {
 	'/work': {
 		selector: 'work',
 		template: '/views/work/work.html',
+		styles: '/views/work/work.css',
 		initializer: Work
 	}
 }

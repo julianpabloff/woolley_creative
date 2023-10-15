@@ -31,7 +31,7 @@
 
 
 .landing-container {
-	height: 100vh;
+	/* height: 100vh; */
 	overflow-y: hidden;
 	position: relative;
 	background-color: rgb(114, 154, 196);

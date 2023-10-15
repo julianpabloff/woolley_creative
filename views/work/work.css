@@ -1,0 +1,74 @@
+div.done-that h2 {
+	letter-spacing: 0.02em;
+}
+
+div.project {
+	height: min(65vw, 500px);
+	margin: 20px 0;
+	/* padding-left: var(--side-padding); */
+	background-color: var(--woolley-blue);
+	/* display: flex; */
+	position: relative;
+	transition: background-color 0.5s;
+}
+
+div.project div.text {
+	max-width: 35%;
+}
+
+div.project h3 {
+	color: var(--woolley-orange);
+	font-size: 2.57rem;
+	transition: color: 0.4s;
+}
+
+div.project p {
+	color: var(--woolley-grey);
+	text-transform: uppercase;
+}
+
+/* div.project img { */
+div.project div.image {
+	width: 57%;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	overflow: hidden;
+}
+
+div.project div.image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.4s;
+}
+
+div.project:hover {
+	cursor: pointer;
+	background-color: var(--woolley-orange);
+}
+
+div.project:hover h3 {
+	color: var(--woolley-blue);
+}
+
+div.project:hover div.image img {
+	transform: scale(1.1);
+}
+
+@media screen and (min-width: 768px) {
+	div.done-that {
+		box-sizing: content-box;
+		width: 35.7rem;
+		padding: 0 7rem;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	div.project div.text h3 {
+		font-size: 2rem;
+	}
+	div.project div.text p {
+		font-size: 0.8rem;
+	}
+}
