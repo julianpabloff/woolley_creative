@@ -2,9 +2,9 @@ section.landing {
 	/* height: 1000px; */
 	/* min-height: 100vh; */
 	height: 100vh;
-	background-color: rgb(114, 154, 196);
 	overflow-y: hidden;
 	position: relative;
+	/* background-color: rgb(114, 154, 196); */
 }
 section.landing img {
 	width: 100%;

@@ -11,6 +11,7 @@ import addHandlers from './utils/events.js';
 
 import Index from './index.js';
 import Home from './views/home/home.js';
+import Work from './views/work/work.js';
 
 const routes = {
 	'/': {
@@ -18,6 +19,11 @@ const routes = {
 		template: '/views/home/home.html',
 		styles: '/views/home/home.css',
 		initializer: Home
+	},
+	'/work': {
+		selector: 'work',
+		template: '/views/work/work.html',
+		initializer: Work
 	}
 }
 
@@ -58,30 +64,6 @@ async function handleLocation() {
 
 		if (view.styles) await insertCSS(view.styles, viewContainer);
 		if (view.template) await insertHTML(view.template, root, viewContainer);
-
-		/*
-		if (view.template) {
-			const htmlData = await fetch(view.template);
-			const htmlText = await htmlData.text();
-			if (view.styles) {
-				const cssData = await fetch(view.styles);
-				const cssText = await cssData.text();
-
-				// root.innerHTML = htmlText.concat('<style>\n', cssText, '\n</style>');
-				// const styleSheet = new CSSStyleSheet();
-				// await styleSheet.replace(cssText);
-				// document.adoptedStyleSheets = [styleSheet];
-				// addStyleSheet(view.styles, styleSheet);
-
-				const debug = document.getElementById('debug');
-				const message = document.createElement('p');
-				message.style.color = 'white';
-				message.innerHTML = cssText;
-				debug.appendChild(message);
-			}
-			root.innerHTML = htmlText;
-		}
-		*/
 
 		if (view.initializer) {
 			// const handlers = view.initializer(onReady);

@@ -160,11 +160,107 @@ export class SpriteSheetScroll {
 	}
 }
 
+export class LandingImage {
+	constructor(landingImageData) {
+		const { container, fgFilepath, bgFilepath, heroText } = landingImageData;
+		container.className = "landing-container";
+
+		this.heroText = document.createElement('div');
+		this.heroText.className = 'hero-text';
+		for (const text of heroText) {
+			const h1 = document.createElement('h1');
+			h1.innerText = text;
+			this.heroText.appendChild(h1);
+		}
+		this.revealedH1s = []; // Wait to set opacity on scroll until init()
+
+		if (fgFilepath) {
+			this.fg = document.createElement('img');
+			this.fg.src = fgFilepath;
+			this.fg.className = 'landing-fg';
+		}
+
+		this.bg = document.createElement('img');
+		this.bg.src = bgFilepath;
+
+		this.overlay = document.createElement('div');
+		this.overlay.className = 'landing-bg-overlay';
+
+		// Initial values
+		this.initFgDisp = 100;
+		this.bgParallax = 0.3; // multiplier
+		this.heroTextOffset = 75; // px
+		this.heroFadeInOffset = 300; // ms
+		this.heroVelocity = 0.0010; // multiplier
+		this.accountForHeader = true;
+
+		// Add to DOM
+		container.appendChild(this.heroText);
+		if (this.fg) container.appendChild(this.fg);
+		container.appendChild(this.bg);
+		container.appendChild(this.overlay);
+
+		this.onResize();
+		this.setFgDisp(0);
+		this.setBgDisp(0);
+	}
+
+	setFgDisp(displacement) {
+		if (this.fg) this.fg.style.top = (this.initFgDisp - displacement).toString() + 'px';
+	}
+
+	setBgDisp(displacement) {
+		this.heroText.style.top = (this.initHeroDisp + displacement).toString() + 'px';
+		this.bg.style.top = this.overlay.style.top = (displacement * 2).toString() + 'px';
+	}
+
+	init() {
+		forEachElement(this.heroText.children, (h1, index) => {
+			this.revealedH1s.push(false);
+			setTimeout(() => {
+				h1.style.opacity = '1';
+				setTimeout(() => this.revealedH1s[index] = true, 500);
+			}, (index + 1) * this.heroFadeInOffset);
+		});
+	}
+
+	onScroll(scrollY) {
+		let scrollDownPercentage = scrollY / (this.landingHeight - this.headerHeight);
+		if (scrollDownPercentage > 1) scrollDownPercentage = 1;
+
+		this.setFgDisp(this.initFgDisp * scrollDownPercentage);
+		this.setBgDisp(this.landingHeight * scrollDownPercentage * this.bgParallax);
+		this.overlay.style.opacity = 1 - scrollDownPercentage * (this.fg ? 2 : 1);
+
+		forEachElement(this.heroText.children, (h1, index) => {
+			const threshold = index * this.heroTextOffset;
+			let displacement = Math.pow(scrollY - threshold, 2) * this.heroVelocity;
+
+			h1.style.right = (displacement * (
+				scrollY >= threshold && // delay until offset factor reached
+				scrollY < this.landingHeight && // stop after scroll passes landing
+				displacement < this.heroLeft + this.heroWidth // stop after text reaches left side
+			)).toString() + 'px';
+
+			if (this.revealedH1s[index]) // only apply opacity if revealed
+				h1.style.opacity = 1 - displacement / (window.innerWidth / 4);
+		});
+	}
+
+	onResize() {
+		this.headerHeight = this.accountForHeader ? document.getElementById('header').clientHeight : 0;
+		this.landingHeight = this.bg.clientHeight;
+		this.initHeroDisp = this.landingHeight / 2 - this.heroText.clientHeight / 2;
+		this.heroLeft = this.heroText.offsetLeft;
+		this.heroWidth = this.heroText.clientWidth;
+	}
+}
+
 // Scroll Animations
 //     must have an onScroll() and onResize() <-- no arguments!
 //     must not have any constructor parameters other than element
 //     which means behavior is not configurable element to element
-//     you can still add configuarablity throught element class names
+//     you can still add configuarablity through element class names
 
 export class Trapezoid { // class="trapezoid {left/right}"
 	constructor(container) {
