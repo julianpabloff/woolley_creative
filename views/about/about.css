@@ -1,0 +1,27 @@
+section#about-landing .hero-text {
+	color: var(--woolley-blue);
+	left: max(var(--side-padding), calc((100vw - var(--max-width)) / 2));
+	right: initial;
+}
+
+section#about-landing img.landing-fg {
+	object-position: 45% center;
+}
+
+div#about-landing-text {
+	width: calc(6 * var(--column-width) + 5 * var(--column-gap));
+	max-width: 80vw;
+	display: flex;
+	flex-direction: column;
+	gap: 1.7rem;
+	position: absolute;
+	left: max(var(--side-padding), calc((100vw - var(--max-width)) / 2));
+	z-index: 1;
+	opacity: 1;
+	transition: opacity 1s;
+}
+
+div#about-landing-text p {
+	position: relative;
+	transition: opacity 0.5s ease-out, right 0.2s ease-out;
+}

@@ -162,7 +162,17 @@ export class SpriteSheetScroll {
 
 export class LandingImage {
 	constructor(landingImageData) {
-		const { container, fgFilepath, bgFilepath, heroText, height } = landingImageData;
+		const {
+			container, // DOM element
+			fgFilepath, // image filepath
+			bgFilepath, // image filepath
+			heroText, // array of words
+			height, // px (default 100vh)
+			initFgDisp, // px (default 100)
+			heroTextY, // Between 0 and 1 (default .5)
+			opacitySpeed // multiplier (default 4)
+		} = landingImageData;
+
 		container.className = "landing-container";
 		container.style.height = height ? height : '100vh';
 
@@ -188,16 +198,23 @@ export class LandingImage {
 		this.overlay.className = 'landing-bg-overlay';
 
 		// Initial values
-		this.initFgDisp = 100;
+		this.initFgDisp = initFgDisp !== undefined ? initFgDisp : 100;
+		this.fgDispAmount = 100;
 		this.bgParallax = 0.3; // multiplier
+		this.heroInitY = heroTextY !== undefined ? heroTextY : 0.5; // between 0 and 1
 		this.heroTextOffset = 75; // px
 		this.heroFadeInOffset = 300; // ms
 		this.heroVelocity = 0.0010; // multiplier
+		this.heroOpacityFactor = opacitySpeed !== undefined ? opacitySpeed : 4 // multiplier
 		this.accountForHeader = true;
 
 		// Add to DOM
 		container.appendChild(this.heroText);
-		if (this.fg) container.appendChild(this.fg);
+		if (this.fg) {
+			const fgHeightAdd = this.fgDispAmount - this.initFgDisp;
+			this.fg.style.height = `calc(100% + ${fgHeightAdd.toString()}px`;
+			container.appendChild(this.fg);
+		}
 		container.appendChild(this.bg);
 		container.appendChild(this.overlay);
 
@@ -211,7 +228,9 @@ export class LandingImage {
 	}
 
 	setBgDisp(displacement) {
-		this.heroText.style.top = (this.initHeroDisp + displacement).toString() + 'px';
+		this.bgDisp = displacement;
+		this.heroY = this.initHeroDisp + displacement;
+		this.heroText.style.transform = `translateY(${displacement.toString()}px)`;
 		this.bg.style.top = this.overlay.style.top = (displacement * 2).toString() + 'px';
 	}
 
@@ -223,19 +242,20 @@ export class LandingImage {
 				setTimeout(() => this.revealedH1s[index] = true, 500);
 			}, (index + 1) * this.heroFadeInOffset);
 		});
+		this.onScroll(window.scrollY);
 	}
 
 	onScroll(scrollY) {
 		let scrollT = scrollY / (this.landingHeight - this.headerHeight);
 		if (scrollT > 1) scrollT = 1;
 
-		this.setFgDisp(this.initFgDisp * scrollT);
+		this.setFgDisp(this.fgDispAmount * scrollT);
 		this.setBgDisp(this.landingHeight * scrollT * this.bgParallax);
 		this.overlay.style.opacity = 1 - scrollT * (this.fg ? 2 : 1);
 
 		forEachElement(this.heroText.children, (h1, index) => {
 			const threshold = index * this.heroTextOffset;
-			let displacement = Math.pow(scrollY - threshold, 2) * this.heroVelocity;
+			const displacement = Math.pow(scrollY - threshold, 2) * this.heroVelocity;
 
 			h1.style.right = (displacement * (
 				scrollY >= threshold && // delay until offset factor reached
@@ -243,15 +263,17 @@ export class LandingImage {
 				displacement < this.heroLeft + this.heroWidth // stop after text reaches left side
 			)).toString() + 'px';
 
-			if (this.revealedH1s[index]) // only apply opacity if revealed
-				h1.style.opacity = 1 - displacement / (window.innerWidth / 4);
+			if (this.revealedH1s[index] && scrollY >= threshold) // only apply opacity if revealed
+				h1.style.opacity = 1 - displacement / (window.innerWidth / this.heroOpacityFactor);
 		});
 	}
 
 	onResize() {
 		this.headerHeight = this.accountForHeader ? document.getElementById('header').clientHeight : 0;
 		this.landingHeight = this.bg.clientHeight;
-		this.initHeroDisp = this.landingHeight / 2 - this.heroText.clientHeight / 2;
+		this.initHeroDisp = this.heroInitY * (this.landingHeight - this.heroText.clientHeight);
+		this.heroText.style.top = this.initHeroDisp.toString() + 'px';
+		this.heroY = this.initHeroDisp + this.bgDisp;
 		this.heroLeft = this.heroText.offsetLeft;
 		this.heroWidth = this.heroText.clientWidth;
 	}

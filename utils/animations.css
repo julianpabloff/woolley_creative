@@ -34,7 +34,6 @@
 	/* height: 100vh; */
 	overflow-y: hidden;
 	position: relative;
-	background-color: rgb(114, 154, 196);
 }
 
 .landing-container img {
@@ -71,6 +70,7 @@
 	right: 0;
 	transition: opacity 0.5s ease-out, right 0.2s ease-out;
 }
+
 
 .sprite-sheet-container {
 	display: flex;

@@ -12,6 +12,7 @@ import addHandlers from './utils/events.js';
 import Index from './index.js';
 import Home from './views/home/home.js';
 import Work from './views/work/work.js';
+import About from './views/about/about.js';
 
 const routes = {
 	'/': {
@@ -25,6 +26,12 @@ const routes = {
 		template: '/views/work/work.html',
 		styles: '/views/work/work.css',
 		initializer: Work
+	},
+	'/about': {
+		selector: 'about',
+		template: '/views/about/about.html',
+		styles: '/views/about/about.css',
+		initializer: About
 	}
 }
 
