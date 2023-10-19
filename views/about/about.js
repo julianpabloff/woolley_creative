@@ -24,6 +24,7 @@ export default function About() {
 	function initLanding() {
 		landingImage.init();
 		setLandingTextY();
+		setTimeout(() => landingText.style.opacity = '1', landingImage.heroFadeInOffset * 4);
 	}
 
 	// Initialize landingImage heroText on image load

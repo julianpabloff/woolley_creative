@@ -17,8 +17,8 @@ div#about-landing-text {
 	position: absolute;
 	left: max(var(--side-padding), calc((100vw - var(--max-width)) / 2));
 	z-index: 1;
-	opacity: 1;
-	transition: opacity 1s;
+	opacity: 0;
+	transition: opacity 1s ease-out;
 }
 
 div#about-landing-text p {
