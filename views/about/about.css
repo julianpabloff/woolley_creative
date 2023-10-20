@@ -1,3 +1,8 @@
+section#about-landing {
+	min-height: 960px;
+	height: min(100vh, 960px);
+}
+
 section#about-landing .hero-text {
 	color: var(--woolley-blue);
 	left: max(var(--side-padding), calc((100vw - var(--max-width)) / 2));
@@ -5,7 +10,7 @@ section#about-landing .hero-text {
 }
 
 section#about-landing img.landing-fg {
-	object-position: 45% center;
+	object-position: 40% center;
 }
 
 div#about-landing-text {
@@ -24,4 +29,50 @@ div#about-landing-text {
 div#about-landing-text p {
 	position: relative;
 	transition: opacity 0.5s ease-out, right 0.2s ease-out;
+}
+
+section.flip-the-script {
+	height: 960px;
+	margin-top: 250px;
+	position: relative;
+}
+
+section.flip-the-script * {
+	z-index: 1;
+}
+
+div#about-slash {
+	--thickness: 1.1rem;
+	--height: 400px;
+	width: calc(var(--height) / 2 + var(--thickness));
+	height: var(--height);
+	position: absolute;
+	top: -180px;
+	left: calc(max(var(--side-padding), calc((100vw - var(--max-width)) / 2)) - 100px);
+	background-color: var(--woolley-orange);
+	z-index: 0;
+	/* transition: clip-path 0.1s; */
+}
+
+section.flip-the-script h6 {
+	max-width: 40rem;
+	margin-bottom: 40px;
+}
+
+section.flip-the-script p {
+	max-width: calc(7 * var(--column-width) + 6 * var(--column-gap));
+	margin-bottom: 20px;
+}
+
+section.flip-the-script div p:last-of-type {
+	margin-bottom: 100px;
+}
+
+section.flip-the-script img {
+	width: 100%;
+	min-height: 60%;
+	object-fit: cover;
+	position: absolute;
+	bottom: 0;
+	z-index: 0;
 }

@@ -1,16 +1,19 @@
-import { LandingImage } from '../../utils/animations.js';
-import { forEachElement } from '../../utils/elements.js';
+import { getBoundedTValue, LandingImage, ScrollFadeInElement } from '../../utils/animations.js';
+import { forEachElement, getAbsoluteOffset } from '../../utils/elements.js';
 
 export default function About() {
+	// Get DOM elements
 	const landingContainer = document.getElementById('about-landing');
 	const landingText = document.getElementById('about-landing-text');
+	const aboutBg = document.getElementById('about-bw-1');
+	const slash = document.getElementById('about-slash');
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
 		fgFilepath: '/assets/about/landing_image_foreground.webp',
 		bgFilepath: '/assets/about/landing_image_background.jpg',
 		heroText: ['Hey,', 'We\'re', 'Woolley.'],
-		height: 'min(100vh, 960px)',
+		// height: 'min(100vh, 960px)',
 		initFgDisp: 0,
 		heroTextY: 0.25,
 		opacitySpeed: 16
@@ -40,12 +43,37 @@ export default function About() {
 		assessImageLoad();
 	}
 
+	let aboutFadeIn;
+	aboutBg.onload = () => {
+		aboutFadeIn = new ScrollFadeInElement(aboutBg, {
+			inPadding: 300,
+			threshold: 0.4,
+			maxOpacity: 0.5
+		});
+		aboutFadeIn.onScroll(window.scrollY);
+	};
+
+	function handleSlash(scrollY) {
+		const top = getAbsoluteOffset(slash, 'top');
+		const headerHeight = document.getElementById('header').clientHeight;
+
+		const beginning = top - window.innerHeight;
+		const end = top + slash.clientHeight - headerHeight;
+		let t = getBoundedTValue(beginning, scrollY, end);
+
+		t = t * 25 + 75; // min slash length 80%
+		const u = 100 - t;
+		const thickness = '1.1rem';
+		slash.style.clipPath = `polygon(calc(${u}% + ${thickness} * ${u / 100}) ${100 - u}%, calc(${t}% - ${thickness}) ${(u)}%, ${t}% ${u}%, calc(${u}% + ${thickness} * ${1 + u / 100}) ${(100 - u)}%)`; // what even
+	}
+	handleSlash(window.scrollY);
+
 	function onScroll() {
 		const scrollY = window.scrollY;
 		landingImage.onScroll(scrollY);
 
+		// Landing Text animation
 		forEachElement(landingText.children, (p, index) => {
-			// const threshold = (3.5 + index) * landingImage.heroTextOffset;
 			const threshold = 3.3 * landingImage.heroTextOffset;
 			const displacement = Math.pow(scrollY - threshold, 2) * landingImage.heroVelocity;
 
@@ -60,6 +88,8 @@ export default function About() {
 		});
 
 		setLandingTextY();
+		handleSlash(scrollY);
+		if(aboutFadeIn) aboutFadeIn.onScroll(scrollY);
 	}
 
 	function onResize() {

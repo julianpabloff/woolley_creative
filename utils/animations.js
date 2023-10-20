@@ -22,7 +22,14 @@ export async function intervalIterate(step, count, callback) {
 
 loadCSS('/utils/animations.css');
 
-const getTValue = (start, point, end) => (point - start) / (end - start);
+// T Values
+export const getTValue = (start, point, end) => (point - start) / (end - start);
+export function getBoundedTValue(start, point, end) {
+	const t = getTValue(start, point, end);
+	if (t < 0) return 0;
+	if (t > 1) return 1;
+	return t;
+};
 
 
 // Configurable Animations
@@ -30,14 +37,20 @@ const getTValue = (start, point, end) => (point - start) / (end - start);
 //     configurable on an element to element basis
 
 export class ScrollFadeInElement {
-	constructor(element, inPadding = 0, threshold = 0.5) {
+	constructor(element, options) {
+		const {
+			inPadding, // px - How many pixels from the bottom to wait before fading in (default 0)
+			threshold, // 0-1 - At what percentage down the element, when that point reaches
+			           // halfway up the viewport, the element will be fully faded in (default 0.5)
+			maxOpacity, // 0-1 - Maximum opacity that is reached (default 1)
+		} = options;
+
 		this.element = element;
 		this.element.style.transition = 'opacity 0.1s';
-		// How many pixels from the bottom to wait before fading in
-		this.inPadding = inPadding;
-		// At what percentage down the element, when that point reaches halfway up the
-		// viewport, the element will be fully faded in
-		this.threshold = threshold;
+
+		this.inPadding = inPadding !== undefined ? inPadding : 0;
+		this.threshold = threshold !== undefined ? threshold : 0.5;
+		this.maxOpacity = maxOpacity !== undefined ? maxOpacity : 1;
 	}
 
 	onScroll(scrollY) {
@@ -50,27 +63,27 @@ export class ScrollFadeInElement {
 		// scrollY value that the element is fully faded in
 		const end = top + height * this.threshold - windowHeight / 2;
 
-		// let opacity = (scrollY - beginning) / (end - beginning);
-		let opacity = getTValue(beginning, scrollY, end);
-		if (opacity < 0) opacity = 0;
-		else if (opacity > 1) opacity = 1;
+		let opacity = getBoundedTValue(beginning, scrollY, end);
+		// if (opacity < 0) opacity = 0;
+		// else if (opacity > 1) opacity = 1;
+		opacity *= this.maxOpacity;
 
 		this.element.style.opacity = opacity > 0 ? opacity.toString() : '0';
 	}
 }
 
 export class ScrollFadeInGroup {
-	constructor(offset = 90, inPadding = 0, outPadding = 0) {
+	constructor(offset = 90, inPadding = 0, threshold = 0) {
 		this.offset = offset;
 		this.doOffset = true;
 		this.inPadding = inPadding;
-		this.outPadding = outPadding;
+		this.threshold = threshold;
 		this.members = [];
 	}
 
 	addElement(element) {
 		const inPadding = this.inPadding + this.members.length * this.offset * this.doOffset;
-		const member = new ScrollFadeInElement(element, inPadding, this.outPadding);
+		const member = new ScrollFadeInElement(element, { inPadding, threshold: this.threshold });
 		this.members.push(member);
 		return member;
 	}
@@ -212,7 +225,8 @@ export class LandingImage {
 		container.appendChild(this.heroText);
 		if (this.fg) {
 			const fgHeightAdd = this.fgDispAmount - this.initFgDisp;
-			this.fg.style.height = `calc(100% + ${fgHeightAdd.toString()}px`;
+			this.fg.style.height = `calc(100% + ${fgHeightAdd}px)`;
+			this.fg.style.width = `calc(100% + ${(fgHeightAdd / 1.5)}px)`;
 			container.appendChild(this.fg);
 		}
 		container.appendChild(this.bg);
@@ -224,14 +238,17 @@ export class LandingImage {
 	}
 
 	setFgDisp(displacement) {
-		if (this.fg) this.fg.style.top = (this.initFgDisp - displacement).toString() + 'px';
+		if (this.fg) {
+			this.fg.style.top = (this.initFgDisp - displacement) + 'px';
+			this.fg.style.left = `-${(displacement / 1.5)}px`;
+		}
 	}
 
 	setBgDisp(displacement) {
 		this.bgDisp = displacement;
 		this.heroY = this.initHeroDisp + displacement;
-		this.heroText.style.transform = `translateY(${displacement.toString()}px)`;
-		this.bg.style.top = this.overlay.style.top = (displacement * 2).toString() + 'px';
+		this.heroText.style.transform = `translateY(${displacement}px)`;
+		this.bg.style.top = this.overlay.style.top = (displacement * 2) + 'px';
 	}
 
 	init() {

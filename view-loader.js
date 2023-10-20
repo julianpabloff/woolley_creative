@@ -35,7 +35,6 @@ const styleSheetMap = new Map();
 export function addStyleSheet(name, styleSheet) {
 	styleSheetMap.set(name, styleSheet);
 	document.adoptedStyleSheets = Array.from(styleSheetMap.values());
-	console.log(document.adoptedStyleSheets);
 }
 
 export async function loadCSS(filepath, callback) {
@@ -43,14 +42,6 @@ export async function loadCSS(filepath, callback) {
 	const cssData = await fetch(filepath);
 	const cssText = await cssData.text();
 	styleSheet.replaceSync(cssText);
-
-
-	// const debug = document.getElementById('debug');
-	// const message = document.createElement('p');
-	// message.style.color = 'white';
-	// message.innerHTML = cssText;
-	// debug.appendChild(message);
-	// debug.appendChild(document.createElement('br'));
 
 	if (callback) callback(styleSheet);
 	addStyleSheet(filepath, styleSheet);
