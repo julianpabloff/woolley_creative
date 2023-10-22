@@ -1,6 +1,6 @@
 import { loadCSS } from '../view-loader.js';
 import { forEachElement, getAbsoluteOffset } from './elements.js';
-import { addAnimationToListeners } from './events.js';
+import { addAnimationToListeners, clearAnimationsFromListeners } from './events.js';
 
 export async function wait(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -361,6 +361,34 @@ export class Trapezoid { // class="trapezoid {left/right}"
 	}
 }
 
+export class GrowingSlash { // class="growing-slash"
+	constructor(element) {
+		this.element = element;
+		this.onScroll();
+	}
+
+	onScroll() {
+		const scrollY = window.scrollY;
+
+		const top = getAbsoluteOffset(this.element, 'top');
+		const headerHeight = document.getElementById('header').clientHeight;
+		const beginning = top - window.innerHeight;
+		const end = top + this.element.clientHeight - headerHeight;
+
+		let t = getBoundedTValue(beginning, scrollY, end);
+		t = t * 25 + 75; // min slash length 80%
+		const u = 100 - t;
+
+		const thickness = '1.1rem';
+		const bl = `calc(${u}% + ${thickness} * ${u / 100}) ${100 - u}%`;
+		const tl = `calc(${t}% - ${thickness}) ${(u)}%`;
+		const tr = `${t}% ${u}%`;
+		const br = `calc(${u}% + ${thickness} * ${1 + u / 100}) ${(100 - u)}%`;
+
+		this.element.style.clipPath = `polygon(${bl}, ${tl}, ${tr}, ${br})`;
+	}
+}
+
 
 // IntersectionObserver Animations
 //     initializer: prepares element for the animation
@@ -448,8 +476,10 @@ const intersectionClassMap = new Map()
 
 const scrollClassMap = new Map()
 	.set('trapezoid', Trapezoid)
+	.set('growing-slash', GrowingSlash)
 
 export function searchForAnimations(container) {
+	clearAnimationsFromListeners();
 	scrollClassMap.forEach((ScrollAnimation, className) => {
 		const elements = container.getElementsByClassName(className);
 		if (elements.length) for (const element of elements) {

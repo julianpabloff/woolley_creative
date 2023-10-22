@@ -1,6 +1,5 @@
 const scrollHandlers = new Map();
 const resizeHandlers = new Map();
-const animations = [];
 
 // key enables having multiple handlers for the same event (i.e. index level and view level)
 export default function addHandlers(key, handlers) {
@@ -8,7 +7,9 @@ export default function addHandlers(key, handlers) {
 	if (handlers.onResize) resizeHandlers.set(key, handlers.onResize);
 }
 
+let animations = [];
 export const addAnimationToListeners = animation => animations.push(animation);
+export const clearAnimationsFromListeners = () => animations = [];
 
 function sendEventToHandlers(handlers, event) {
 	handlers.forEach(handler => {

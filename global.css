@@ -78,6 +78,7 @@ a {
 .white { color: white; }
 .orange { color: var(--woolley-orange) }
 .grey { color: var(--woolley-grey) }
+.p-box p:not(:last-of-type) { margin-bottom: 1.43rem }
 
 html {
 	font-size: 14px;
@@ -87,10 +88,11 @@ html {
 
 /* Sizing & Positioning */
 .flex { display: flex; }
-.flex.justify-center { justify-content: center; }
-.flex.justify-between { justify-content: space-between; }
-.flex.justify-around { justify-content: space-around; }
-.flex.align-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.align-center { align-items: center; }
+.align-end { align-items: flex-end; }
 .column { flex-direction: column; }
 .relative { position: relative; }
 
@@ -195,11 +197,8 @@ a.cta:hover::after,
 }
 
 @media screen and (max-width: 767px) {
-	.row {
-		flex-wrap: wrap;
-	}
-	.col-4 {
-		width: 100%;
+	h2 {
+		font-size: 3.4rem;
 	}
 	section.trapezoid > div {
 		width: 100%;

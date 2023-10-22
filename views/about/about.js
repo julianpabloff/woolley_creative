@@ -6,7 +6,6 @@ export default function About() {
 	const landingContainer = document.getElementById('about-landing');
 	const landingText = document.getElementById('about-landing-text');
 	const aboutBg = document.getElementById('about-bw-1');
-	const slash = document.getElementById('about-slash');
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
@@ -53,21 +52,6 @@ export default function About() {
 		aboutFadeIn.onScroll(window.scrollY);
 	};
 
-	function handleSlash(scrollY) {
-		const top = getAbsoluteOffset(slash, 'top');
-		const headerHeight = document.getElementById('header').clientHeight;
-
-		const beginning = top - window.innerHeight;
-		const end = top + slash.clientHeight - headerHeight;
-		let t = getBoundedTValue(beginning, scrollY, end);
-
-		t = t * 25 + 75; // min slash length 80%
-		const u = 100 - t;
-		const thickness = '1.1rem';
-		slash.style.clipPath = `polygon(calc(${u}% + ${thickness} * ${u / 100}) ${100 - u}%, calc(${t}% - ${thickness}) ${(u)}%, ${t}% ${u}%, calc(${u}% + ${thickness} * ${1 + u / 100}) ${(100 - u)}%)`; // what even
-	}
-	handleSlash(window.scrollY);
-
 	function onScroll() {
 		const scrollY = window.scrollY;
 		landingImage.onScroll(scrollY);
@@ -88,7 +72,6 @@ export default function About() {
 		});
 
 		setLandingTextY();
-		handleSlash(scrollY);
 		if(aboutFadeIn) aboutFadeIn.onScroll(scrollY);
 	}
 
