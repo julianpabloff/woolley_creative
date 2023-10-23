@@ -2,10 +2,6 @@ import { forEachElement } from '../elements.js';
 
 export class SlideList {
 	constructor(container, items, options = {}) {
-		// Options
-		this.delay = options.delay != undefined ? options.delay : 3000;
-		this.speed = options.speed != undefined ? options.speed : 100;
-
 		this.ul = document.createElement('ul');
 		this.ul.className = 'slide-list';
 
@@ -19,12 +15,15 @@ export class SlideList {
 		});
 		this.items = this.ul.children;
 
+		// Options
+		this.delay = options.delay != undefined ? options.delay : 3000;
+		this.speed = options.speed != undefined ? options.speed : 100;
+
 		// Container
 		this.container = container;
 		container.className = 'slide-list-container';
 		container.style.transition = `height ${this.speed / 1000}s linear`;
 		container.appendChild(this.ul);
-
 		this.setContainerHeight(this.currentHeight);
 	}
 
@@ -35,20 +34,15 @@ export class SlideList {
 		this.container.style.height = height.toString() + 'px';
 	}
 
-	toggleTransition(on) {
-		this.ul.style.transition = on ? `transform ${this.speed / 1000}s linear` : 'none';
-	}
-
 	move() {
-		this.toggleTransition(true);
 		this.ul.style.transform = `translateY(-${this.currentHeight}px)`;
+		this.ul.style.transition = `transform ${this.speed / 1000}s linear`;
 		this.setContainerHeight(this.nextHeight);
 
 		setTimeout(() => {
 			this.ul.style.transform = 'translateY(0)';
-			this.toggleTransition(false);
+			this.ul.style.transition = 'none';
 			this.ul.appendChild(this.ul.removeChild(this.items[0]));
-			console.log('moved slide-list');
 		}, this.speed);
 	}
 

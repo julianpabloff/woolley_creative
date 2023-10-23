@@ -53,7 +53,7 @@ export class LandingImage {
 		if (this.fg) {
 			const fgHeightAdd = this.fgDispAmount - this.initFgDisp;
 			this.fg.style.height = `calc(100% + ${fgHeightAdd}px)`;
-			this.fg.style.width = `calc(100% + ${(fgHeightAdd / 1.5)}px)`;
+			this.fg.style.width = `calc(100% + ${this.fgDispAmount / 1.5}px)`;
 			container.appendChild(this.fg);
 		}
 		container.appendChild(this.bg);
@@ -66,8 +66,8 @@ export class LandingImage {
 
 	setFgDisp(displacement) {
 		if (this.fg) {
-			this.fg.style.top = (this.initFgDisp - displacement) + 'px';
-			this.fg.style.left = `-${(displacement / 1.5)}px`;
+			this.fg.style.top = `${this.initFgDisp - displacement}px`;
+			this.fg.style.left = `-${displacement / 1.5}px`;
 		}
 	}
 
@@ -75,7 +75,7 @@ export class LandingImage {
 		this.bgDisp = displacement;
 		this.heroY = this.initHeroDisp + displacement;
 		this.heroText.style.transform = `translateY(${displacement}px)`;
-		this.bg.style.top = this.overlay.style.top = (displacement * 2) + 'px';
+		this.bg.style.top = this.overlay.style.top = `${displacement * 2}px`;
 	}
 
 	init() {
