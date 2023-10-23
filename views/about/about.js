@@ -1,4 +1,9 @@
-import { getBoundedTValue, LandingImage, ScrollFadeInElement } from '../../utils/animations.js';
+import {
+	getBoundedTValue,
+	LandingImage,
+	ScrollFadeInElement,
+	SlideList
+} from '../../utils/animations.js';
 import { forEachElement, getAbsoluteOffset } from '../../utils/elements.js';
 
 export default function About() {
@@ -6,6 +11,7 @@ export default function About() {
 	const landingContainer = document.getElementById('about-landing');
 	const landingText = document.getElementById('about-landing-text');
 	const aboutBg = document.getElementById('about-bw-1');
+	const slideListContainer = document.getElementById('slide-list');
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
@@ -52,6 +58,18 @@ export default function About() {
 		aboutFadeIn.onScroll(window.scrollY);
 	};
 
+	const slideListItems = [
+		'is committed to doing good.',
+		'doesn’t have all the answers.',
+		'walks the talk.',
+		'is up for a challenge.',
+		'is all about community and collaboration.',
+		'thinks this stuff is fun.',
+		'asks an absurd amount of questions.',
+	];
+	const slideList = new SlideList(slideListContainer, slideListItems);
+	slideList.start();
+
 	function onScroll() {
 		const scrollY = window.scrollY;
 		landingImage.onScroll(scrollY);
@@ -80,5 +98,9 @@ export default function About() {
 		setLandingTextY();
 	}
 
-	return { onScroll, onResize };
+	function onDestroy() {
+		slideList.stop();
+	}
+
+	return { onScroll, onResize, onDestroy };
 }

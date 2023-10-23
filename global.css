@@ -78,6 +78,7 @@ a {
 .white { color: white; }
 .orange { color: var(--woolley-orange) }
 .grey { color: var(--woolley-grey) }
+.bold { font-family: "Gotham Bold" }
 .p-box p:not(:last-of-type) { margin-bottom: 1.43rem }
 
 html {

@@ -31,270 +31,14 @@ export function getBoundedTValue(start, point, end) {
 	return t;
 };
 
-
 // Configurable Animations
 //     must be instanciated in a view js file
 //     configurable on an element to element basis
 
-export class ScrollFadeInElement {
-	constructor(element, options) {
-		const {
-			inPadding, // px - How many pixels from the bottom to wait before fading in (default 0)
-			threshold, // 0-1 - At what percentage down the element, when that point reaches
-			           // halfway up the viewport, the element will be fully faded in (default 0.5)
-			maxOpacity, // 0-1 - Maximum opacity that is reached (default 1)
-		} = options;
-
-		this.element = element;
-		this.element.style.transition = 'opacity 0.1s';
-
-		this.inPadding = inPadding !== undefined ? inPadding : 0;
-		this.threshold = threshold !== undefined ? threshold : 0.5;
-		this.maxOpacity = maxOpacity !== undefined ? maxOpacity : 1;
-	}
-
-	onScroll(scrollY) {
-		const top = getAbsoluteOffset(this.element, 'top');
-		const height = this.element.clientHeight;
-		const windowHeight = window.innerHeight;
-
-		// scrollY value that the element starts to fade in
-		const beginning = top - windowHeight + this.inPadding;
-		// scrollY value that the element is fully faded in
-		const end = top + height * this.threshold - windowHeight / 2;
-
-		let opacity = getBoundedTValue(beginning, scrollY, end);
-		// if (opacity < 0) opacity = 0;
-		// else if (opacity > 1) opacity = 1;
-		opacity *= this.maxOpacity;
-
-		this.element.style.opacity = opacity > 0 ? opacity.toString() : '0';
-	}
-}
-
-export class ScrollFadeInGroup {
-	constructor(offset = 90, inPadding = 0, threshold = 0) {
-		this.offset = offset;
-		this.doOffset = true;
-		this.inPadding = inPadding;
-		this.threshold = threshold;
-		this.members = [];
-	}
-
-	addElement(element) {
-		const inPadding = this.inPadding + this.members.length * this.offset * this.doOffset;
-		const member = new ScrollFadeInElement(element, { inPadding, threshold: this.threshold });
-		this.members.push(member);
-		return member;
-	}
-
-	toggleOffset(boolean) {
-		if (this.doOffset !== boolean) {
-			let i = 0;
-			while (i < this.members.length) {
-				const member = this.members[i];
-				member.inPadding = this.inPadding + i * this.offset * boolean;
-				i++;
-			}
-		}
-		this.doOffset = boolean;
-	}
-
-	onScroll(scrollY) {
-		this.members.forEach(member => member.onScroll(scrollY));
-	}
-}
-
-class SpriteSheet {
-	constructor(spriteSheetData) {
-		const { container, filepath, columns, count, imgWidth, imgHeight } = spriteSheetData;
-		for (const [key, value] of Object.entries(spriteSheetData)) this[key] = value;
-
-		const frame = document.createElement('div');
-		frame.style.aspectRatio = imgWidth.toString() + '/' + imgHeight.toString();
-		frame.style.backgroundImage = 'url(' + filepath + ')';
-		frame.style.backgroundSize = 'calc(100% * ' + columns + ')';
-		frame.style.backgroundPosition = '0px 0px';
-
-		this.frame = frame;
-		this.index = 0;
-		this.onResize();
-
-		container.innerHTML = '';
-		container.classList.add('sprite-sheet-container');
-		container.appendChild(frame);
-
-	}
-
-	get y() { return getAbsoluteOffset(this.frame, 'top'); }
-	get height() { return this.frame.clientHeight; }
-
-	toFrame(index) {
-		const x = index % this.columns;
-		const y = Math.floor(index / this.columns);
-		const rows = Math.ceil(this.count / this.columns);
-		this.frame.style.backgroundPositionX = `calc(100% * ${x} / ${this.columns - 1})`;
-		this.frame.style.backgroundPositionY = `calc(100% * ${y} / ${rows - 1})`;
-		this.index = index;
-	}
-
-	onResize() {
-		this.frame.className = 'frame';
-		const landscape = this.container.clientWidth >= this.container.clientHeight;
-		this.frame.className = landscape ? 'frame landscape' : 'frame portrait';
-	}
-}
-
-export class SpriteSheetScroll {
-	constructor(spriteSheetData, scrollYInterval = 50) {
-		this.sprite = new SpriteSheet(spriteSheetData);
-		this.interval = scrollYInterval;
-	}
-
-	onScroll(scrollY) {
-		const windowHeight = window.innerHeight;
-		const spriteY = this.sprite.y;
-		const spriteHeight = this.sprite.height;
-		const header = 100; // moves center point down by half of this value
-
-		const start = spriteY - windowHeight;
-		const center = spriteY + (spriteHeight - windowHeight - header) / 2;
-		const end = spriteY + spriteHeight - header;
-
-		if (scrollY >= start && scrollY <= end) {
-			let index = Math.floor((scrollY - center) / this.interval) % this.sprite.count;
-			if (index < 0) index += this.sprite.count;
-			if (index != this.sprite.index) this.sprite.toFrame(index);
-		}
-	}
-	
-	onResize() {
-		this.sprite.onResize();
-	}
-}
-
-export class LandingImage {
-	constructor(landingImageData) {
-		const {
-			container, // DOM element
-			fgFilepath, // image filepath
-			bgFilepath, // image filepath
-			heroText, // array of words
-			height, // px (default 100vh)
-			initFgDisp, // px (default 100)
-			heroTextY, // Between 0 and 1 (default .5)
-			opacitySpeed // multiplier (default 4)
-		} = landingImageData;
-
-		container.className = "landing-container";
-		container.style.height = height ? height : '100vh';
-
-		this.heroText = document.createElement('div');
-		this.heroText.className = 'hero-text';
-		for (const text of heroText) {
-			const h1 = document.createElement('h1');
-			h1.innerText = text;
-			this.heroText.appendChild(h1);
-		}
-		this.revealedH1s = []; // Wait to set opacity on scroll until init()
-
-		if (fgFilepath) {
-			this.fg = document.createElement('img');
-			this.fg.src = fgFilepath;
-			this.fg.className = 'landing-fg';
-		}
-
-		this.bg = document.createElement('img');
-		this.bg.src = bgFilepath;
-
-		this.overlay = document.createElement('div');
-		this.overlay.className = 'landing-bg-overlay';
-
-		// Initial values
-		this.initFgDisp = initFgDisp !== undefined ? initFgDisp : 100;
-		this.fgDispAmount = 100;
-		this.bgParallax = 0.3; // multiplier
-		this.heroInitY = heroTextY !== undefined ? heroTextY : 0.5; // between 0 and 1
-		this.heroTextOffset = 75; // px
-		this.heroFadeInOffset = 300; // ms
-		this.heroVelocity = 0.0010; // multiplier
-		this.heroOpacityFactor = opacitySpeed !== undefined ? opacitySpeed : 4 // multiplier
-		this.accountForHeader = true;
-
-		// Add to DOM
-		container.appendChild(this.heroText);
-		if (this.fg) {
-			const fgHeightAdd = this.fgDispAmount - this.initFgDisp;
-			this.fg.style.height = `calc(100% + ${fgHeightAdd}px)`;
-			this.fg.style.width = `calc(100% + ${(fgHeightAdd / 1.5)}px)`;
-			container.appendChild(this.fg);
-		}
-		container.appendChild(this.bg);
-		container.appendChild(this.overlay);
-
-		this.onResize();
-		this.setFgDisp(0);
-		this.setBgDisp(0);
-	}
-
-	setFgDisp(displacement) {
-		if (this.fg) {
-			this.fg.style.top = (this.initFgDisp - displacement) + 'px';
-			this.fg.style.left = `-${(displacement / 1.5)}px`;
-		}
-	}
-
-	setBgDisp(displacement) {
-		this.bgDisp = displacement;
-		this.heroY = this.initHeroDisp + displacement;
-		this.heroText.style.transform = `translateY(${displacement}px)`;
-		this.bg.style.top = this.overlay.style.top = (displacement * 2) + 'px';
-	}
-
-	init() {
-		forEachElement(this.heroText.children, (h1, index) => {
-			this.revealedH1s.push(false);
-			setTimeout(() => {
-				h1.style.opacity = '1';
-				setTimeout(() => this.revealedH1s[index] = true, 500);
-			}, (index + 1) * this.heroFadeInOffset);
-		});
-		this.onScroll(window.scrollY);
-	}
-
-	onScroll(scrollY) {
-		let scrollT = scrollY / (this.landingHeight - this.headerHeight);
-		if (scrollT > 1) scrollT = 1;
-
-		this.setFgDisp(this.fgDispAmount * scrollT);
-		this.setBgDisp(this.landingHeight * scrollT * this.bgParallax);
-		this.overlay.style.opacity = 1 - scrollT * (this.fg ? 2 : 1);
-
-		forEachElement(this.heroText.children, (h1, index) => {
-			const threshold = index * this.heroTextOffset;
-			const displacement = Math.pow(scrollY - threshold, 2) * this.heroVelocity;
-
-			h1.style.right = (displacement * (
-				scrollY >= threshold && // delay until offset factor reached
-				scrollY < this.landingHeight && // stop after scroll passes landing
-				displacement < this.heroLeft + this.heroWidth // stop after text reaches left side
-			)).toString() + 'px';
-
-			if (this.revealedH1s[index] && scrollY >= threshold) // only apply opacity if revealed
-				h1.style.opacity = 1 - displacement / (window.innerWidth / this.heroOpacityFactor);
-		});
-	}
-
-	onResize() {
-		this.headerHeight = this.accountForHeader ? document.getElementById('header').clientHeight : 0;
-		this.landingHeight = this.bg.clientHeight;
-		this.initHeroDisp = this.heroInitY * (this.landingHeight - this.heroText.clientHeight);
-		this.heroText.style.top = this.initHeroDisp.toString() + 'px';
-		this.heroY = this.initHeroDisp + this.bgDisp;
-		this.heroLeft = this.heroText.offsetLeft;
-		this.heroWidth = this.heroText.clientWidth;
-	}
-}
+export { LandingImage } from './animations/landingImage.js';
+export { ScrollFadeInElement, ScrollFadeInGroup } from './animations/scrollFadeIn.js';
+export { SlideList } from './animations/slideList.js';
+export { SpriteSheet, SpriteSheetScroll } from './animations/spriteSheet.js';
 
 // Scroll Animations
 //     must have an onScroll() and onResize() <-- no arguments!
@@ -302,100 +46,18 @@ export class LandingImage {
 //     which means behavior is not configurable element to element
 //     you can still add configuarablity through element class names
 
-export class Trapezoid { // class="trapezoid {left/right}"
-	constructor(container) {
-		const content = document.createElement('div');
-		content.classList.add('trapezoid-content');
-		if (container.hasChildNodes())
-			content.replaceChildren(...container.children);
-
-		const contentContainer = document.createElement('div');
-		contentContainer.classList.add('max-w', 'trapezoid-content-container');
-		contentContainer.appendChild(content);
-
-		const background = document.createElement('div');
-		background.classList.add('trapezoid-background');
-
-		container.classList.add('max-w-container');
-		container.append(contentContainer, background);
-
-		if (container.classList.contains('left')) this.draw = this.drawLeftTrapezoid;
-		else if (container.classList.contains('right')) this.draw = this.drawRightTrapezoid;
-
-		this.container = container;
-		this.content = content;
-		this.background = background;
-		this.delta = background.clientHeight / 4;
-		this.displacement = 150;
-
-		this.onResize();
-	}
-
-	get distance() { return getTValue(this.start, window.scrollY, this.end) * this.displacement; }
-
-	drawLeftTrapezoid() {
-		const edgeX = this.contentX * 2 + this.contentW + this.displacement - this.distance;
-		this.background.style.clipPath =
-			`polygon(0 0, ${edgeX + this.delta}px 0, ${edgeX - this.delta}px 100%, 0 100%)`;
-	}
-
-	drawRightTrapezoid() {
-		const distanceToEdge = window.innerWidth - this.contentX - this.contentW;
-		const edgeX = this.contentX - distanceToEdge - this.displacement + this.distance;
-		this.background.style.clipPath =
-			`polygon(${edgeX - this.delta}px 0, 100% 0, 100% 100%, ${edgeX + this.delta}px 100%)`;
-	}
-
-	onScroll() {
-		const scrollY = window.scrollY;
-		if (scrollY >= this.start && scrollY <= this.end) this.draw();
-	}
-
-	onResize() {
-		const windowHeight = window.innerHeight;
-		this.start = getAbsoluteOffset(this.background, 'top') - windowHeight;
-		this.end = this.start + windowHeight + this.background.clientHeight;
-		this.contentX = getAbsoluteOffset(this.content, 'left');
-		this.contentW = this.content.clientWidth;
-		this.onScroll(window.scrollY)
-	}
-}
-
-export class GrowingSlash { // class="growing-slash"
-	constructor(element) {
-		this.element = element;
-		this.onScroll();
-	}
-
-	onScroll() {
-		const scrollY = window.scrollY;
-
-		const top = getAbsoluteOffset(this.element, 'top');
-		const headerHeight = document.getElementById('header').clientHeight;
-		const beginning = top - window.innerHeight;
-		const end = top + this.element.clientHeight - headerHeight;
-
-		let t = getBoundedTValue(beginning, scrollY, end);
-		t = t * 25 + 75; // min slash length 80%
-		const u = 100 - t;
-
-		const thickness = '1.1rem';
-		const bl = `calc(${u}% + ${thickness} * ${u / 100}) ${100 - u}%`;
-		const tl = `calc(${t}% - ${thickness}) ${(u)}%`;
-		const tr = `${t}% ${u}%`;
-		const br = `calc(${u}% + ${thickness} * ${1 + u / 100}) ${(100 - u)}%`;
-
-		this.element.style.clipPath = `polygon(${bl}, ${tl}, ${tr}, ${br})`;
-	}
-}
-
+import { GrowingSlash } from './animations/growingSlash.js'; // class="growing-slash"
+import { Trapezoid } from './animations/trapezoid.js'; // class="trapezoid {left/right}"
 
 // IntersectionObserver Animations
 //     initializer: prepares element for the animation
 //     options: IntersectionObserver options
 //     run: runs the animation
 
-export class IntersectionAnimation {
+import { childrenFadeIn } from './animations/childrenFadeIn.js' // class="fade-in-children"
+import { slideout } from './animations/slideout.js'; // class="slideout {left/right}"
+
+class IntersectionAnimation {
 	constructor({ initializer, options, run }) {
 		this.elementInitializer = initializer;
 		this.observer = new IntersectionObserver((entries, observer) => {
@@ -415,56 +77,6 @@ export class IntersectionAnimation {
 	}
 }
 
-const slideout = {
-	initializer: element => {
-		const x = getAbsoluteOffset(element, 'left');
-		const width = element.clientWidth;
-		const leftSide = x + width / 2 < window.innerWidth / 2;
-		element.style.opacity = '0';
-		element.dataset.side = leftSide ? 'left' : 'right';
-	},
-	options: {
-		root: null,
-		rootMargin: '-150px 0px -50px 0px',
-		threshold: 0.5
-	},
-	run: async element => {
-		const x = getAbsoluteOffset(element, 'left');
-		const width = element.clientWidth;
-		let offset;
-		if (element.dataset.side == 'left') offset = 0 - x - width + 10;
-		else if (element.dataset.side == 'right') offset = window.innerWidth - x - 10;
-		element.style.transform = 'translateX(' + offset.toString() + 'px';
-
-		await wait(10);
-		const currentTranstion = window.getComputedStyle(element).transition;
-		element.style.transition =
-			window.getComputedStyle(element).transition +
-			', transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
-		element.style.transform = 'translateX(0px)';
-		element.style.opacity = '1';
-	}
-}
-
-const childrenFadeIn = {
-	initializer: container => {
-		for (const child of container.children)
-			child.classList.add('children-fade-in', 'hidden');
-	},
-	options: {
-		root: null,
-		rootMargin: '-100px 0px 0px 0px',
-		threshold: 0.5
-	},
-	run: container => {
-		const count = container.children.length;
-		intervalIterate(150, count, i => {
-			const child = container.children.item(i);
-			child.classList.replace('hidden', 'revealed');
-		});
-	}
-}
-
 // For using intersection animations elsewhere (without the className)
 export function SlideoutObserver() { return new IntersectionAnimation(slideout) }
 export function ChildrenFadeInObserver() { return new IntersectionAnimation(childrenFadeIn) }
@@ -475,8 +87,8 @@ const intersectionClassMap = new Map()
 	.set('fade-in-children', new ChildrenFadeInObserver())
 
 const scrollClassMap = new Map()
-	.set('trapezoid', Trapezoid)
 	.set('growing-slash', GrowingSlash)
+	.set('trapezoid', Trapezoid)
 
 export function searchForAnimations(container) {
 	clearAnimationsFromListeners();

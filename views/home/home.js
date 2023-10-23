@@ -3,8 +3,7 @@ import {
 	LandingImage,
 	ScrollFadeInGroup,
 	SlideoutObserver,
-	SpriteSheetScroll,
-	Trapezoid
+	SpriteSheetScroll
 } from '../../utils/animations.js';
 
 export default function Home() {

@@ -63,7 +63,10 @@ async function onReady() {
 */
 
 let root;
+let onDestroy;
 async function handleLocation() {
+	if (onDestroy) onDestroy();
+	onDestroy = null;
 	// indexHandlers.toggleLoading(true);
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
@@ -72,11 +75,12 @@ async function handleLocation() {
 
 		if (view.styles) await insertCSS(view.styles, viewContainer);
 		if (view.template) await insertHTML(view.template, root, viewContainer);
-
 		if (view.initializer) {
-			// const handlers = view.initializer(onReady);
 			const handlers = view.initializer();
-			if (handlers) addHandlers('root', handlers);
+			if (handlers) {
+				addHandlers('root', handlers);
+				if (handlers.onDestroy) onDestroy = handlers.onDestroy;
+			}
 		}
 		searchForAnimations(root);
 		// indexHandlers.toggleLoading(false);
