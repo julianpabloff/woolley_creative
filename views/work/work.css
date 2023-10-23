@@ -5,9 +5,7 @@ div.done-that h2 {
 div.project {
 	height: min(65vw, 500px);
 	margin: 20px 0;
-	/* padding-left: var(--side-padding); */
 	background-color: var(--woolley-blue);
-	/* display: flex; */
 	position: relative;
 	transition: background-color 0.5s;
 }
@@ -36,6 +34,23 @@ div.project div.image {
 	overflow: hidden;
 }
 
+div.project.right div.image {
+	left: 0;
+	right: initial;
+}
+
+div.project div.image.sendline {
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div.project div.image.sendline img {
+	width: initial;
+	height: 75%;
+}
+
 div.project div.image img {
 	width: 100%;
 	height: 100%;
@@ -43,18 +58,6 @@ div.project div.image img {
 	transition: transform 0.4s;
 }
 
-div.project:hover {
-	cursor: pointer;
-	background-color: var(--woolley-orange);
-}
-
-div.project:hover h3 {
-	color: var(--woolley-blue);
-}
-
-div.project:hover div.image img {
-	transform: scale(1.1);
-}
 
 @media screen and (min-width: 768px) {
 	div.done-that {

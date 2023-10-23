@@ -69,33 +69,6 @@ div.work-grid > div img {
 	object-fit: cover;
 }
 
-div.work-grid > div h6 {
-	width: 100%;
-	height: 100%;
-	padding: 4%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: absolute;
-	top: 0;
-	text-align: center;
-	color: var(--woolley-grey);
-	background-color: var(--woolley-blue-faded);
-	overflow: hidden;
-	opacity: 0;
-	transition: opacity 0.6s;
-}
-div.work-grid > div h6 span {
-	transform: scale(1.2);
-	transition: transform 0.4s;
-}
-div.work-grid > div:hover h6 {
-	opacity: 1;
-}
-div.work-grid > div:hover h6 span {
-	transform: scale(1);
-}
-
 
 section.partners {
 	min-height: 500px;

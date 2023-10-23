@@ -90,6 +90,7 @@ html {
 /* Sizing & Positioning */
 .flex { display: flex; }
 .justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
 .justify-between { justify-content: space-between; }
 .justify-around { justify-content: space-around; }
 .align-center { align-items: center; }
@@ -191,6 +192,37 @@ a.cta:hover::after,
 	background-color: rgba(0, 0, 0, 0.3);
 	/* clip-path: polygon(60% 0, 100% 0, 100% 100%, calc(60% - [half the height]) 100%); */
 	/* mix-blend-mode: */
+}
+
+/* Image Hover */
+.image-hover {
+	width: 100%;
+	height: 100%;
+	padding: 4%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	color: var(--woolley-grey);
+	background-color: var(--woolley-blue-faded);
+	overflow: hidden;
+	opacity: 0;
+	transition: opacity 0.6s;
+}
+
+.image-hover * {
+	transform: scale(1.2);
+	transition: transform 0.4s;
+}
+
+.image-hover:hover {
+	opacity: 1;
+}
+.image-hover:hover * {
+	transform: scale(1);
 }
 
 @media screen and (max-width: 1024px) {

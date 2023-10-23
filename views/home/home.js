@@ -63,10 +63,9 @@ export default function Home() {
 		{ text: 'Industry Events', path: '/assets/home/work_09.jpg', double: false },
 		{ text: 'Product', path: '/assets/home/work_10.jpg', double: true },
 		{ text: 'Social Media Assets', path: '/assets/home/work_11.jpg', double: false },
-	]
+	];
 
 	const showcaseSlidout = new SlideoutObserver();
-
 	showcases.forEach(({ text, path, double }) => {
 		const image = document.createElement('img');
 		image.src = path;
@@ -75,6 +74,7 @@ export default function Home() {
 		const span = document.createElement('span');
 		span.innerText = text;
 		const h6 = document.createElement('h6');
+		h6.className = 'image-hover';
 		h6.appendChild(span);
 
 		const showcase = document.createElement('div');
@@ -86,7 +86,6 @@ export default function Home() {
 		showcaseContainer.appendChild(showcase);
 	});
 
-	// Events
 	function onScroll() {
 		landingImage.onScroll(scrollY);
 		categoryScrollFade.onScroll(scrollY);
