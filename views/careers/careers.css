@@ -1,0 +1,24 @@
+section#careers-landing {
+	color: var(--woolley-grey);
+	background-color: var(--woolley-blue);
+}
+
+section#careers-landing h2 {
+	position: absolute;
+	padding: 0 max(8vw, (100vw - var(--max-width)) / 2);
+	top: calc(50% - 4.3rem);
+}
+
+section#careers-landing div.dots {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+div.dots div.dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background-color: var(--woolley-orange);
+}

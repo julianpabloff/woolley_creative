@@ -10,6 +10,7 @@
 	--woolley-orange: #ff5100;
 	--woolley-grey: #d7d7d4;
 	--woolley-blue-faded: #323e487f;
+	--text-black: #1a1a1c;
 	--column-width: 75px;
 	--column-gap: 20px;
 	--max-width: 1120px;
@@ -84,7 +85,7 @@ a {
 html {
 	font-size: 14px;
 	font-family: "Gotham Book";
-	color: var(--woolley-blue);
+	color: var(--text-black);
 }
 
 /* Sizing & Positioning */
@@ -96,6 +97,7 @@ html {
 .align-center { align-items: center; }
 .align-end { align-items: flex-end; }
 .column { flex-direction: column; }
+.block { display: block; }
 .relative { position: relative; }
 
 .gapped-column {

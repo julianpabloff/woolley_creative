@@ -4,7 +4,7 @@ section#about-landing {
 }
 
 section#about-landing .hero-text {
-	color: var(--woolley-blue);
+	color: inherit;
 	left: max(var(--side-padding), calc((100vw - var(--max-width)) / 2));
 	right: initial;
 }
@@ -68,12 +68,11 @@ section.flip-the-script img {
 }
 
 section.onetwothree {
-	margin: 200px 0;
+	margin: 250px 0;
 }
 
-
 section.onetwothree > div {
-	gap: 150px;
+	gap: 250px;
 }
 
 section.onetwothree div div {
@@ -92,7 +91,6 @@ section.thom {
 	padding: 100px 0 200px 0;
 	background-image: url("/assets/about/about-bw-2.jpg");
 	background-size: cover;
-	background-position: center;
 }
 
 	section.thom div.picture {
@@ -128,12 +126,15 @@ section.thom {
 	}
 
 section.slide-list {
-	height: 250px;
+	height: 500px;
 	margin: 20px 0;
 	background-color: var(--woolley-grey);
 }
 
 	section.slide-list > div > div {
+		height: fit-content;
+		position: relative;
+		top: calc(50% - 1rem);
 		display: flex;
 		flex-wrap: wrap;
 		padding-left: calc(15% * .43);
