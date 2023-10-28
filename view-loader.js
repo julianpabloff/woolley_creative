@@ -1,5 +1,3 @@
-import { wait } from './utils/animations.js';
-
 let handleLinkClick, handleLinkHover;
 export function createLinkEvents(onClick, onHover) {
 	handleLinkClick = function(event) {

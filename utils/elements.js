@@ -23,3 +23,6 @@ export function getAbsoluteOffset(element, side) {
 
 	return offset;
 }
+
+const header = document.getElementById('header');
+export const getHeaderHeight = () => header.clientHeight;

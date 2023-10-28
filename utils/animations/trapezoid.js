@@ -1,5 +1,5 @@
 import { getTValue } from '../animations.js';
-import { getAbsoluteOffset } from '../elements.js';
+import { getAbsoluteOffset, getHeaderHeight } from '../elements.js';
 
 export class Trapezoid {
 	constructor(container) {
@@ -20,12 +20,17 @@ export class Trapezoid {
 
 		if (container.classList.contains('left')) this.draw = this.drawLeftTrapezoid;
 		else if (container.classList.contains('right')) this.draw = this.drawRightTrapezoid;
+		if (container.classList.contains('double')) {
+			this.double = true;
+			this.draw = this.drawDoubleTrapezoid;
+		}
 
 		this.container = container;
 		this.content = content;
 		this.background = background;
-		this.delta = background.clientHeight / 4;
 		this.displacement = 150;
+
+		this.container.onresize = () => console.log('container resized');
 
 		this.onResize();
 	}
@@ -45,6 +50,35 @@ export class Trapezoid {
 			`polygon(${edgeX - this.delta}px 0, 100% 0, 100% 100%, ${edgeX + this.delta}px 100%)`;
 	}
 
+	drawDoubleTrapezoid() {
+		const firstEnd = this.firstX + this.firstW;
+		const mean = (this.secondX - firstEnd) / 2;
+		// const edgeX = firstEnd + mean - this.displacement / 2 + this.distance;
+		const edgeX = firstEnd + mean + this.displacement / 2 - this.distance;
+		this.background.style.clipPath =
+			`polygon(0 0, ${edgeX + this.delta}px 0, ${edgeX - this.delta}px 100%, 0 100%)`;
+	}
+
+	drawStackedDoubleTrapezoid() {
+		/*
+		const firstEnd = this.firstX + this.firstW;
+		const mean = (this.secondX - firstEnd) / 2;
+		const edgeX = firstEnd + mean + this.displacement / 2 - this.distance;
+		this.background.style.clipPath =
+			`polygon(0 0, ${edgeX + this.delta}px 0, ${edgeX - this.delta}px 100%, 0 100%)`;
+
+*/
+		const firstEnd = this.firstY + this.firstH;
+		const mean = (this.secondY - firstEnd) / 2;
+		const edgeX = window.innerWidth * 0.6 + this.displacement / 2 - this.distance;
+		// const edgeY = firstEnd + mean;// + this.displacement / 2 - this.distance;
+		// const delta = window.innerWidth / 4;
+		this.background.style.clipPath =
+			`polygon(0 0, ${edgeX + this.delta}px 0, ${edgeX - this.delta}px 100%, 0 100%)`;
+			// `polygon(0 0, 100% 0, 100% ${edgeY + this.delta}px, 0 ${edgeY - this.delta}px)`;
+			// `polygon(0 0, 70% 0, 10% 100%, 0 100%)`;
+	}
+
 	onScroll() {
 		const scrollY = window.scrollY;
 		if (scrollY >= this.start && scrollY <= this.end) this.draw();
@@ -53,9 +87,24 @@ export class Trapezoid {
 	onResize() {
 		const windowHeight = window.innerHeight;
 		this.start = getAbsoluteOffset(this.background, 'top') - windowHeight;
-		this.end = this.start + windowHeight + this.background.clientHeight;
+		this.end = this.start + windowHeight + this.background.clientHeight - getHeaderHeight();
 		this.contentX = getAbsoluteOffset(this.content, 'left');
 		this.contentW = this.content.clientWidth;
-		this.onScroll(window.scrollY)
+		this.delta = this.background.clientHeight / 4;
+
+		if (this.double) {
+			const first = this.content.children[0];
+			const second = this.content.children[1];
+			this.firstX = getAbsoluteOffset(first, 'left');
+			this.firstY = first.offsetTop;
+			this.firstW = first.clientWidth;
+			this.firstH = first.clientHeight;
+			this.secondX = getAbsoluteOffset(second, 'left');
+			this.secondY = second.offsetTop;
+			// this.secondW = second.clientWidth;
+			this.draw = (window.innerWidth > 767) ? this.drawDoubleTrapezoid : this.drawStackedDoubleTrapezoid;
+		}
+
+		this.onScroll(window.scrollY);
 	}
 }

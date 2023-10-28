@@ -94,11 +94,20 @@ html {
 .justify-end { justify-content: flex-end; }
 .justify-between { justify-content: space-between; }
 .justify-around { justify-content: space-around; }
+.align-start { align-items: flex-start; }
 .align-center { align-items: center; }
 .align-end { align-items: flex-end; }
 .column { flex-direction: column; }
 .block { display: block; }
+.align-right { text-align: right; }
+.align-center { text-align: center; }
 .relative { position: relative; }
+.absolute { position: absolute; }
+.absolute-0 {
+	top: 0;
+	left: 0;
+	position: absolute;
+}
 
 .gapped-column {
 	display: flex;
@@ -121,6 +130,9 @@ html {
 .half { width: 50%; }
 .third { width: 33.333%; }
 .quarter { width: 25%; }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
 
 .mb-1 { margin-bottom: 0.1em; }
 .mb-2 { margin-bottom: 0.2em; }
@@ -225,6 +237,17 @@ a.cta:hover::after,
 }
 .image-hover:hover * {
 	transform: scale(1);
+}
+
+
+.slash {
+	--thickness: 1.1rem;
+	--height: 150px;
+	width: calc(var(--height) / 2 + var(--thickness));
+	height: var(--height);
+	position: absolute;
+	background-color: var(--woolley-orange);
+	clip-path: polygon(0 100%, calc(100% - var(--thickness)) 0%, 100% 0%, var(--thickness) 100%);
 }
 
 @media screen and (max-width: 1024px) {

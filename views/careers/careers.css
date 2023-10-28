@@ -3,22 +3,158 @@ section#careers-landing {
 	background-color: var(--woolley-blue);
 }
 
-section#careers-landing h2 {
+h2#careers-landing-text {
 	position: absolute;
 	padding: 0 max(8vw, (100vw - var(--max-width)) / 2);
 	top: calc(50% - 4.3rem);
+	opacity: 0;
+	transition: opacity 1s ease-out;
 }
 
-section#careers-landing div.dots {
+
+div.pointer {
 	position: absolute;
-	display: flex;
-	flex-direction: column;
-	gap: 5px;
+	padding-right: 20px;
+}
+div.pointer img {
+	height: 200px;
+	margin: 0.7rem 0 0 30px;
+}
+div.pointer p { font-size: 0.8rem; }
+
+
+div#namesake {
+	left: 60%;
+	bottom: 50px;
+	padding-right: 20px;
+	z-index: 2;
+	opacity: 0;
+	transition: opacity 0.1s;
 }
 
-div.dots div.dot {
-	width: 5px;
-	height: 5px;
-	border-radius: 50%;
-	background-color: var(--woolley-orange);
+div#namesake img {
+	width: initial;
+	position: initial;
+	object-fit: contain;
+}
+
+
+section.magazine p {
+	text-align: center;
+}
+
+section.magazine .text-1 {
+	width: min(37rem, 100%);
+	margin: 250px 0;
+}
+
+section.magazine .text-1 span {
+	display: inline-block;
+}
+
+section.magazine div.magazines .image-1 {
+	width: calc(33% - 0.7rem);
+	aspect-ratio: 750 / 1042;
+}
+section.magazine div.magazines .image-2 {
+	height: 100%;
+	aspect-ratio: 1505 / 1042;
+}
+
+section.magazine div.magazines div.img-placeholder {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: red;
+}
+
+section.magazine div.magazines div.pointer {
+	top: calc(20% - 190px);
+	left: calc(23.7% - 30px);
+}
+
+section.magazine p.caption { margin-top: 40px }
+
+section.magazine .text-2 {
+	width: min(53rem, 100%);
+	margin: 200px 0 250px 0;
+}
+
+
+section.what-else {
+	height: 250px;
+	background-color: var(--woolley-blue);
+}
+
+
+section.cool {
+	min-height: 800px;
+	margin: 20px 0;
+	padding: 100px 0;
+	background-image: url("/assets/careers/cool_background.jpg");
+	background-size: cover;
+	background-position: center 45%;
+}
+
+section.cool > div > div {
+	width: 50%;
+	margin: 30px 0;
+}
+
+section.cool div.slash {
+	--thickness: 0.6rem;
+	--height: 80px;
+	top: calc(var(--height) / -2 + 1rem - 4px);
+	left: -25px;
+}
+
+
+section#careers-banner {
+	height: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-image: url("/assets/careers/mountains.jpg");
+	background-size: cover;
+	background-position-y: 100px;
+}
+
+section#careers-banner div.slash {
+	--thickness: 0.5rem;
+	--height: 4rem;
+	top: -1.6rem;
+	left: -1.5rem;
+}
+
+
+@media screen and (max-width: 767px) {
+	section.magazine .text-1 span {
+		display: inline;
+	}
+
+	section.magazine div.magazines .image-1 {
+		display: none;
+	}
+
+	section.magazine div.magazines .image-2 {
+		width: 100%;
+	}
+
+	section.magazine div.magazines div.pointer {
+		top: calc(20% - 150px);
+	}
+
+	section.magazine div.magazines div.pointer img {
+		height: 160px;
+	}
+
+	section.magazine .text-2 {
+		margin-top: 125px;
+	}
+
+	section.cool > div > div {
+		width: 70vw;
+	}
 }

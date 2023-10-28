@@ -39,6 +39,7 @@ export { LandingImage } from './animations/landingImage.js';
 export { ScrollFadeInElement, ScrollFadeInGroup } from './animations/scrollFadeIn.js';
 export { SlideList } from './animations/slideList.js';
 export { SpriteSheet, SpriteSheetScroll } from './animations/spriteSheet.js';
+export { ScrollTracker } from './animations/scrollTracker.js';
 
 // Scroll Animations
 //     must have an onScroll() and onResize() <-- no arguments!

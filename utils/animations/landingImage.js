@@ -1,3 +1,4 @@
+import { getBoundedTValue } from '../animations.js';
 import { forEachElement } from '../elements.js';
 
 export class LandingImage {
@@ -55,13 +56,13 @@ export class LandingImage {
 			if (this.doHorizontalFgDisp) this.fg.style.width = `calc(100% + ${this.fgDispAmount / 1.5}px)`;
 			container.appendChild(this.fg);
 		}
-		container.appendChild(this.overlay);
 
 		if (bgFilepath) {
 			this.bg = document.createElement('img');
 			this.bg.src = bgFilepath;
 			container.appendChild(this.bg);
 		}
+		container.appendChild(this.overlay);
 
 		this.onResize();
 		this.setFgDisp(0);
@@ -96,12 +97,14 @@ export class LandingImage {
 	}
 
 	onScroll(scrollY) {
-		let scrollT = scrollY / (this.landingHeight - this.headerHeight);
-		if (scrollT > 1) scrollT = 1;
+		const scrollT = getBoundedTValue(0, scrollY, this.landingHeight - this.headerHeight);
+		// let scrollT = scrollY / (this.landingHeight - this.headerHeight);
+		// if (scrollT > 1) scrollT = 1;
 
 		this.setFgDisp(this.fgDispAmount * scrollT);
 		this.setBgDisp(this.landingHeight * scrollT * this.bgParallax);
-		this.overlay.style.opacity = 1 - scrollT * (this.fg ? 2 : 1);
+		// this.overlay.style.opacity = 1 - scrollT * (this.fg ? 2 : 1);
+		this.overlay.style.opacity = 1;
 
 		if (this.heroText) {
 			forEachElement(this.heroText.children, (h1, index) => {
