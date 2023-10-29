@@ -118,12 +118,13 @@ section#careers-banner {
 	justify-content: center;
 	background-image: url("/assets/careers/mountains.jpg");
 	background-size: cover;
-	background-position-y: 100px;
+	/* background-position-y: 100px; */
+	background-position-y: 0;
 }
 
-section#careers-banner div.slash {
+section#careers-banner div.growing-slash {
 	--thickness: 0.5rem;
-	--height: 4rem;
+	--height: 4.2rem;
 	top: -1.6rem;
 	left: -1.5rem;
 }

@@ -8,6 +8,12 @@ div.category {
 	align-items: center;
 }
 
+div.category div.slash {
+	--height: 4.3rem;
+	--thickness: 0.6rem;
+	position: static;
+}
+
 div.category h2 {
 	margin: 0.5em 0 1em 0;
 }

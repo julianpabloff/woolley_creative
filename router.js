@@ -58,6 +58,7 @@ async function handleLocation() {
 				if (handlers.onDestroy) onDestroy = handlers.onDestroy;
 			}
 		}
+		// setTimeout(() => searchForAnimations(root), 100);
 		searchForAnimations(root);
 		// indexHandlers.toggleLoading(false);
 	} else {

@@ -33,7 +33,7 @@ export default function Careers(onReady) {
 	calcNamesakeEnd();
 
 	const bannerTracker = new ScrollTracker(banner);
-	const bannerDisp = 200;
+	const bannerDisp = 150;
 
 	function onScroll() {
 		const scrollY = window.scrollY;
@@ -47,9 +47,8 @@ export default function Careers(onReady) {
 		namesake.style.opacity = 1 - namesakeT;
 
 		bannerTracker.onScroll(scrollY);
-		const positionY = bannerDisp - bannerDisp * bannerTracker.scrollT;
+		const positionY = bannerDisp * bannerTracker.scrollT;
 		banner.style.backgroundPositionY = positionY.toString() + 'px';
-
 		
 		landingImage.onScroll(scrollY);
 	}

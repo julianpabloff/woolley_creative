@@ -95,7 +95,6 @@ section.thom {
 
 	section.thom div.picture {
 		width: 43%;
-		position: relative;
 	}
 
 	section.thom div.growing-slash {
@@ -103,11 +102,16 @@ section.thom {
 		top: -191px;
 	}
 
-		section.thom div.picture img {
+		section.thom div.picture div.img-container {
 			width: 100%;
-			/* padding: 0 min(15%, var(--column-width)); */
 			padding: 0 15%;
 			margin-bottom: 20px;
+			position: relative;
+		}
+
+		section.thom div.picture img {
+			width: 100%;
+			aspect-ratio: 594 / 833;
 			position: relative;
 		}
 

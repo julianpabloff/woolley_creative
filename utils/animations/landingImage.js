@@ -1,4 +1,4 @@
-import { getBoundedTValue } from '../animations.js';
+import { getBoundedTValue, ScrollTracker } from '../animations.js';
 import { forEachElement } from '../elements.js';
 
 export class LandingImage {
@@ -64,6 +64,8 @@ export class LandingImage {
 		}
 		container.appendChild(this.overlay);
 
+		this.tracker = new ScrollTracker(container);
+
 		this.onResize();
 		this.setFgDisp(0);
 		this.setBgDisp(0);
@@ -97,14 +99,11 @@ export class LandingImage {
 	}
 
 	onScroll(scrollY) {
-		const scrollT = getBoundedTValue(0, scrollY, this.landingHeight - this.headerHeight);
-		// let scrollT = scrollY / (this.landingHeight - this.headerHeight);
-		// if (scrollT > 1) scrollT = 1;
+		this.tracker.onScroll(scrollY);
 
-		this.setFgDisp(this.fgDispAmount * scrollT);
-		this.setBgDisp(this.landingHeight * scrollT * this.bgParallax);
-		// this.overlay.style.opacity = 1 - scrollT * (this.fg ? 2 : 1);
-		this.overlay.style.opacity = 1;
+		this.setFgDisp(this.fgDispAmount * this.tracker.scrollT);
+		this.setBgDisp(this.landingHeight * this.tracker.scrollT * this.bgParallax);
+		this.overlay.style.opacity = 1 - this.tracker.scrollT;
 
 		if (this.heroText) {
 			forEachElement(this.heroText.children, (h1, index) => {
@@ -124,7 +123,7 @@ export class LandingImage {
 	}
 
 	onResize() {
-		this.headerHeight = this.accountForHeader ? document.getElementById('header').clientHeight : 0;
+		// this.headerHeight = this.accountForHeader ? document.getElementById('header').clientHeight : 0;
 		this.landingHeight = this.bg ? this.bg.clientHeight : this.fg.clientHeight;
 		if (this.heroText) {
 			this.initHeroDisp = this.heroInitY * (this.landingHeight - this.heroText.clientHeight);

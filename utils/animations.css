@@ -169,15 +169,23 @@ div.slide-list-container ul.slide-list {
 	.trapezoid.double div.trapezoid-content {
 		height: 100%;
 		flex-direction: column;
-		/* justify-content: space-around; */
 		justify-content: space-between;
 		gap: initial;
 	}
-	.trapezoid.double.left div.trapezoid-content > *:nth-child(1) {
+	.trapezoid.double.right div.trapezoid-content {
+		flex-direction: column-reverse;
+	}
+	.trapezoid.double.left div.trapezoid-content > *:nth-child(1),
+	.trapezoid.double.right div.trapezoid-content > *:nth-child(2)
+	{
 		width: 60%;
 	}
-	.trapezoid.double.left div.trapezoid-content > *:nth-child(2) {
+	.trapezoid.double.left div.trapezoid-content > *:nth-child(2),
+	.trapezoid.double.right div.trapezoid-content > *:nth-child(1)
+	{
 		max-width: 55%;
+	}
+	.trapezoid.double div.trapezoid-content > *:nth-child(2) {
 		align-self: flex-end;
 	}
 }
