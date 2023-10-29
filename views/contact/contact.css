@@ -1,0 +1,61 @@
+section {
+	height: 1500px;
+	align-items: center;
+	background-image: url("/assets/contact/background.jpg");
+	background-size: cover;
+}
+
+section > div {
+	position: relative;
+	bottom: 150px;
+	gap: var(--column-width);
+}
+
+section div > div:last-child {
+	margin-top: 0.5rem;
+}
+
+h1 { color: var(--woolley-blue); }
+
+div.growing-slash {
+	left: calc(var(--left) + 0.1rem);
+	--height: 450px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	font-family: "Gotham Bold";
+	cursor: pointer;
+	text-transform: uppercase;
+	color: var(--woolley-blue);
+	margin-bottom: 1em;
+}
+
+label.required::after {
+	content: "*";
+	color: red;
+	margin-left: 0.5rem;
+}
+
+input, textarea {
+	padding: 0.6rem 1.2rem;
+	border: 0.2rem solid var(--woolley-blue);
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	background-color: transparent;
+	margin-bottom: 1rem;
+}
+
+input:focus, textarea:focus {
+	outline: none;
+}
+
+button {
+	align-self: center;
+	margin-top: 1rem;
+}

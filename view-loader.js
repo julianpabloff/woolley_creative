@@ -75,20 +75,19 @@ function specifyCSS(styleSheet, selector) {
 	let i = 0;
 	while (i < rules.length) {
 		const rule = rules.item(i);
-		if (rule instanceof CSSGroupingRule) { // for at-rules
-			const subRules = rule.cssRules;
-			let j = 0;
-			while (j < subRules.length) {
-				const subRule = subRules.item(j);
-				specifyCSSRule(rule, selector, subRule, j);
-				j++;
-			}
-		} else specifyCSSRule(styleSheet, selector, rule, i);
+		const subRules = rule.cssRules;
+		if (subRules && subRules.length) {
+			specifyCSS(rule, selector);
+			return;
+		}
+		const specifiedRule = `${selector} ${rule.cssText}`;
+		styleSheet.deleteRule(i);
+		styleSheet.insertRule(specifiedRule, i);
 		i++;
 	}
 }
 
 export async function insertCSS(filepath, container) {
-	const selector = container.tagName.toLowerCase() + '#' + container.id + ' ';
+	const selector = container.tagName.toLowerCase() + '#' + container.id;
 	await loadCSS(filepath, styleSheet => specifyCSS(styleSheet, selector));
 }

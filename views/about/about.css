@@ -28,20 +28,19 @@ div#about-landing-text p {
 	transition: opacity 0.5s ease-out, right 0.2s ease-out;
 }
 
+
 section.flip-the-script {
 	height: 960px;
 	margin-top: 300px;
 	position: relative;
 }
 
-section.flip-the-script * {
+section.flip-the-script > div {
 	z-index: 1;
 }
 
 section.flip-the-script div.growing-slash {
-	--left-offset: 100px;
-	top: -180px;
-	left: calc(max(var(--side-padding), calc((100vw - var(--max-width)) / 2)) - var(--left-offset));
+	left: calc(var(--left) + 0.2rem);
 }
 
 section.flip-the-script h6 {
@@ -67,6 +66,7 @@ section.flip-the-script img {
 	z-index: 0;
 }
 
+
 section.onetwothree {
 	margin: 250px 0;
 }
@@ -86,6 +86,7 @@ section.onetwothree h2 {
 	white-space: nowrap;
 }
 
+
 section.thom {
 	min-height: 960px;
 	padding: 100px 0 200px 0;
@@ -93,41 +94,42 @@ section.thom {
 	background-size: cover;
 }
 
-	section.thom div.picture {
-		width: 43%;
-	}
+section.thom div.picture {
+	width: 43%;
+}
 
-	section.thom div.growing-slash {
-		left: calc(min(15%, var(--column-width)) - 105px);
-		top: -191px;
-	}
+section.thom div.img-container {
+	width: 100%;
+	padding: 0 15%;
+	margin-bottom: 20px;
+	position: relative;
+}
 
-		section.thom div.picture div.img-container {
-			width: 100%;
-			padding: 0 15%;
-			margin-bottom: 20px;
-			position: relative;
-		}
+section.thom div.growing-slash {
+	left: calc(min(15%, var(--column-width)) - 105px);
+	top: -191px;
+}
 
-		section.thom div.picture img {
-			width: 100%;
-			aspect-ratio: 594 / 833;
-			position: relative;
-		}
+section.thom div.img-container img {
+	width: 100%;
+	aspect-ratio: 594 / 833;
+	position: relative;
+}
 
-		section.thom div.picture div {
-			padding-left: 15%;
-		}
+section.thom div.bio {
+	padding-left: 15%;
+}
 
-		section.thom div.picture h6:last-of-type {
-			font-size: 1rem;
-			margin-top: 0.3em;
-			opacity: 0.6;
-		}
+section.thom div.picture h6:last-of-type {
+	font-size: 1rem;
+	margin-top: 0.3em;
+	opacity: 0.6;
+}
 
-	section.thom div.description {
-		width: 55%;
-	}
+section.thom div.description {
+	width: 55%;
+}
+
 
 section.slide-list {
 	height: 500px;
@@ -135,27 +137,28 @@ section.slide-list {
 	background-color: var(--woolley-grey);
 }
 
-	section.slide-list > div > div {
-		height: fit-content;
-		position: relative;
-		top: calc(50% - 1rem);
-		display: flex;
-		flex-wrap: wrap;
-		padding-left: calc(15% * .43);
-	}
+section.slide-list > div > div {
+	height: fit-content;
+	position: relative;
+	top: calc(50% - 1rem);
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: calc(15% * .43);
+}
 
-	section.slide-list h6 {
-		font-size: 1rem;
-	}
+section.slide-list h6 {
+	font-size: 1rem;
+}
 
-	section.slide-list h6.orange.bold {
-		margin-right: 0.6em;
-	}
+section.slide-list h6.orange.bold {
+	margin-right: 0.6em;
+}
 
-	section.slide-list ul {
-		position: relative;
-		bottom: 1px;
-	}
+section.slide-list ul {
+	position: relative;
+	bottom: 1px;
+}
+
 
 @media screen and (min-width: 768px) {
 	div.services { width: 59rem; }

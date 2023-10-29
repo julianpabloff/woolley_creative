@@ -90,7 +90,7 @@ section.what-else {
 
 
 section.cool {
-	min-height: 800px;
+	height: 800px;
 	margin: 20px 0;
 	padding: 100px 0;
 	background-image: url("/assets/careers/cool_background.jpg");

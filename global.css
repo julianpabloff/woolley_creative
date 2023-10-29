@@ -31,11 +31,11 @@
 	src: url("/assets/fonts/Gotham Bold.otf");
 }
 
-h1, h2, h3, a.cta {
+h1, h2, h3, a.cta, button.cta {
 	font-family: "Qonquer";
 	font-weight: normal;
 }
-h2, h3, h4, h5, p, a {
+h2, h3, h4, h5, p, a.cta, button.cta {
 	letter-spacing: 0.04em;
 }
 h1 {
@@ -45,7 +45,7 @@ h1 {
 h2 {
 	font-size: 4.3rem;
 }
-h3, a.cta {
+h3, a.cta, button.cta {
 	font-size: 2.14rem;
 }
 h5, h6 {
@@ -70,6 +70,9 @@ p.x-small {
 a {
 	color: inherit;
 	text-decoration: none;
+}
+button {
+	cursor: pointer;
 }
 
 html {
@@ -141,7 +144,7 @@ html {
 
 
 /* CTA Link */
-a.cta {
+a.cta, button.cta {
 	width: fit-content;
 	display: flex;
 	align-items: center;
@@ -152,7 +155,12 @@ a.cta {
 	transition: color 0.2s ease-out;
 }
 
-a.cta::after {
+button.cta {
+	background-color: transparent;
+	border: none;
+}
+
+a.cta::after, button.cta::after {
 	content: "";
 	width: 0.95em;
 	height: 1em;
@@ -162,20 +170,18 @@ a.cta::after {
 	transition: background-color 0.2s ease-out, transform 0.2s ease-out;
 }
 
-a.cta.light:hover {
+a.cta.light:hover, button.cta.light:hover {
 	color: var(--woolley-blue);
 }
-a.cta.light:hover::after {
+a.cta.light:hover::after, button.cta.light:hover::after {
 	background-color: var(--woolley-blue);
 }
 
-a.cta.dark:hover {
+a.cta.dark:hover, button.cta.dark:hover {
 	color: var(--woolley-grey);
-	/* color: white; */
 }
-a.cta.dark:hover::after {
+a.cta.dark:hover::after, button.cta.dark:hover::after {
 	background-color: var(--woolley-grey);
-	/* background-color: white; */
 }
 
 a.cta.small {
@@ -191,6 +197,7 @@ a.cta.small::after {
 	transition: transform 0.2s ease-out;
 }
 a.cta:hover::after,
+button.cta:hover::after,
 .hover-rotate:hover
 {
 	transform: rotate(0.5turn);
@@ -227,14 +234,23 @@ a.cta:hover::after,
 }
 
 
-.slash {
+/* SLASH (growing-slash is from animations) */
+.slash, .growing-slash {
 	--thickness: 1.1rem;
-	--height: 150px;
-	width: calc(var(--height) / 2 + var(--thickness));
+	--height: 400px;
+	--width: calc(var(--height) / 2 + var(--thickness));
+	width: var(--width);
 	height: var(--height);
 	position: absolute;
 	background-color: var(--woolley-orange);
 	clip-path: polygon(0 100%, calc(100% - var(--thickness)) 0%, 100% 0%, var(--thickness) 100%);
+}
+
+.slash.top-left, .growing-slash.top-left {
+	--left: calc(var(--width) * -0.5);
+	--top: calc(var(--height) * -0.5 + 0.5em);
+	top: var(--top);
+	left: var(--left);
 }
 
 

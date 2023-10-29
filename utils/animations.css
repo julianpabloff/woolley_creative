@@ -63,15 +63,6 @@
 }
 
 
-.growing-slash {
-	--thickness: 1.1rem;
-	--height: 400px;
-	width: calc(var(--height) / 2 + var(--thickness));
-	height: var(--height);
-	position: absolute;
-	background-color: var(--woolley-orange);
-}
-
 div.slide-list-container {
 	overflow: hidden;
 }

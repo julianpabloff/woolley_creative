@@ -37,10 +37,9 @@ export default function Careers(onReady) {
 
 	function onScroll() {
 		const scrollY = window.scrollY;
-		const scrollEnd = landingImage.landingHeight - landingImage.headerHeight;
-		const scrollT = getBoundedTValue(0, scrollY, scrollEnd);
 
-		const displacement = landingImage.landingHeight / 2 * scrollT;
+		landingImage.onScroll(scrollY);
+		const displacement = landingImage.landingHeight / 2 * landingImage.tracker.scrollT;
 		landingText.style.transform = `translateY(${displacement}px)`;
 
 		const namesakeT = getBoundedTValue(0, scrollY, namesakeEnd);
@@ -49,8 +48,6 @@ export default function Careers(onReady) {
 		bannerTracker.onScroll(scrollY);
 		const positionY = bannerDisp * bannerTracker.scrollT;
 		banner.style.backgroundPositionY = positionY.toString() + 'px';
-		
-		landingImage.onScroll(scrollY);
 	}
 
 	function onResize() {

@@ -2,6 +2,7 @@ import Home from '../views/home/home.js';
 import Work from '../views/work/work.js';
 import About from '../views/about/about.js';
 import Careers from '../views/careers/careers.js';
+import Contact from '../views/contact/contact.js';
 
 export const routes = {
 	'/': {
@@ -31,5 +32,11 @@ export const routes = {
 		template: '/views/careers/careers.html',
 		styles: '/views/careers/careers.css',
 		initializer: Careers
+	},
+	'/contact': {
+		selector: 'contact',
+		template: '/views/contact/contact.html',
+		styles: '/views/contact/contact.css',
+		initializer: Contact
 	}
 }

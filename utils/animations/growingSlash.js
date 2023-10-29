@@ -6,6 +6,7 @@ export class GrowingSlash {
 		this.element = element;
 		this.thickness = window.getComputedStyle(element).getPropertyValue('--thickness');
 		this.tracker = new ScrollTracker(element);
+		this.onScroll();
 	}
 
 	onScroll() {

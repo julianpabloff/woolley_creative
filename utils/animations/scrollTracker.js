@@ -15,7 +15,7 @@ export class ScrollTracker {
 	onResize() {
 		const top = getAbsoluteOffset(this.element, 'top');
 		const windowHeight = window.innerHeight;
-		this.start = top - windowHeight * (top > windowHeight);
+		this.start = (top - windowHeight) * (top > windowHeight);
 		this.end = top + this.element.clientHeight - getHeaderHeight() * this.accountForHeader;
 	}
 }
