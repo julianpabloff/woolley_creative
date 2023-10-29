@@ -7,7 +7,6 @@ section {
 
 section > div {
 	position: relative;
-	bottom: 150px;
 	gap: var(--column-width);
 }
 
@@ -25,6 +24,7 @@ div.growing-slash {
 form {
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 100px;
 }
 
 label {
@@ -58,4 +58,23 @@ input:focus, textarea:focus {
 button {
 	align-self: center;
 	margin-top: 1rem;
+}
+
+p.mailto {
+	max-width: 350px;
+	margin-bottom: 40px;
+}
+
+a.mailto {
+	color: var(--woolley-orange);
+	transition: color 0.2s ease-out;
+}
+a.mailto:hover {
+	color: var(--woolley-blue);
+}
+
+@media screen and (min-width: 768px) {
+	section > div {
+		bottom: 60px;
+	}
 }
