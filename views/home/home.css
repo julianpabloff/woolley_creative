@@ -60,19 +60,24 @@ div.work-grid {
 }
 
 div.work-grid > div {
+	width: 100%;
+	height: 100%;
 	position: relative;
 	/* min-height: var(--row-height); */
 	background-color: var(--woolley-blue-faded);
+	aspect-ratio: 1000 / 654;
 }
 
 div.work-grid > div.double {
 	grid-row-end: span 2;
+	aspect-ratio: 1000 / 1308;
 }
 
 div.work-grid > div img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	position: absolute;
 }
 
 

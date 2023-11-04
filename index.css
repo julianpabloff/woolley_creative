@@ -130,7 +130,6 @@ footer {
 	background-size: cover;
 	background-position: center;
 	position: relative;
-	/* display: none; */
 	--footer-row-gap: min(80px, calc(var(--side-padding) * 2));
 }
 

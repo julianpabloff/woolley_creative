@@ -4,7 +4,8 @@ import {
 	createLinkEvents,
 	assignContainer,
 	insertHTML,
-	insertCSS
+	insertCSS,
+	ScrollPosController
 } from './view-loader.js';
 import { searchForAnimations } from './utils/animations.js';
 import addHandlers from './utils/events.js';
@@ -40,14 +41,20 @@ async function onReady() {
 
 let root;
 let onDestroy;
-async function handleLocation() {
+let pageName;
+const scrollPos = new ScrollPosController();
+
+async function handleLocation(fromPageLink = false) {
 	if (onDestroy) onDestroy();
 	onDestroy = null;
+	scrollPos.save(pageName);
 	// indexHandlers.toggleLoading(true);
+
 	const pathname = window.location.pathname;
 	const view = getView(pathname);
 	if (view) {
-		const viewContainer = assignContainer(view.selector);
+		pageName = view.selector;
+		const viewContainer = assignContainer(pageName);
 
 		if (view.styles) await insertCSS(view.styles, viewContainer);
 		if (view.template) await insertHTML(view.template, root, viewContainer);
@@ -58,17 +65,15 @@ async function handleLocation() {
 				if (handlers.onDestroy) onDestroy = handlers.onDestroy;
 			}
 		}
-		// setTimeout(() => searchForAnimations(root), 100);
 		searchForAnimations(root);
+		if (!fromPageLink) scrollPos.load(pageName);
+		else scrollPos.reset(pageName);
 		// indexHandlers.toggleLoading(false);
 	} else {
 		root.innerHTML = '';
 		// indexHandlers.toggleLoading(false);
 	}
 	activateLinks();
-	const storedScrollY = localStorage.getItem('scrollpos');
-	window.scrollTo(0, storedScrollY)
-	localStorage.setItem('scrollpos', 0);
 }
 
 const prefetched = new Set();
@@ -85,17 +90,17 @@ async function preLoad(url) {
 	}
 }
 
-window.onpopstate = handleLocation;
+window.onpopstate = () => handleLocation(false);
 let indexHandlers;
 document.addEventListener('DOMContentLoaded', () => {
 	indexHandlers = Index();
 	addHandlers('index', indexHandlers);
 	searchForAnimations(document.body);
 	root = document.getElementById('root');
-	createLinkEvents(handleLocation, preLoad);
-	handleLocation();
+	createLinkEvents(() => handleLocation(true), preLoad);
+	handleLocation(false);
 });
 
 window.addEventListener('beforeunload', () => {
-	localStorage.setItem('scrollpos', window.scrollY);
+	scrollPos.save(pageName);
 });

@@ -91,3 +91,21 @@ export async function insertCSS(filepath, container) {
 	const selector = container.tagName.toLowerCase() + '#' + container.id;
 	await loadCSS(filepath, styleSheet => specifyCSS(styleSheet, selector));
 }
+
+export class ScrollPosController {
+	constructor() {}
+
+	save(pageName) { // saves scroll position for a page
+		if (pageName) localStorage.setItem(pageName + 'ScrollPos', window.scrollY);
+	}
+
+	load(pageName) { // resets the scroll position for refresh and onpopstate
+		const scrollY = localStorage.getItem(pageName + 'ScrollPos') || 0;
+		window.scrollTo(0, scrollY);
+	}
+
+	reset(pageName) { // for when a page link is clicked, start the page from the top
+		localStorage.setItem(pageName + 'ScrollPos', 0);
+		window.scrollTo(0, 0);
+	}
+}
