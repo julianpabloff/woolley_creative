@@ -4,7 +4,7 @@ section#about-landing {
 }
 
 section#about-landing .hero-text {
-	color: inherit;
+	color: var(--woolley-blue);
 	left: max(var(--side-padding), calc((100vw - var(--max-width)) / 2));
 	right: initial;
 }
@@ -28,11 +28,14 @@ div#about-landing-text p {
 	transition: opacity 0.5s ease-out, right 0.2s ease-out;
 }
 
-
 section.flip-the-script {
 	height: 960px;
 	margin-top: 300px;
 	position: relative;
+	background-image:
+		linear-gradient(to right, rgba(255, 255, 255, 0.5) 0 100%),
+		url("/assets/about/about-bw-1.jpg");
+	background-size: cover;
 }
 
 section.flip-the-script > div {

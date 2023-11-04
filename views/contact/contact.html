@@ -1,10 +1,10 @@
-<section class="max-w-container">
+<section class="max-w-container background-parallax">
 	<div class="max-w responsive">
 		<div class="half">
-			<h1 class="mb-4 relative">
+			<h2 class="mb-4 relative">
 				<div class="growing-slash top-left"></div>
 				<span class="relative">Let's chat creative.</span>
-			</h1>
+			</h2>
 			<div class="p-box">
 				<p>It’s what we love to do. Also, to jump into very cold alpine lakes.</p>
 				<p>If you need creative content, strategy, or are looking to grow your bench of creative partnerships, we’d love to hear from you.</p>
@@ -13,18 +13,21 @@
 		<div class="half">
 			<form id="contact-form">
 				<label class="required" for="email">Email</label>
-				<input id="email" name="email" type="email" required>
+				<input id="email" name="email" type="email">
 				<label class="required" for="firstname">First Name</label>
-				<input id="firstname" name="firstname" type="text" required>
+				<input id="firstname" name="firstname" type="text">
 				<label class="required" for="lastname">Last Name</label>
-				<input id="lastname" name="lastname" type="text" required>
+				<input id="lastname" name="lastname" type="text">
 				<label for="company">Company</label>
 				<input id="company" name="company" type="text">
 				<label for="phone">Phone</label>
 				<input id="phone" name="phone" type="tel">
 				<label for="message">Message</label>
 				<textarea id="message" name="message" rows="4"></textarea>
-				<button class="cta light" type="submit">Let's go.</button>
+				<div class="relative flex column align-center">
+					<button id="submit-button" class="cta light" type="submit">Let's go.</button>
+					<p id="success-message" class="absolute">Thanks for reaching out to us! We’ll be in touch shortly.</p>
+				</div>
 			</form>
 			<p class="mailto">Don’t like forms? No worries. Send us an email and we’ll get back to you.</p>
 			<a class="mailto" href="mailto:hello@woolleycreative.com" target="_blank">

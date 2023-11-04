@@ -10,7 +10,6 @@ export default function About() {
 	// Get DOM elements
 	const landingContainer = document.getElementById('about-landing');
 	const landingText = document.getElementById('about-landing-text');
-	const aboutBg = document.getElementById('about-bw-1');
 	const slideListContainer = document.getElementById('slide-list');
 
 	const landingImage = new LandingImage({
@@ -19,8 +18,8 @@ export default function About() {
 		bgFilepath: '/assets/about/landing_image_background.jpg',
 		heroText: ['Hey,', 'We\'re', 'Woolley.'],
 		// height: 'min(100vh, 960px)',
-		initFgDisp: 0,
 		heroTextY: 0.25,
+		initFgDisp: 0,
 		opacitySpeed: 16
 	});
 
@@ -47,16 +46,6 @@ export default function About() {
 		landingBgLoaded = true;
 		assessImageLoad();
 	}
-
-	let aboutFadeIn;
-	aboutBg.onload = () => {
-		aboutFadeIn = new ScrollFadeInElement(aboutBg, {
-			inPadding: 300,
-			threshold: 0.4,
-			maxOpacity: 0.5
-		});
-		aboutFadeIn.onScroll(window.scrollY);
-	};
 
 	const slideListItems = [
 		'is committed to doing good.',
@@ -90,7 +79,6 @@ export default function About() {
 		});
 
 		setLandingTextY();
-		if(aboutFadeIn) aboutFadeIn.onScroll(scrollY);
 	}
 
 	function onResize() {

@@ -27,7 +27,7 @@ div.project p {
 
 /* div.project img { */
 div.project div.image {
-	width: 57%;
+	width: min(56%, calc(50% + var(--column-width) * 2 + var(--column-gap) * 3));
 	height: 100%;
 	position: absolute;
 	right: 0;
@@ -52,10 +52,16 @@ div.project div.image.sendline img {
 }
 
 div.project div.image img {
-	width: 100%;
+	width: 101%;
 	height: 100%;
 	object-fit: cover;
 	transition: transform 0.4s;
+}
+
+div.project.left div.image img {
+	position: relative;
+	left: -1px;
+	width: calc(101% + 1px);
 }
 
 

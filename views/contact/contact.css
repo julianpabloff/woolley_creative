@@ -24,7 +24,7 @@ div.growing-slash {
 form {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 100px;
+	margin-bottom: 90px;
 }
 
 label {
@@ -55,10 +55,17 @@ input:focus, textarea:focus {
 	outline: none;
 }
 
-button {
-	align-self: center;
+form div {
 	margin-top: 1rem;
+	height: 3rem;
 }
+
+p#success-message {
+	display: none;
+	opacity: 0;
+	transition: opacity 0.75s ease-out;
+}
+
 
 p.mailto {
 	max-width: 350px;

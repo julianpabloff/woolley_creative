@@ -165,7 +165,7 @@ a.cta::after, button.cta::after {
 	width: 0.95em;
 	height: 1em;
 	margin-left: 1.6em;
-	mask: url("/assets/woolley_lines.svg") center/contain no-repeat;
+	-webkit-mask: url("/assets/woolley_lines.svg") center/contain no-repeat;
 	background-color: var(--woolley-orange);
 	transition: background-color 0.2s ease-out, transform 0.2s ease-out;
 }

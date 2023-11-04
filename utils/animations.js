@@ -47,6 +47,7 @@ export { ScrollTracker } from './animations/scrollTracker.js';
 //     which means behavior is not configurable element to element
 //     you can still add configuarablity through element class names
 
+import { BackgroundParallax } from './animations/backgroundParallax.js'; // class="background-parallax"
 import { GrowingSlash } from './animations/growingSlash.js'; // class="growing-slash"
 import { Trapezoid } from './animations/trapezoid.js'; // class="trapezoid {left/right}"
 
@@ -90,6 +91,7 @@ const intersectionClassMap = new Map()
 const scrollClassMap = new Map()
 	.set('growing-slash', GrowingSlash)
 	.set('trapezoid', Trapezoid)
+	.set('background-parallax', BackgroundParallax);
 
 export function searchForAnimations(container) {
 	clearAnimationsFromListeners();

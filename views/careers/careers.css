@@ -84,7 +84,7 @@ section.magazine .text-2 {
 
 
 section.what-else {
-	height: 250px;
+	height: 350px;
 	background-color: var(--woolley-blue);
 }
 
@@ -103,11 +103,9 @@ section.cool > div > div {
 	margin: 30px 0;
 }
 
-section.cool div.slash {
+section.cool div.growing-slash {
 	--thickness: 0.6rem;
-	--height: 80px;
-	top: calc(var(--height) / -2 + 1rem - 4px);
-	left: -25px;
+	--height: 90px;
 }
 
 
@@ -118,7 +116,6 @@ section#careers-banner {
 	justify-content: center;
 	background-image: url("/assets/careers/mountains.jpg");
 	background-size: cover;
-	/* background-position-y: 100px; */
 	background-position-y: 0;
 }
 

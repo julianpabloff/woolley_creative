@@ -78,7 +78,7 @@ function specifyCSS(styleSheet, selector) {
 		const subRules = rule.cssRules;
 		if (subRules && subRules.length) {
 			specifyCSS(rule, selector);
-			return;
+			i++; continue;
 		}
 		const specifiedRule = `${selector} ${rule.cssText}`;
 		styleSheet.deleteRule(i);
