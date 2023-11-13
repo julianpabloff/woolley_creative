@@ -1,71 +1,92 @@
-import { getAbsoluteOffset } from '../elements.js';
-import { getBoundedTValue } from '../animations.js';
+import { getBoundedTValue, ScrollTracker } from '../animations.js';
+import { forEachElement } from '../elements.js';
 
-export class ScrollFadeInElement {
-	constructor(element, options) {
-		const {
-			inPadding, // px - How many pixels from the bottom to wait before fading in (default 0)
-			threshold, // 0-1 - At what percentage down the element, when that point reaches
-			           // halfway up the viewport, the element will be fully faded in (default 0.5)
-			maxOpacity, // 0-1 - Maximum opacity that is reached (default 1)
-		} = options;
+/* ScrollFadeInElement OPTIONS
 
+	inPadding [px] - How many pixels from the bottom to start fading in the element.
+
+	maxOpacity [0-1] - The maximum opacity the element should reach.
+
+	threshold [0-1] - How far up the viewport the element should finish fading in.
+*/
+
+export class ScrollFadeInElement { // class="scroll-fade-in"
+	constructor(element, options = {}) {
 		this.element = element;
-		this.element.style.transition = 'opacity 0.1s';
+		element.style.transition = 'opacity 0.1s';
 
-		this.inPadding = inPadding !== undefined ? inPadding : 0;
-		this.threshold = threshold !== undefined ? threshold : 0.5;
+		// Options
+		const { inPadding, maxOpacity, threshold } = options;
+		this.inPadding = inPadding !== undefined ? inPadding : 100;
 		this.maxOpacity = maxOpacity !== undefined ? maxOpacity : 1;
+		this.threshold = threshold !== undefined ? threshold : 0.5;
+
+		this.tracker = new ScrollTracker(element, { inPadding: this.inPadding });
 	}
 
-	onScroll(scrollY) {
-		const top = getAbsoluteOffset(this.element, 'top');
-		const height = this.element.clientHeight;
-		const windowHeight = window.innerHeight;
+	onScroll() {
+		this.tracker.onScroll();
+		const opacity = getBoundedTValue(0, this.tracker.t, this.threshold) * this.maxOpacity;
+		this.element.style.opacity = opacity.toString();
+	}
 
-		// scrollY value that the element starts to fade in
-		const beginning = top - windowHeight + this.inPadding;
-		// scrollY value that the element is fully faded in
-		const end = top + height * this.threshold - windowHeight / 2;
-
-		let opacity = getBoundedTValue(beginning, scrollY, end);
-		// if (opacity < 0) opacity = 0;
-		// else if (opacity > 1) opacity = 1;
-		opacity *= this.maxOpacity;
-
-		this.element.style.opacity = opacity > 0 ? opacity.toString() : '0';
+	onResize() {
+		this.tracker.onResize();
 	}
 }
 
+/* ScrollFadeInGroup OPTIONS
+
+	gridWidth - The width of the grid of children in the container. If a responsive design is used,
+	this will change from 1 to the total amount of children. E.x. A grid of 4 items will go from
+	4 -> 2 -> 1 gridWidth as the viewport width shrinks. The gridWidth determines how to apply the
+	offset of the fade in between the children.
+
+	inPadding [px] - How many pixels from the bottom to start fading in the element.
+
+	offset [px] - The amount of scroll pixels to offset the fade in of the children by.
+
+	maxOpacity & threshold - Properties passed onto ScrollFadeInElement for each child.
+*/
+
 export class ScrollFadeInGroup {
-	constructor(offset = 90, inPadding = 0, threshold = 0) {
-		this.offset = offset;
-		this.doOffset = true;
-		this.inPadding = inPadding;
-		this.threshold = threshold;
-		this.members = [];
+	constructor(container, options = {}) {
+		this.childCount = container.children.length;
+
+		// Options
+		const { gridWidth, inPadding, offset, maxOpacity, threshold } = options;
+		this.inPadding = inPadding != undefined ? inPadding : 0;
+		this.offset = offset != undefined ? offset : 75;
+
+		// Create ScrollFadeInElement for each child with options above
+		this.elementFadeIns = [];
+		forEachElement(container.children, (child, index) => {
+			const fadeIn = new ScrollFadeInElement(child, { inPadding: this.inPadding, maxOpacity, threshold });
+			this.elementFadeIns.push(fadeIn);
+		});
+
+		// This sets the offset of the elementFadeIns (by calling the set function below)
+		this.gridWidth = gridWidth != undefined ? gridWidth : this.childCount;
 	}
 
-	addElement(element) {
-		const inPadding = this.inPadding + this.members.length * this.offset * this.doOffset;
-		const member = new ScrollFadeInElement(element, { inPadding, threshold: this.threshold });
-		this.members.push(member);
-		return member;
-	}
+	get gridWidth() { return this._gridWidth; }
 
-	toggleOffset(boolean) {
-		if (this.doOffset !== boolean) {
+	set gridWidth(width) {
+		if (this._gridWidth != width) {
 			let i = 0;
-			while (i < this.members.length) {
-				const member = this.members[i];
-				member.inPadding = this.inPadding + i * this.offset * boolean;
+			this.elementFadeIns.forEach(fadeIn => {
+				fadeIn.tracker.inPadding = (this.inPadding + this.offset * (i % width));
 				i++;
-			}
+			});
+			this._gridWidth = width;
 		}
-		this.doOffset = boolean;
 	}
 
-	onScroll(scrollY) {
-		this.members.forEach(member => member.onScroll(scrollY));
+	onScroll() {
+		this.elementFadeIns.forEach(fadeIn => fadeIn.onScroll());
+	}
+
+	onResize() {
+		this.elementFadeIns.forEach(fadeIn => fadeIn.onResize());
 	}
 }

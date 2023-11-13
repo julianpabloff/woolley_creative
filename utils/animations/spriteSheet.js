@@ -1,4 +1,4 @@
-import { getAbsoluteOffset } from '../elements.js';
+import { getAbsoluteY } from '../elements.js';
 
 export class SpriteSheet {
 	constructor(spriteSheetData) {
@@ -15,13 +15,13 @@ export class SpriteSheet {
 		this.index = 0;
 		this.onResize();
 
-		container.innerHTML = '';
+		// container.innerHTML = '';
 		container.classList.add('sprite-sheet-container');
 		container.appendChild(frame);
 
 	}
 
-	get y() { return getAbsoluteOffset(this.frame, 'top'); }
+	get y() { return getAbsoluteY(this.frame); }
 	get height() { return this.frame.clientHeight; }
 
 	toFrame(index) {
@@ -46,7 +46,7 @@ export class SpriteSheetScroll {
 		this.interval = scrollYInterval;
 	}
 
-	onScroll(scrollY) {
+	onScroll(scrollY = window.scrollY) {
 		const windowHeight = window.innerHeight;
 		const spriteY = this.sprite.y;
 		const spriteHeight = this.sprite.height;

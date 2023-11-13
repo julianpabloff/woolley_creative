@@ -1,5 +1,4 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
-import { getAbsoluteOffset } from '../elements.js';
 
 export class GrowingSlash {
 	constructor(element) {
@@ -10,9 +9,9 @@ export class GrowingSlash {
 	}
 
 	onScroll() {
-		this.tracker.onScroll(window.scrollY);
+		this.tracker.onScroll();
 
-		let t = this.tracker.scrollT;
+		let t = this.tracker.t;
 		const minSize = 0.6; // 60% minimum size
 		t = (1 - minSize) / 2 * t + (1 - (1 - minSize) / 2);
 

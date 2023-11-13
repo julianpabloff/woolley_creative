@@ -1,5 +1,5 @@
 import { getTValue } from '../animations.js';
-import { getAbsoluteOffset, getHeaderHeight } from '../elements.js';
+import { getAbsoluteX, getAbsoluteY, getHeaderHeight } from '../elements.js';
 
 export class Trapezoid {
 	constructor(container) {
@@ -73,27 +73,26 @@ export class Trapezoid {
 			`polygon(0 0, ${edgeX + delta}px 0, ${edgeX - delta}px 100%, 0 100%)`;
 	}
 
-	onScroll() {
-		const scrollY = window.scrollY;
+	onScroll(scrollY = window.scrollY) {
 		if (scrollY >= this.start && scrollY <= this.end) this.draw();
 	}
 
 	onResize() {
 		const windowHeight = window.innerHeight;
-		this.start = getAbsoluteOffset(this.background, 'top') - windowHeight;
+		this.start = getAbsoluteY(this.background) - windowHeight;
 		this.end = this.start + windowHeight + this.background.clientHeight - getHeaderHeight();
-		this.contentX = getAbsoluteOffset(this.content, 'left');
+		this.contentX = getAbsoluteX(this.content);
 		this.contentW = this.content.clientWidth;
 		this.delta = this.background.clientHeight / 4;
 
 		if (this.double) {
 			const first = this.content.children[0];
 			const second = this.content.children[1];
-			this.firstX = getAbsoluteOffset(first, 'left');
+			this.firstX = getAbsoluteX(first);
 			this.firstY = first.offsetTop;
 			this.firstW = first.clientWidth;
 			this.firstH = first.clientHeight;
-			this.secondX = getAbsoluteOffset(second, 'left');
+			this.secondX = getAbsoluteX(second);
 			this.secondY = second.offsetTop;
 			this.draw = (window.innerWidth > 767) ? this.drawDoubleTrapezoid : this.drawStackedDoubleTrapezoid;
 		}

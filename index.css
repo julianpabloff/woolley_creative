@@ -125,13 +125,13 @@ main {
 
 
 footer {
+	--footer-row-gap: min(80px, calc(var(--side-padding) * 2));
 	min-height: 900px;
+	position: relative;
 	background-image: url("/assets/footer/footer_background.webp");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	position: relative;
-	--footer-row-gap: min(80px, calc(var(--side-padding) * 2));
 }
 
 footer div.footer-container {

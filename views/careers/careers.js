@@ -1,12 +1,10 @@
-import { getBoundedTValue, LandingImage, ScrollTracker } from '../../utils/animations.js';
-// import { getAbsoluteOffset } from '../../elements.js';
+import { getBoundedTValue, LandingImage } from '../../utils/animations.js';
 
 export default function Careers(onReady) {
 	// Get DOM elements
 	const landingContainer = document.getElementById('careers-landing');
 	const landingText = document.getElementById('careers-landing-text');
 	const namesake = document.getElementById('namesake');
-	const banner = document.getElementById('careers-banner');
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
@@ -32,27 +30,21 @@ export default function Careers(onReady) {
 	}
 	calcNamesakeEnd();
 
-	const bannerTracker = new ScrollTracker(banner);
 	const bannerDisp = 150;
 
 	function onScroll() {
 		const scrollY = window.scrollY;
 
 		landingImage.onScroll(scrollY);
-		const displacement = landingImage.landingHeight / 2 * landingImage.tracker.scrollT;
+		const displacement = landingImage.landingHeight / 2 * landingImage.tracker.t;
 		landingText.style.transform = `translateY(${displacement}px)`;
 
 		const namesakeT = getBoundedTValue(0, scrollY, namesakeEnd);
 		namesake.style.opacity = 1 - namesakeT;
-
-		bannerTracker.onScroll(scrollY);
-		const positionY = bannerDisp * bannerTracker.scrollT;
-		banner.style.backgroundPositionY = positionY.toString() + 'px';
 	}
 
 	function onResize() {
 		landingImage.onResize();
-		bannerTracker.onResize();
 		calcNamesakeEnd();
 	}
 

@@ -27,7 +27,7 @@ export default function Index() {
 		footerTracker.end = footerTracker.start + footerTracker.height;
 		footerTracker.onScroll(scrollY);
 
-		const displacement = 100 * (1 - footerTracker.scrollT);
+		const displacement = 100 * (1 - footerTracker.t);
 		footer.style.backgroundPositionY = displacement.toString() + 'px';
 
 		const x = (displacement * 1.2).toString() + 'px';

@@ -1,3 +1,4 @@
+// forEachElement(parent, (child, index) => {});
 export function forEachElement(HTMLCollection, callback) {
 	const childCount = HTMLCollection.length;
 	let i = 0;
@@ -12,7 +13,7 @@ const propertyMap = {
 	left: 'offsetLeft'
 };
 
-export function getAbsoluteOffset(element, side) {
+function getAbsoluteOffset(element, side) {
 	const property = propertyMap[side];
 	let offset = 0;
 
@@ -23,6 +24,9 @@ export function getAbsoluteOffset(element, side) {
 
 	return offset;
 }
+
+export const getAbsoluteX = element => getAbsoluteOffset(element, 'left');
+export const getAbsoluteY = element => getAbsoluteOffset(element, 'top');
 
 const header = document.getElementById('header');
 export const getHeaderHeight = () => header.clientHeight;

@@ -4,7 +4,7 @@ import {
 	ScrollFadeInElement,
 	SlideList
 } from '../../utils/animations.js';
-import { forEachElement, getAbsoluteOffset } from '../../utils/elements.js';
+import { forEachElement } from '../../utils/elements.js';
 
 export default function About() {
 	// Get DOM elements

@@ -3,7 +3,7 @@ import { intervalIterate } from '../animations.js';
 export const childrenFadeIn = {
 	initializer: container => {
 		for (const child of container.children)
-			child.classList.add('children-fade-in', 'hidden');
+			child.classList.add('fade-in-child', 'hidden');
 	},
 	options: {
 		root: null,
@@ -17,4 +17,4 @@ export const childrenFadeIn = {
 			child.classList.replace('hidden', 'revealed');
 		});
 	}
-}
+};

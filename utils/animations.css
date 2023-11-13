@@ -44,7 +44,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 .sprite-sheet-container div.frame {
@@ -141,14 +141,14 @@ div.slide-list-container ul.slide-list {
 }
 
 
-.children-fade-in.hidden {
+.fade-in-child.hidden {
 	opacity: 0;
 	transform: scale(1.2);
 }
 
-.children-fade-in.revealed {
+.fade-in-child.revealed {
 	opacity: 1;
-	transform: none;
+	transform: scale(1);
 	transition: transform 0.6s, opacity 0.8s;
 }
 

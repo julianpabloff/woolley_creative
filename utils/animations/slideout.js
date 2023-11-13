@@ -1,9 +1,9 @@
 import { wait } from '../animations.js';
-import { getAbsoluteOffset } from '../elements.js';
+import { getAbsoluteX } from '../elements.js';
 
 export const slideout = {
 	initializer: element => {
-		const x = getAbsoluteOffset(element, 'left');
+		const x = getAbsoluteX(element);
 		const width = element.clientWidth;
 		const leftSide = x + width / 2 < window.innerWidth / 2;
 		element.style.opacity = '0';
@@ -15,7 +15,7 @@ export const slideout = {
 		threshold: 0.5
 	},
 	run: async element => {
-		const x = getAbsoluteOffset(element, 'left');
+		const x = getAbsoluteX(element);
 		const width = element.clientWidth;
 		let offset;
 		if (element.dataset.side == 'left') offset = 0 - x - width + 10;
@@ -30,4 +30,4 @@ export const slideout = {
 		element.style.transform = 'translateX(0px)';
 		element.style.opacity = '1';
 	}
-}
+};

@@ -34,7 +34,7 @@ section.flip-the-script {
 	position: relative;
 	background-image:
 		linear-gradient(to right, rgba(255, 255, 255, 0.5) 0 100%),
-		url("/assets/about/about-bw-1.jpg");
+		url("/assets/about/about_bw_1.jpg");
 	background-size: cover;
 }
 
@@ -93,7 +93,7 @@ section.onetwothree h2 {
 section.thom {
 	min-height: 960px;
 	padding: 100px 0 200px 0;
-	background-image: url("/assets/about/about-bw-2.jpg");
+	background-image: url("/assets/about/about_bw_2.jpg");
 	background-size: cover;
 }
 

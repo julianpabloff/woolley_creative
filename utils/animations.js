@@ -1,5 +1,4 @@
 import { loadCSS } from '../view-loader.js';
-import { forEachElement, getAbsoluteOffset } from './elements.js';
 import { addAnimationToListeners, clearAnimationsFromListeners } from './events.js';
 
 export async function wait(milliseconds) {
@@ -89,9 +88,9 @@ const intersectionClassMap = new Map()
 	.set('fade-in-children', new ChildrenFadeInObserver())
 
 const scrollClassMap = new Map()
+	.set('background-parallax', BackgroundParallax)
 	.set('growing-slash', GrowingSlash)
 	.set('trapezoid', Trapezoid)
-	.set('background-parallax', BackgroundParallax);
 
 export function searchForAnimations(container) {
 	clearAnimationsFromListeners();

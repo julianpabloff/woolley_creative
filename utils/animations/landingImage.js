@@ -98,12 +98,13 @@ export class LandingImage {
 		this.onScroll(window.scrollY);
 	}
 
-	onScroll(scrollY) {
+	onScroll(scrollY = window.scrollY) {
 		this.tracker.onScroll(scrollY);
+		const scrollT = this.tracker.t;
 
-		this.setFgDisp(this.fgDispAmount * this.tracker.scrollT);
-		this.setBgDisp(this.landingHeight * this.tracker.scrollT * this.bgParallax);
-		this.overlay.style.opacity = 1 - this.tracker.scrollT;
+		this.setFgDisp(this.fgDispAmount * scrollT);
+		this.setBgDisp(this.landingHeight * scrollT * this.bgParallax);
+		this.overlay.style.opacity = 1 - scrollT;
 
 		if (this.heroText) {
 			forEachElement(this.heroText.children, (h1, index) => {

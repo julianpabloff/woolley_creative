@@ -9,7 +9,7 @@ import {
 export default function Home() {
 	// Get DOM elements
 	const landingContainer = document.getElementById('home-landing');
-	const categories = document.getElementById('categories-section');
+	const categoriesContainer = document.getElementById('categories-container');
 	const showcaseContainer = document.getElementById('showcase-container');
 	const partners = document.getElementById('partner-links');
 
@@ -37,8 +37,11 @@ export default function Home() {
 	}
 
 	// Scroll fade in elements
-	const categoryScrollFade = new ScrollFadeInGroup(90, 100, 0.2);
-	forEachElement(categories.children, category => categoryScrollFade.addElement(category));
+	const categoryScrollFade = new ScrollFadeInGroup(categoriesContainer, {
+		inPadding: 100,
+		offset: 90,
+		threshold: 0.45
+	});
 
 	// 5D Spinning on scroll
 	const cameraSpin = new SpriteSheetScroll({
@@ -52,17 +55,16 @@ export default function Home() {
 
 	// Work showcase
 	const showcases = [
-		{ text: 'Studio Product', path: '/assets/home/work_01.jpg', double: false },
-		{ text: 'Environmental Photography', path: '/assets/home/work_02.jpg', double: false },
-		{ text: 'Brand Guidelines', path: '/assets/home/work_03.jpg', double: false },
-		{ text: 'Website Design', path: '/assets/home/work_04.jpg', double: false },
-		{ text: 'Location Product', path: '/assets/home/work_05.jpg', double: false },
-		{ text: 'Lifestyle Photography', path: '/assets/home/work_06.jpg', double: true },
-		{ text: 'Studio On-Figure', path: '/assets/home/work_07.jpg', double: true },
-		{ text: 'Drone', path: '/assets/home/work_08.jpg', double: false },
-		{ text: 'Industry Events', path: '/assets/home/work_09.jpg', double: false },
-		{ text: 'Product', path: '/assets/home/work_10.jpg', double: true },
-		{ text: 'Social Media Assets', path: '/assets/home/work_11.jpg', double: false },
+		{ text: 'Studio Product', path: '/assets/home/work_01.jpg', double: true },
+		{ text: 'Location Product', path: '/assets/home/work_02.jpg', double: false },
+		{ text: 'Branding', path: '/assets/home/work_03.jpg', double: false },
+		{ text: 'Environmental Photography', path: '/assets/home/work_04.jpg', double: false },
+		{ text: 'Lifestyle Photography', path: '/assets/home/work_05.jpg', double: true },
+		{ text: 'Studio On-Figure', path: '/assets/home/work_06.jpg', double: true },
+		{ text: 'Website Design', path: '/assets/home/work_07.jpg', double: false },
+		{ text: 'Industry Events', path: '/assets/home/work_08.jpg', double: false },
+		{ text: 'Drone', path: '/assets/home/work_09.jpg', double: true },
+		{ text: 'Social Media Assets', path: '/assets/home/work_10.jpg', double: false }
 	];
 
 	const showcaseSlidout = new SlideoutObserver();
@@ -87,6 +89,7 @@ export default function Home() {
 	});
 
 	function onScroll() {
+		const scrollY = window.scrollY;
 		landingImage.onScroll(scrollY);
 		categoryScrollFade.onScroll(scrollY);
 		cameraSpin.onScroll(scrollY);
@@ -94,7 +97,13 @@ export default function Home() {
 
 	function onResize() {
 		landingImage.onResize();
-		categoryScrollFade.toggleOffset(window.innerWidth > 767);
+
+		const windowWidth = window.innerWidth;
+		if (windowWidth > 1024) categoryScrollFade.gridWidth = 4;
+		else if (windowWidth > 767) categoryScrollFade.gridWidth = 2;
+		else categoryScrollFade.gridWidth = 1;
+		categoryScrollFade.onResize();
+
 		cameraSpin.onResize();
 		onScroll();
 	}

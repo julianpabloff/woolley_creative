@@ -109,7 +109,7 @@ section.cool div.growing-slash {
 }
 
 
-section#careers-banner {
+section.banner {
 	height: 500px;
 	display: flex;
 	align-items: center;
@@ -119,7 +119,7 @@ section#careers-banner {
 	background-position-y: 0;
 }
 
-section#careers-banner div.growing-slash {
+section.banner div.growing-slash {
 	--thickness: 0.5rem;
 	--height: 4.2rem;
 	top: -1.6rem;
