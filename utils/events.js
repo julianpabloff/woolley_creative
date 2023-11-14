@@ -19,7 +19,8 @@ function sendEventToHandlers(handlers, event) {
 
 window.addEventListener('scroll', event => {
 	sendEventToHandlers(scrollHandlers, event);
-	animations.forEach(animation => animation.onScroll(window.scrollY));
+	const scrollY = window.scrollY;
+	animations.forEach(animation => animation.onScroll(scrollY));
 });
 
 window.addEventListener('resize', event => {

@@ -9,10 +9,11 @@ export class BackgroundParallax {
 		this.onResize();
 	}
 
-	onScroll() {
-		this.tracker.onScroll();
-		this.element.style.backgroundPositionY =
-			(this.displacement * this.tracker.t).toString() + 'px';
+	onScroll(scrollY = window.scrollY) {
+		this.tracker.onScroll(scrollY);
+		if (this.tracker.visible)
+			this.element.style.backgroundPositionY =
+				(this.displacement * this.tracker.t).toString() + 'px';
 	}
 
 	onResize() {

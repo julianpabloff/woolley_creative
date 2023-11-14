@@ -1,4 +1,4 @@
-import { getBoundedTValue } from '../animations.js';
+import { getTValue, getBoundedTValue } from '../animations.js';
 import { getAbsoluteY, getHeaderHeight } from '../elements.js';
 
 export class ScrollTracker {
@@ -6,15 +6,21 @@ export class ScrollTracker {
 		this.element = element;
 
 		// Options
-		const { accountForHeader, inPadding } = options;
+		const { accountForHeader, inPadding, outPadding } = options;
 		this.accountForHeader = accountForHeader != undefined ? accountForHeader : true;
 		this.inPadding = inPadding != undefined ? inPadding : 0;
+		this.outPadding = outPadding != undefined ? outPadding : 0;
 
+		this.visible = true;
 		this.onResize();
 	}
 
 	onScroll(scrollY = window.scrollY) {
-		this.t = getBoundedTValue(this.start + this.inPadding, scrollY, this.end);
+		this.t = getBoundedTValue(this.start + this.inPadding, scrollY, this.end - this.outPadding);
+
+		// viewport t, without bounding or padding
+		let vpt = getTValue(this.start, scrollY, this.end);
+		this.visible = vpt >= 0 && vpt <= 1;
 	}
 
 	onResize() {

@@ -8,8 +8,8 @@ export class GrowingSlash {
 		this.onScroll();
 	}
 
-	onScroll() {
-		this.tracker.onScroll();
+	onScroll(scrollY = window.scrollY) {
+		this.tracker.onScroll(scrollY);
 
 		let t = this.tracker.t;
 		const minSize = 0.6; // 60% minimum size

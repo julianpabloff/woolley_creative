@@ -35,7 +35,8 @@ export function getBoundedTValue(start, point, end) {
 //     configurable on an element to element basis
 
 export { LandingImage } from './animations/landingImage.js';
-export { ScrollFadeInElement, ScrollFadeInGroup } from './animations/scrollFadeIn.js';
+export { ScrollFadeIn, ScrollFadeInGroup } from './animations/scrollFadeIn.js';
+export { ScrollFadeOut } from './animations/scrollFadeOut.js';
 export { SlideList } from './animations/slideList.js';
 export { SpriteSheet, SpriteSheetScroll } from './animations/spriteSheet.js';
 export { ScrollTracker } from './animations/scrollTracker.js';
@@ -62,7 +63,7 @@ class IntersectionAnimation {
 	constructor({ initializer, options, run }) {
 		this.elementInitializer = initializer;
 		this.observer = new IntersectionObserver((entries, observer) => {
-			entries.forEach(async entry => {
+			entries.forEach(entry => {
 				if (entry.isIntersecting) {
 					const element = entry.target;
 					run(element);

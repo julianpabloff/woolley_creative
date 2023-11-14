@@ -39,42 +39,46 @@ export class Trapezoid {
 		this.onResize();
 	}
 
-	get distance() { return getTValue(this.start, window.scrollY, this.end) * this.displacement; }
+	getDistance(scrollY) { return getTValue(this.start, scrollY, this.end) * this.displacement; }
 
-	drawLeftTrapezoid() {
-		const edgeX = this.contentX * 2 + this.contentW + this.displacement - this.distance;
+	drawLeftTrapezoid(scrollY) {
+		const distance = this.getDistance(scrollY);
+		const edgeX = this.contentX * 2 + this.contentW + this.displacement - distance;
 		this.background.style.clipPath =
 			`polygon(0 0, ${edgeX + this.delta}px 0, ${edgeX - this.delta}px 100%, 0 100%)`;
 	}
 
-	drawRightTrapezoid() {
+	drawRightTrapezoid(scrollY) {
+		const distance = this.getDistance(scrollY);
 		const distanceToEdge = window.innerWidth - this.contentX - this.contentW;
-		const edgeX = this.contentX - distanceToEdge - this.displacement + this.distance;
+		const edgeX = this.contentX - distanceToEdge - this.displacement + distance;
 		this.background.style.clipPath =
 			`polygon(${edgeX - this.delta}px 0, 100% 0, 100% 100%, ${edgeX + this.delta}px 100%)`;
 	}
 
-	drawDoubleTrapezoid() {
+	drawDoubleTrapezoid(scrollY) {
+		const distance = this.getDistance(scrollY);
 		const firstEnd = this.firstX + this.firstW;
 		const mean = (this.secondX - firstEnd) / 2;
-		const edgeX = firstEnd + mean + (this.displacement / 2 - this.distance) * this.s;
+		const edgeX = firstEnd + mean + (this.displacement / 2 - distance) * this.s;
 		const delta = this.delta * this.s;
 		this.background.style.clipPath =
 			`polygon(0 0, ${edgeX + delta}px 0, ${edgeX - delta}px 100%, 0 100%)`;
 	}
 
-	drawStackedDoubleTrapezoid() {
+	drawStackedDoubleTrapezoid(scrollY) {
+		const distance = this.getDistance(scrollY);
 		const firstEnd = this.firstY + this.firstH;
 		const mean = (this.secondY - firstEnd) / 2;
 		const asymmetry = 0.5 + 0.1 * this.s;
-		const edgeX = window.innerWidth * asymmetry + (this.displacement / 2 - this.distance) * this.s;
+		const edgeX = window.innerWidth * asymmetry + (this.displacement / 2 - distance) * this.s;
 		const delta = this.delta * this.s;
 		this.background.style.clipPath =
 			`polygon(0 0, ${edgeX + delta}px 0, ${edgeX - delta}px 100%, 0 100%)`;
 	}
 
 	onScroll(scrollY = window.scrollY) {
-		if (scrollY >= this.start && scrollY <= this.end) this.draw();
+		if (scrollY >= this.start && scrollY <= this.end) this.draw(scrollY);
 	}
 
 	onResize() {

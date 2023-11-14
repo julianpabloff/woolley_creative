@@ -1,7 +1,7 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
 import { forEachElement } from '../elements.js';
 
-/* ScrollFadeInElement OPTIONS
+/* ScrollFadeIn OPTIONS
 
 	inPadding [px] - How many pixels from the bottom to start fading in the element.
 
@@ -10,7 +10,7 @@ import { forEachElement } from '../elements.js';
 	threshold [0-1] - How far up the viewport the element should finish fading in.
 */
 
-export class ScrollFadeInElement { // class="scroll-fade-in"
+export class ScrollFadeIn { // class="scroll-fade-in"
 	constructor(element, options = {}) {
 		this.element = element;
 		element.style.transition = 'opacity 0.1s';
@@ -24,8 +24,9 @@ export class ScrollFadeInElement { // class="scroll-fade-in"
 		this.tracker = new ScrollTracker(element, { inPadding: this.inPadding });
 	}
 
-	onScroll() {
-		this.tracker.onScroll();
+	onScroll(scrollY = window.scrollY) {
+		this.tracker.onScroll(scrollY);
+		if (!this.tracker.visible) return;
 		const opacity = getBoundedTValue(0, this.tracker.t, this.threshold) * this.maxOpacity;
 		this.element.style.opacity = opacity.toString();
 	}
@@ -46,7 +47,7 @@ export class ScrollFadeInElement { // class="scroll-fade-in"
 
 	offset [px] - The amount of scroll pixels to offset the fade in of the children by.
 
-	maxOpacity & threshold - Properties passed onto ScrollFadeInElement for each child.
+	maxOpacity & threshold - Properties passed onto ScrollFadeIn for each child.
 */
 
 export class ScrollFadeInGroup {
@@ -58,10 +59,10 @@ export class ScrollFadeInGroup {
 		this.inPadding = inPadding != undefined ? inPadding : 0;
 		this.offset = offset != undefined ? offset : 75;
 
-		// Create ScrollFadeInElement for each child with options above
+		// Create ScrollFadeIn for each child with options above
 		this.elementFadeIns = [];
 		forEachElement(container.children, (child, index) => {
-			const fadeIn = new ScrollFadeInElement(child, { inPadding: this.inPadding, maxOpacity, threshold });
+			const fadeIn = new ScrollFadeIn(child, { inPadding: this.inPadding, maxOpacity, threshold });
 			this.elementFadeIns.push(fadeIn);
 		});
 
@@ -82,7 +83,7 @@ export class ScrollFadeInGroup {
 		}
 	}
 
-	onScroll() {
+	onScroll(scrollY = window.scrollY) {
 		this.elementFadeIns.forEach(fadeIn => fadeIn.onScroll());
 	}
 

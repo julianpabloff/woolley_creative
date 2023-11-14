@@ -6,7 +6,7 @@ export class SpriteSheet {
 		for (const [key, value] of Object.entries(spriteSheetData)) this[key] = value;
 
 		const frame = document.createElement('div');
-		frame.style.aspectRatio = imgWidth.toString() + '/' + imgHeight.toString();
+		frame.style.aspectRatio = imgWidth.toString() + ' / ' + imgHeight.toString();
 		frame.style.backgroundImage = 'url(' + filepath + ')';
 		frame.style.backgroundSize = 'calc(100% * ' + columns + ')';
 		frame.style.backgroundPosition = '0px 0px';
@@ -21,9 +21,6 @@ export class SpriteSheet {
 
 	}
 
-	get y() { return getAbsoluteY(this.frame); }
-	get height() { return this.frame.clientHeight; }
-
 	toFrame(index) {
 		const x = index % this.columns;
 		const y = Math.floor(index / this.columns);
@@ -34,6 +31,9 @@ export class SpriteSheet {
 	}
 
 	onResize() {
+		this.y = getAbsoluteY(this.frame);
+		this.height = this.frame.clientHeight;
+
 		this.frame.className = 'frame';
 		const landscape = this.container.clientWidth >= this.container.clientHeight;
 		this.frame.className = landscape ? 'frame landscape' : 'frame portrait';

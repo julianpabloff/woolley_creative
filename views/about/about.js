@@ -1,9 +1,4 @@
-import {
-	getBoundedTValue,
-	LandingImage,
-	ScrollFadeInElement,
-	SlideList
-} from '../../utils/animations.js';
+import { getBoundedTValue, LandingImage, SlideList } from '../../utils/animations.js';
 import { forEachElement } from '../../utils/elements.js';
 
 export default function About() {

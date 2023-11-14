@@ -22,12 +22,15 @@ export const slideout = {
 		else if (element.dataset.side == 'right') offset = window.innerWidth - x - 10;
 		element.style.transform = 'translateX(' + offset.toString() + 'px';
 
-		await wait(10);
-		const currentTranstion = window.getComputedStyle(element).transition;
-		element.style.transition =
-			window.getComputedStyle(element).transition +
-			', transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
+		// await wait(10);
+		const transition = 'transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in';
+		const currentTransition = window.getComputedStyle(element).transition;
+		element.style.transition = currentTransition.includes('all 0') ?
+			transition : `${currentTransition}, ${transition}`;
+
 		element.style.transform = 'translateX(0px)';
-		element.style.opacity = '1';
+		if (element.style.opacity == '0') element.style.opacity = '1';
+
+		setTimeout(() => element.style.transition = currentTransition, 1000);
 	}
 };
