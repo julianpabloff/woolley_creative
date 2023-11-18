@@ -3,7 +3,7 @@ div.done-that h2 {
 }
 
 div.background-wrapper {
-	background-color: var(--woolley-orange);
+	/* background-color: var(--woolley-orange); */
 }
 
 a.project {
@@ -37,6 +37,12 @@ a.project div.image {
 	right: 0;
 	overflow: hidden;
 }
+
+/*
+a.project:hover img {
+	transform: scale(1.05);
+}
+*/
 
 a.project.right div.image {
 	left: 0;
