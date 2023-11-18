@@ -2,31 +2,35 @@ div.done-that h2 {
 	letter-spacing: 0.02em;
 }
 
-div.project {
+div.background-wrapper {
+	background-color: var(--woolley-orange);
+}
+
+a.project {
 	height: min(65vw, 500px);
-	margin: 20px 0;
+	margin: 40px 0;
 	background-color: var(--woolley-blue);
 	position: relative;
 	transition: background-color 0.5s;
 }
 
-div.project div.text {
+a.project div.text {
 	max-width: 35%;
 }
 
-div.project h3 {
+a.project h3 {
 	color: var(--woolley-orange);
 	font-size: 2.57rem;
 	transition: color: 0.4s;
 }
 
-div.project p {
+a.project p {
 	color: var(--woolley-grey);
 	text-transform: uppercase;
 }
 
-/* div.project img { */
-div.project div.image {
+/* a.project img { */
+a.project div.image {
 	width: min(56%, calc(50% + var(--column-width) * 2 + var(--column-gap) * 3));
 	height: 100%;
 	position: absolute;
@@ -34,31 +38,31 @@ div.project div.image {
 	overflow: hidden;
 }
 
-div.project.right div.image {
+a.project.right div.image {
 	left: 0;
 	right: initial;
 }
 
-div.project div.image.sendline {
+a.project div.image.sendline {
 	background-color: white;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-div.project div.image.sendline img {
+a.project div.image.sendline img {
 	width: initial;
 	height: 75%;
 }
 
-div.project div.image img {
+a.project div.image img {
 	width: 101%;
 	height: 100%;
 	object-fit: cover;
 	transition: transform 0.4s;
 }
 
-div.project.left div.image img {
+a.project.left div.image img {
 	position: relative;
 	left: -1px;
 	width: calc(101% + 1px);
@@ -74,10 +78,10 @@ div.project.left div.image img {
 }
 
 @media screen and (max-width: 767px) {
-	div.project div.text h3 {
+	a.project div.text h3 {
 		font-size: 2rem;
 	}
-	div.project div.text p {
+	a.project div.text p {
 		font-size: 0.8rem;
 	}
 }
