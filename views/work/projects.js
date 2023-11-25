@@ -54,7 +54,7 @@ const projectData = [
 		description: 'Climb For A Cause Event Photography',
 		image: '/assets/work/project_9.jpg',
 		link: '/work/rei-coop-climb'
-	},
+	}
 ];
 
 function createProject(data, left) {

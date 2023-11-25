@@ -60,7 +60,7 @@ form div {
 	height: 3rem;
 }
 
-p#success-message {
+p#send-message  {
 	display: none;
 	opacity: 0;
 	transition: opacity 0.75s ease-out;
