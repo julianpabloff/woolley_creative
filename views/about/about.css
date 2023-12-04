@@ -4,7 +4,6 @@ section#about-landing {
 }
 
 section#about-landing .hero-text {
-	color: var(--woolley-blue);
 	left: max(var(--side-padding), calc((100vw - var(--max-width)) / 2));
 	right: initial;
 }
@@ -81,12 +80,17 @@ section.onetwothree > div {
 section.onetwothree div div {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	gap: 15%;
 }
 
 section.onetwothree h2 {
+	/* min-width: 30%; */
 	white-space: nowrap;
+}
+
+section.onetwothree p {
+	max-width: 50%;
 }
 
 
@@ -181,6 +185,9 @@ section.slide-list ul {
 	}
 	section.onetwothree h2 {
 		margin-bottom: 3rem;
+	}
+	section.onetwothree p {
+		max-width: initial;
 	}
 
 	section.thom div {

@@ -9,7 +9,7 @@ export default function Careers(onReady) {
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
-		fgFilepath: '/assets/careers/landing_image_foreground.webp',
+		fgFilepath: '/assets/careers/landing_image_foreground_crop.png',
 		height: 'min(100vh, 900px)',
 		doHorizontalFgDisp: false
 	});

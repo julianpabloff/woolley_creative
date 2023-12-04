@@ -81,10 +81,12 @@ export default function Home() {
 
 		const showcase = document.createElement('div');
 		if (double) showcase.classList.add('double');
+		showcase.style.opacity = '0';
 
 		image.onload = () => showcaseSlidout.add(showcase);
 
 		showcase.append(image, h6);
+		// showcase.append(h6);
 		showcaseContainer.appendChild(showcase);
 	});
 

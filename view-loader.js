@@ -62,12 +62,21 @@ export async function insertHTML(filepath, destination, container) {
 	destination.appendChild(container);
 }
 
-function specifyCSSRule(styleSheet, selector, rule, index) {
-	if (rule.selectorText) {
-		const specifiedRule = selector + rule.cssText;
-		styleSheet.deleteRule(index);
-		styleSheet.insertRule(specifiedRule, index);
+function specifyCSSRule(ruleText, selector) {
+	const ruleIndex = ruleText.search('{');
+	let i = 0;
+	let marker = 0;
+	const selectors = [];
+	while (i < ruleIndex + 1) {
+		const char = ruleText[i];
+		if (char == ',' || char == '{') {
+			selectors.push(`${selector} ${ruleText.slice(marker, i)}`);
+			marker = i + 2;
+		} else {
+		}
+		i++;
 	}
+	return selectors.join(', ') + ruleText.slice(ruleIndex);
 }
 
 function specifyCSS(styleSheet, selector) {
@@ -80,7 +89,10 @@ function specifyCSS(styleSheet, selector) {
 			specifyCSS(rule, selector);
 			i++; continue;
 		}
-		const specifiedRule = `${selector} ${rule.cssText}`;
+		if (!(rule instanceof CSSStyleRule)) { // For empty @media rules
+			i++; continue;
+		}
+		const specifiedRule = specifyCSSRule(rule.cssText, selector);
 		styleSheet.deleteRule(i);
 		styleSheet.insertRule(specifiedRule, i);
 		i++;

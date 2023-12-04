@@ -27,12 +27,12 @@
 .hero-text {
 	position: absolute;
 	right: 18%;
-	color: white;
 	transition: opacity 1s ease-out;
 	z-index: 1;
 }
 
 .hero-text h1 {
+	color: inherit;
 	position: relative;
 	opacity: 0;
 	right: 0;

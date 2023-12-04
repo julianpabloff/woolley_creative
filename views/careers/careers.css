@@ -84,7 +84,7 @@ section.magazine .text-2 {
 
 
 section.what-else {
-	height: 350px;
+	height: 500px;
 	background-color: var(--woolley-blue);
 }
 
@@ -110,12 +110,12 @@ section.cool div.growing-slash {
 
 
 section.banner {
-	height: 500px;
+	height: 700px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	background-image: url("/assets/careers/mountains.jpg");
-	background-size: cover;
+	background-size: contain;
 	background-position-y: 0;
 }
 
@@ -128,6 +128,10 @@ section.banner div.growing-slash {
 
 
 @media screen and (max-width: 767px) {
+	div#namesake {
+		display: none;
+	}
+
 	section.magazine .text-1 span {
 		display: inline;
 	}

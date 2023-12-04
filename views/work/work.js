@@ -1,10 +1,10 @@
 import { LandingImage, ScrollTracker } from '../../utils/animations.js';
-import { addProjectsToContainer } from './projects.js';
+// import { addProjectsToContainer } from './projects.js';
 
 export default function Work() {
 	// Get DOM elements
 	const landingContainer = document.getElementById('work-landing');
-	const projectsContainer = document.getElementById('work-projects');
+	// const projectsContainer = document.getElementById('work-projects');
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
@@ -16,17 +16,17 @@ export default function Work() {
 	// Initialize landingImage heroText on image load
 	landingImage.bg.onload = () => landingImage.init();
 
-	const updateProjects = addProjectsToContainer(projectsContainer);
+	// const updateProjects = addProjectsToContainer(projectsContainer);
 
 	function onScroll() {
 		const scrollY = window.scrollY;
 		landingImage.onScroll(scrollY);
-		updateProjects.onScroll(scrollY);
+		// updateProjects.onScroll(scrollY);
 	}
 
 	function onResize() {
 		landingImage.onResize();
-		updateProjects.onResize();
+		// updateProjects.onResize();
 	}
 
 	return { onScroll, onResize };

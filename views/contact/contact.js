@@ -1,5 +1,4 @@
 import { forEachElement, ControlledForm } from '../../utils/elements.js';
-import { EmailForm } from './emailForm.js';
 
 export default function Contact() {
 	// Get DOM elements

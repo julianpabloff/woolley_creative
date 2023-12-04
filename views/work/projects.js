@@ -1,5 +1,6 @@
 import { ScrollTracker } from '../../utils/animations.js';
 
+// TODO: Add parameter for object-position
 const projectData = [
 	{
 		client: 'Ruffwear',
@@ -10,7 +11,7 @@ const projectData = [
 	{
 		client: 'REI Co-op',
 		description: 'Corporate mural photography',
-		image: '/assets/work/project_2.jpg',
+		image: '/assets/work/project_2.jpg', // object-position: top;
 		link: '/work/rei-coop-mural'
 	},
 	{

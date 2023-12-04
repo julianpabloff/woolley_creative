@@ -31,6 +31,10 @@
 	src: url("/assets/fonts/Gotham Bold.otf");
 }
 
+h1, h2, h3 {
+	color: var(--woolley-blue);
+}
+
 h1, h2, h3, a.cta, button.cta {
 	font-family: "Qonquer";
 	font-weight: normal;
@@ -83,8 +87,9 @@ html {
 
 
 .white { color: white; }
-.orange { color: var(--woolley-orange) }
-.grey { color: var(--woolley-grey) }
+.orange { color: var(--woolley-orange); }
+.grey { color: var(--woolley-grey); }
+.blue { color: var(--woolley-blue); }
 
 .bold { font-family: "Gotham Bold" }
 .text-right { text-align: right; }

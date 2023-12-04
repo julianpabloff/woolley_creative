@@ -67,7 +67,7 @@ div#camera-spin-container img.favorite-camera {
 }
 
 
-div.work-grid {
+div.showcases {
 	/* --row-height: 340px; */
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -75,7 +75,7 @@ div.work-grid {
 	gap: min(20px, 4vw);
 }
 
-div.work-grid > div {
+div.showcases > div {
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -84,12 +84,12 @@ div.work-grid > div {
 	aspect-ratio: 1000 / 654;
 }
 
-div.work-grid > div.double {
+div.showcases > div.double {
 	grid-row-end: span 2;
 	aspect-ratio: 1000 / 1308;
 }
 
-div.work-grid > div img {
+div.showcases > div img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -159,7 +159,7 @@ div.image-container img { width: 100%; }
 		gap: calc(var(--side-padding) * 2);
 	}
 
-	div.work-grid > div h6 { display: none; }
+	div.showcases > div h6 { display: none; }
 
 	section.partners div.image-container {
 		--width-divisor: 5;

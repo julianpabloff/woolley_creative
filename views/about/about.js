@@ -14,6 +14,7 @@ export default function About() {
 		heroText: ['Hey,', 'We\'re', 'Woolley.'],
 		// height: 'min(100vh, 960px)',
 		heroTextY: 0.25,
+		heroTextColor: 'blue',
 		initFgDisp: 0,
 		opacitySpeed: 16
 	});

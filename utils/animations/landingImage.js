@@ -8,10 +8,11 @@ export class LandingImage {
 			fgFilepath, // image filepath
 			bgFilepath, // image filepath
 			heroText, // array of words
+			heroTextY, // Between 0 and 1 (default .5)
+			heroTextColor, // color className (default inherit)
 			height, // px (default 100vh)
 			initFgDisp, // px (default 100)
 			doHorizontalFgDisp, // bool (default true)
-			heroTextY, // Between 0 and 1 (default .5)
 			opacitySpeed // multiplier (default 4)
 		} = landingImageData;
 
@@ -36,7 +37,8 @@ export class LandingImage {
 		// Add to DOM
 		if (heroText) {
 			this.heroText = document.createElement('div');
-			this.heroText.className = 'hero-text';
+			const colorClass = heroTextColor != undefined ? heroTextColor : 'white';
+			this.heroText.className = 'hero-text ' + colorClass;
 			for (const text of heroText) {
 				const h1 = document.createElement('h1');
 				h1.innerText = text;
