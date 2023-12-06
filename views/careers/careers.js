@@ -24,7 +24,7 @@ export default function Careers(onReady) {
 	// When namesake should fade out to 0
 	let namesakeEnd;
 	function calcNamesakeEnd() {
-		const width = window.innerWidth;
+		const width = landingImage.totalWidth;
 		if (width > 1024) return 150;
 		if (width > 767) return 100;
 		return 50;
@@ -37,8 +37,8 @@ export default function Careers(onReady) {
 		const scrollY = window.scrollY;
 
 		landingImage.onScroll(scrollY);
-		if (landingImage.tracker.visible) {
-			const displacement = landingImage.landingHeight / 2 * landingImage.tracker.t;
+		if (landingImage.tracker.changed) {
+			const displacement = landingImage.totalHeight / 2 * landingImage.tracker.t;
 			landingText.style.transform = `translateY(${displacement}px)`;
 		}
 

@@ -42,7 +42,8 @@ section.flip-the-script > div {
 }
 
 section.flip-the-script div.growing-slash {
-	left: calc(var(--left) + 0.2rem);
+	--offset: 0.5em;
+	left: calc(var(--left) + 0.18em);
 }
 
 section.flip-the-script h6 {
@@ -103,6 +104,7 @@ section.thom {
 
 section.thom div.picture {
 	width: 43%;
+	max-width: 450px;
 }
 
 section.thom div.img-container {
@@ -113,8 +115,9 @@ section.thom div.img-container {
 }
 
 section.thom div.growing-slash {
-	left: calc(min(15%, var(--column-width)) - 105px);
-	top: -191px;
+	--height: 100%;
+	--offset: calc(var(--thickness) / 2);
+	left: calc(var(--left) + 15%);
 }
 
 section.thom div.img-container img {
@@ -171,31 +174,40 @@ section.slide-list ul {
 	div.services { width: 59rem; }
 }
 
-@media screen and (max-width: 767px) {
-	section.flip-the-script div.growing-slash {
-		--left-offset: 103px;
-	}
+@media screen and (max-width: 900px) {
 	section.onetwothree div div {
 		flex-direction: column;
 		align-items: flex-start;
 	}
+
 	section.onetwothree div div:nth-child(even) {
 		flex-direction: column-reverse;
 		align-items: flex-end;
 	}
+
 	section.onetwothree h2 {
 		margin-bottom: 3rem;
 	}
+
 	section.onetwothree p {
-		max-width: initial;
+		width: 100%;
+		max-width: 550px;
 	}
+
+	section.onetwothree div div:nth-child(even) p {
+		text-align: justify;
+	}
+
 
 	section.thom div {
 		flex-direction: column;
 		align-items: center;
 		gap: 75px;
 	}
-	section.thom > div > div {
+
+	section.thom div.picture,
+	section.thom div.description
+	{
 		width: 100%;
 	}
 }

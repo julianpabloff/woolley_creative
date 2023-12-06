@@ -26,7 +26,7 @@ export class ScrollFadeIn { // class="scroll-fade-in"
 
 	onScroll(scrollY = window.scrollY) {
 		this.tracker.onScroll(scrollY);
-		if (!this.tracker.visible) return;
+		if (!this.tracker.changed) return;
 		const opacity = getBoundedTValue(0, this.tracker.t, this.threshold) * this.maxOpacity;
 		this.element.style.opacity = opacity.toString();
 	}

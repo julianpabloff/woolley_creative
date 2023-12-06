@@ -17,13 +17,23 @@ function sendEventToHandlers(handlers, event) {
 	});
 }
 
+let scrollY = window.scrollY;
+export const getScrollY = () => scrollY;
+
 window.addEventListener('scroll', event => {
+	scrollY = window.scrollY;
 	sendEventToHandlers(scrollHandlers, event);
-	const scrollY = window.scrollY;
 	animations.forEach(animation => animation.onScroll(scrollY));
 });
 
+let viewPortWidth = window.innerWidth;
+let viewPortHeight = window.innerHeight;
+export const getVPW = () => viewPortWidth;
+export const getVPH = () => viewPortWidth;
+
 window.addEventListener('resize', event => {
+	viewPortWidth = window.innerWidth;
+	viewPortHeight = window.innerHeight;
 	sendEventToHandlers(resizeHandlers, event);
 	animations.forEach(animation => animation.onResize());
 });

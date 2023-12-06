@@ -239,23 +239,38 @@ button.cta:hover::after,
 }
 
 
-/* SLASH (growing-slash is from animations) */
+/* SLASH (growing-slash is from animations)
+	--top-offset: used for class-based adjustment (ex. .top-left)
+	--left-offset:  used for class-based adjustment (ex. .top-left)
+	--offset: [manual adjust] slides the slash up/down along its length
+
+	--top: the top value after offset and class-based adjustments
+	--left: the left value after offset and class-based adjustments
+	The final top and left can be manually adjusted like:
+		top: calc(var(--top) + 20px);
+		left: calc(var(--left) - 100px);
+*/
 .slash, .growing-slash {
 	--thickness: 1.1rem;
 	--height: 400px;
 	--width: calc(var(--height) / 2 + var(--thickness));
+	--top-offset: 0px;
+	--left-offset: 0px;
+	--offset: 0px;
+	--top: calc(var(--top-offset) + var(--offset));
+	--left: calc(var(--left-offset) - (var(--offset) / 2));
 	width: var(--width);
 	height: var(--height);
 	position: absolute;
+	top: var(--top);
+	left: var(--left);
 	background-color: var(--woolley-orange);
 	clip-path: polygon(0 100%, calc(100% - var(--thickness)) 0%, 100% 0%, var(--thickness) 100%);
 }
 
 .slash.top-left, .growing-slash.top-left {
-	--left: calc(var(--width) * -0.5);
-	--top: calc(var(--height) * -0.5 + 0.5em);
-	top: var(--top);
-	left: var(--left);
+	--left-offset: calc((var(--width) - var(--thickness)) * -0.5);
+	--top-offset: calc(var(--height) * -0.5);
 }
 
 

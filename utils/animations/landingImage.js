@@ -102,11 +102,11 @@ export class LandingImage {
 
 	onScroll(scrollY = window.scrollY) {
 		this.tracker.onScroll(scrollY);
-		if (!this.tracker.visible) return;
+		if (!this.tracker.changed) return;
 		const t = this.tracker.t;
 
 		this.setFgDisp(this.fgDispAmount * t);
-		this.setBgDisp(this.landingHeight * t * this.bgParallax);
+		this.setBgDisp(this.totalHeight * t * this.bgParallax);
 		this.overlay.style.opacity = (1 - t).toString();
 
 		if (this.heroText) {
@@ -116,21 +116,24 @@ export class LandingImage {
 
 				h1.style.right = (displacement * (
 					scrollY >= threshold && // delay until offset factor reached
-					scrollY < this.landingHeight && // stop after scroll passes landing
+					scrollY < this.totalHeight && // stop after scroll passes landing
 					displacement < this.heroLeft + this.heroWidth // stop after text reaches left side
 				)).toString() + 'px';
 
 				if (this.revealedH1s[index] && scrollY >= threshold) // only apply opacity if revealed
-					h1.style.opacity = 1 - displacement / (window.innerWidth / this.heroOpacityFactor);
+					h1.style.opacity = 1 - displacement / (this.totalWidth / this.heroOpacityFactor);
+					// h1.style.opacity = 1 - displacement / (window.innerWidth / this.heroOpacityFactor);
 			});
 		}
 	}
 
 	onResize() {
 		// this.headerHeight = this.accountForHeader ? document.getElementById('header').clientHeight : 0;
-		this.landingHeight = this.bg ? this.bg.clientHeight : this.fg.clientHeight;
+		const reference = this.bg ? this.bg : this.fg;
+		this.totalHeight = reference.clientHeight;
+		this.totalWidth = reference.clientWidth;
 		if (this.heroText) {
-			this.initHeroDisp = this.heroInitY * (this.landingHeight - this.heroText.clientHeight);
+			this.initHeroDisp = this.heroInitY * (this.totalHeight - this.heroText.clientHeight);
 			this.heroText.style.top = this.initHeroDisp.toString() + 'px';
 			this.heroY = this.initHeroDisp + this.bgDisp;
 			this.heroLeft = this.heroText.offsetLeft;

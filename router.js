@@ -6,7 +6,7 @@ import {
 	insertHTML,
 	insertCSS,
 	ScrollPosController
-} from './view-loader.js';
+} from './utils/view-loader.js';
 import { searchForAnimations } from './utils/animations.js';
 import addHandlers from './utils/events.js';
 import { routes } from './utils/routes.js';

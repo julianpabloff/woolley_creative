@@ -16,11 +16,17 @@ export default function Index() {
 	let threshold;
 	const setThreshold = () => threshold = Math.min(200, window.innerHeight / 2);
 
+	let headerT;
 	const footerTracker = new ScrollTracker(footer);
 	const footerDisp = 100;
 	function onScroll() {
 		const scrollY = window.scrollY;
-		headerBackground.style.opacity = getBoundedTValue(0, scrollY, threshold);
+
+		// Header opacity
+		const prevHeaderT = headerT;
+		headerT = getBoundedTValue(0, scrollY, threshold);
+		if (headerT != prevHeaderT)
+			headerBackground.style.opacity = getBoundedTValue(0, scrollY, threshold);
 
 		// Footer-specific scroll tracking
 		footerTracker.onResize();

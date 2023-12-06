@@ -1,5 +1,14 @@
 import { getAbsoluteY } from '../elements.js';
 
+/* spriteSheetData
+	container: [DOM element] The container to put a frame in
+	filepath: [string] The filepath to the spritesheet image
+	columns: [number] The amount of columns in the spritesheet image
+	count: [number] The total amount of frames in the spritesheet image
+	imgWidth: [number] The width of a frame on the spritesheet image
+	imgHeight: [number] The height of a frame on the spritesheet image
+*/
+
 export class SpriteSheet {
 	constructor(spriteSheetData) {
 		const { container, filepath, columns, count, imgWidth, imgHeight } = spriteSheetData;

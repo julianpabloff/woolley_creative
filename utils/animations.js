@@ -1,4 +1,4 @@
-import { loadCSS } from '../view-loader.js';
+import { loadCSS } from './view-loader.js';
 import { addAnimationToListeners, clearAnimationsFromListeners } from './events.js';
 
 export async function wait(milliseconds) {

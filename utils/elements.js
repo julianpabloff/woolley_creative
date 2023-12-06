@@ -31,6 +31,8 @@ export const getAbsoluteY = element => getAbsoluteOffset(element, 'top');
 const header = document.getElementById('header');
 export const getHeaderHeight = () => header.clientHeight;
 
+export { getScrollY, getVPW, getVPH } from './events.js';
+
 // Inputs
 export class ControlledInput {
 	constructor(input, defaultValue = '') {
@@ -51,7 +53,6 @@ export class ControlledInput {
 
 export class ControlledForm {
 	constructor(form) {
-		this.form = form;
 		this.inputs = new Map();
 
 		this.onsubmit = () => {};

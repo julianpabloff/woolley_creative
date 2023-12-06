@@ -60,19 +60,13 @@ export default function About() {
 		landingImage.onScroll(scrollY);
 
 		// Landing Text animation
-		forEachElement(landingText.children, (p, index) => {
-			const threshold = 3.3 * landingImage.heroTextOffset;
+		const threshold = 3.3 * landingImage.heroTextOffset;
+		if ( scrollY >= threshold && scrollY < landingImage.totalHeight) {
 			const displacement = Math.pow(scrollY - threshold, 2) * landingImage.heroVelocity;
-
-			p.style.right = (displacement * (
-				scrollY >= threshold &&
-				scrollY < landingImage.landingHeight &&
-				displacement < landingImage.heroLeft + window.innerWidth
-			)).toString() + 'px';
-
-			if (landingImage.revealedH1s[2] && scrollY >= threshold)
-				p.style.opacity = 1 - displacement / (window.innerWidth / 20);
-		});
+			landingText.style.transform = `translateX(-${displacement.toString()}px)`;
+			if (landingImage.revealedH1s[2])
+				landingText.style.opacity = 1 - displacement / (landingImage.totalWidth / 20);
+		}
 
 		setLandingTextY();
 	}

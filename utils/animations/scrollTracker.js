@@ -11,12 +11,15 @@ export class ScrollTracker {
 		this.inPadding = inPadding != undefined ? inPadding : 0;
 		this.outPadding = outPadding != undefined ? outPadding : 0;
 
+		this.changed = false;
 		this.visible = true;
 		this.onResize();
 	}
 
 	onScroll(scrollY = window.scrollY) {
+		const previousT = this.t;
 		this.t = getBoundedTValue(this.start + this.inPadding, scrollY, this.end - this.outPadding);
+		this.changed = this.t != previousT;
 
 		// viewport t, without bounding or padding
 		let vpt = getTValue(this.start, scrollY, this.end);

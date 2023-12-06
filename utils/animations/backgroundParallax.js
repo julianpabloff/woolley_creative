@@ -11,7 +11,7 @@ export class BackgroundParallax {
 
 	onScroll(scrollY = window.scrollY) {
 		this.tracker.onScroll(scrollY);
-		if (this.tracker.visible)
+		if (this.tracker.changed)
 			this.element.style.backgroundPositionY =
 				(this.displacement * this.tracker.t).toString() + 'px';
 	}

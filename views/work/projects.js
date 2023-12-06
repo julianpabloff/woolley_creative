@@ -125,7 +125,7 @@ export function addProjectsToContainer(container) {
 
 		function onScroll(scrollY) {
 			tracker.onScroll(scrollY);
-			if (!tracker.visible) return;
+			if (!tracker.changed) return;
 
 			const displacement = 20 * tracker.t;
 			const right = scrollElement.classList.contains('right');
