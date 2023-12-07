@@ -88,3 +88,9 @@ a.mailto:hover h3 {
 		bottom: 60px;
 	}
 }
+
+@media screen and (max-width: 767px) {
+	section > div {
+		max-width: 500px;
+	}
+}
