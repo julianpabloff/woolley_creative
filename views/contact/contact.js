@@ -1,5 +1,6 @@
 import { forEachElement, ControlledForm } from '../../utils/elements.js';
 
+// TODO: use localStorage to maintain form content when page is refreshed
 export default function Contact() {
 	// Get DOM elements
 	const formElement = document.getElementById('contact-form');

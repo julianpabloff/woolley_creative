@@ -1,4 +1,5 @@
 import { getBoundedTValue, LandingImage, ScrollFadeOut } from '../../utils/animations.js';
+import { getScrollY } from '../../utils/elements.js';
 
 export default function Careers(onReady) {
 	// Get DOM elements
@@ -10,16 +11,14 @@ export default function Careers(onReady) {
 	const landingImage = new LandingImage({
 		container: landingContainer,
 		fgFilepath: '/assets/careers/landing_image_foreground_crop.png',
-		height: 'min(100vh, 900px)',
+		maxHeight: 900,
 		doHorizontalFgDisp: false
 	});
 
-	landingImage.fg.onload = () => {
+	landingImage.onload = () => {
 		namesake.style.opacity = '1';
 		setTimeout(() => landingText.style.opacity = '1', landingImage.heroFadeInOffset);
 	}
-
-	addEventListener('load', event => { console.log(event) });
 
 	// When namesake should fade out to 0
 	let namesakeEnd;
@@ -34,7 +33,7 @@ export default function Careers(onReady) {
 	const shoulderFadeOut = new ScrollFadeOut(shoulder);
 
 	function onScroll() {
-		const scrollY = window.scrollY;
+		const scrollY = getScrollY();
 
 		landingImage.onScroll(scrollY);
 		if (landingImage.tracker.changed) {

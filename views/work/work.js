@@ -10,11 +10,8 @@ export default function Work() {
 		container: landingContainer,
 		bgFilepath: '/assets/work/landing_image_background.webp',
 		heroText: ['We', 'Do', 'Creative.'],
-		height: 'min(100vh, 900px)'
+		maxHeight: 900
 	});
-
-	// Initialize landingImage heroText on image load
-	landingImage.bg.onload = () => landingImage.init();
 
 	// const updateProjects = addProjectsToContainer(projectsContainer);
 

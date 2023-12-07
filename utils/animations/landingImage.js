@@ -1,5 +1,5 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
-import { forEachElement } from '../elements.js';
+import { forEachElement, getScrollY, getVPH } from '../elements.js';
 
 export class LandingImage {
 	constructor(landingImageData) {
@@ -10,14 +10,25 @@ export class LandingImage {
 			heroText, // array of words
 			heroTextY, // Between 0 and 1 (default .5)
 			heroTextColor, // color className (default inherit)
-			height, // px (default 100vh)
+			height, // px (default viewport height in pixels)
+			minHeight, // px (minimum size to default to)
+			maxHeight, // px (maximum size to default to)
 			initFgDisp, // px (default 100)
 			doHorizontalFgDisp, // bool (default true)
 			opacitySpeed // multiplier (default 4)
 		} = landingImageData;
 
 		container.className = "landing-container";
-		container.style.height = height ? height : '100vh';
+
+		// Set container height
+		let containerHeight;
+		if (height) containerHeight = height;
+		else {
+			containerHeight = getVPH();
+			if (minHeight) containerHeight = Math.max(containerHeight, minHeight);
+			if (maxHeight) containerHeight = Math.min(containerHeight, maxHeight);
+		}
+		container.style.height = containerHeight.toString() + 'px';
 
 		this.overlay = document.createElement('div');
 		this.overlay.className = 'landing-bg-overlay';
@@ -48,6 +59,9 @@ export class LandingImage {
 			container.appendChild(this.heroText);
 		}
 
+		this.fgLoaded = true;
+		this.bgLoaded = true;
+
 		if (fgFilepath) {
 			this.fg = document.createElement('img');
 			this.fg.src = fgFilepath;
@@ -56,12 +70,18 @@ export class LandingImage {
 			const fgHeightAdd = this.fgDispAmount - this.initFgDisp;
 			this.fg.style.height = `calc(100% + ${fgHeightAdd}px)`;
 			if (this.doHorizontalFgDisp) this.fg.style.width = `calc(100% + ${this.fgDispAmount / 1.5}px)`;
+
+			this.fgLoaded = false;
+			this.fg.onload = () => { this.fgLoaded = true; this.evalImageLoad(); };
 			container.appendChild(this.fg);
 		}
 
 		if (bgFilepath) {
 			this.bg = document.createElement('img');
 			this.bg.src = bgFilepath;
+
+			this.bgLoaded = false;
+			this.bg.onload = () => { this.bgLoaded = true; this.evalImageLoad(); };
 			container.appendChild(this.bg);
 		}
 		container.appendChild(this.overlay);
@@ -90,14 +110,23 @@ export class LandingImage {
 	}
 
 	init() {
-		forEachElement(this.heroText.children, (h1, index) => {
-			this.revealedH1s.push(false);
-			setTimeout(() => {
-				h1.style.opacity = '1';
-				setTimeout(() => this.revealedH1s[index] = true, 500);
-			}, (index + 1) * this.heroFadeInOffset);
-		});
-		this.onScroll(window.scrollY);
+		if (this.heroText) {
+			forEachElement(this.heroText.children, (h1, index) => {
+				this.revealedH1s.push(false);
+				setTimeout(() => {
+					h1.style.opacity = '1';
+					setTimeout(() => this.revealedH1s[index] = true, 500);
+				}, (index + 1) * this.heroFadeInOffset);
+			});
+			this.onScroll(getScrollY());
+		}
+	}
+
+	evalImageLoad() {
+		if (this.fgLoaded && this.bgLoaded) {
+			this.init();
+			if (this.onload) this.onload();
+		}
 	}
 
 	onScroll(scrollY = window.scrollY) {

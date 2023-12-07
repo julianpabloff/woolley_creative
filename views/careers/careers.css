@@ -104,8 +104,9 @@ section.cool > div > div {
 }
 
 section.cool div.growing-slash {
-	--thickness: 0.6rem;
-	--height: 90px;
+	--height: 6.43rem;
+	--thickness: 0.5rem;
+	--offset: 1em;
 }
 
 
@@ -115,13 +116,13 @@ section.banner {
 	align-items: center;
 	justify-content: center;
 	background-image: url("/assets/careers/mountains.jpg");
-	background-size: contain;
+	background-size: 100%;
 	background-position-y: 0;
 }
 
 section.banner div.growing-slash {
-	--thickness: 0.5rem;
 	--height: 4.2rem;
+	--thickness: 0.5rem;
 	top: -1.6rem;
 	left: -1.5rem;
 }
@@ -158,5 +159,9 @@ section.banner div.growing-slash {
 
 	section.cool > div > div {
 		width: 70vw;
+	}
+
+	section.banner {
+		background-size: 250%;
 	}
 }

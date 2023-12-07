@@ -3,9 +3,8 @@ import { getBoundedTValue, ScrollTracker } from '../animations.js';
 export class GrowingSlash {
 	constructor(element) {
 		this.element = element;
-		this.thickness = window.getComputedStyle(element).getPropertyValue('--thickness');
 		this.tracker = new ScrollTracker(element);
-		this.onScroll();
+		this.onResize();
 	}
 
 	onScroll(scrollY = window.scrollY) {
@@ -30,5 +29,7 @@ export class GrowingSlash {
 
 	onResize() {
 		this.tracker.onResize();
+		this.thickness = window.getComputedStyle(this.element).getPropertyValue('--thickness');
+		this.onScroll();
 	}
 }

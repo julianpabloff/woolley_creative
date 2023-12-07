@@ -29,7 +29,7 @@ window.addEventListener('scroll', event => {
 let viewPortWidth = window.innerWidth;
 let viewPortHeight = window.innerHeight;
 export const getVPW = () => viewPortWidth;
-export const getVPH = () => viewPortWidth;
+export const getVPH = () => viewPortHeight;
 
 window.addEventListener('resize', event => {
 	viewPortWidth = window.innerWidth;

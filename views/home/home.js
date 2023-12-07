@@ -23,19 +23,6 @@ export default function Home() {
 	// Custom positioning for home foreground image
 	landingImage.fg.style.objectPosition = '70% center';
 
-	// Initialize landingImage heroText on image load
-	let landingFgLoaded = false;
-	let landingBgLoaded = false;
-	const assessImageLoad = () => { if (landingFgLoaded && landingBgLoaded) landingImage.init() };
-	landingImage.fg.onload = () => {
-		landingFgLoaded = true;
-		assessImageLoad();
-	}
-	landingImage.bg.onload = () => {
-		landingBgLoaded = true;
-		assessImageLoad();
-	}
-
 	// Scroll fade in elements
 	const categoryScrollFade = new ScrollFadeInGroup(categoriesContainer, {
 		inPadding: 100,

@@ -3,6 +3,7 @@ section {
 	align-items: center;
 	background-image: url("/assets/contact/background.jpg");
 	background-size: cover;
+	background-position-x: 30%;
 }
 
 section > div {
@@ -17,8 +18,10 @@ section div > div:last-child {
 h1 { color: var(--woolley-blue); }
 
 div.growing-slash {
-	left: calc(var(--left) + 0.1rem);
 	--height: 450px;
+	--thickness: 0.25em;
+	--offset: 0.65em;
+	left: calc(var(--left) + 0.18em);
 }
 
 form {
@@ -72,11 +75,11 @@ p.mailto {
 	margin-bottom: 40px;
 }
 
-a.mailto {
+a.mailto h3 {
 	color: var(--woolley-orange);
 	transition: color 0.2s ease-out;
 }
-a.mailto:hover {
+a.mailto:hover h3 {
 	color: var(--woolley-blue);
 }
 

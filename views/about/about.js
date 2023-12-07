@@ -11,8 +11,8 @@ export default function About() {
 		container: landingContainer,
 		fgFilepath: '/assets/about/landing_image_foreground.webp',
 		bgFilepath: '/assets/about/landing_image_background.jpg',
+		minHeight: 960,
 		heroText: ['Hey,', 'We\'re', 'Woolley.'],
-		// height: 'min(100vh, 960px)',
 		heroTextY: 0.25,
 		heroTextColor: 'blue',
 		initFgDisp: 0,
@@ -24,23 +24,9 @@ export default function About() {
 		landingText.style.top = landingTextY.toString() + 'px';
 	}
 
-	function initLanding() {
-		landingImage.init();
+	landingImage.onload = () => {
 		setLandingTextY();
 		setTimeout(() => landingText.style.opacity = '1', landingImage.heroFadeInOffset * 4);
-	}
-
-	// Initialize landingImage heroText on image load
-	let landingFgLoaded = false;
-	let landingBgLoaded = false;
-	const assessImageLoad = () => { if (landingFgLoaded && landingBgLoaded) initLanding() };
-	landingImage.fg.onload = () => {
-		landingFgLoaded = true;
-		assessImageLoad();
-	}
-	landingImage.bg.onload = () => {
-		landingBgLoaded = true;
-		assessImageLoad();
 	}
 
 	const slideListItems = [

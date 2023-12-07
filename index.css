@@ -150,6 +150,11 @@ footer div.footer-content {
 }
 
 footer div.fixed-height { height: 200px; }
+footer div.gapped-column {
+	display: flex;
+	flex-direction: column;
+	row-gap: 2rem;
+}
 
 footer h3.hashtag {
 	font-size: 2rem;

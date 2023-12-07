@@ -78,6 +78,12 @@ a {
 button {
 	cursor: pointer;
 }
+*:focus {
+	outline: none;
+}
+input {
+	border-radius: none;
+}
 
 html {
 	font-size: 14px;
@@ -99,13 +105,14 @@ html {
 
 /* Sizing & Positioning */
 .flex { display: flex; }
+.align-start { align-items: flex-start; }
+.align-center { align-items: center; }
+.align-end { align-items: flex-end; }
+.justify-start { justify-content: flex-start; }
 .justify-center { justify-content: center; }
 .justify-end { justify-content: flex-end; }
 .justify-between { justify-content: space-between; }
 .justify-around { justify-content: space-around; }
-.align-start { align-items: flex-start; }
-.align-center { align-items: center; }
-.align-end { align-items: flex-end; }
 .column { flex-direction: column; }
 .block { display: block; }
 .relative { position: relative; }
@@ -114,12 +121,6 @@ html {
 	top: 0;
 	left: 0;
 	position: absolute;
-}
-
-.gapped-column {
-	display: flex;
-	flex-direction: column;
-	row-gap: 2rem;
 }
 
 .max-w-container {
@@ -175,10 +176,23 @@ a.cta::after, button.cta::after {
 	transition: background-color 0.2s ease-out, transform 0.2s ease-out;
 }
 
-a.cta.light:hover, button.cta.light:hover {
+a.cta:focus, button.cta:focus {
+	outline: none;
+}
+
+a.cta.light:hover,
+a.cta.light:focus,
+button.cta.light:hover,
+button.cta.light:focus
+{
 	color: var(--woolley-blue);
 }
-a.cta.light:hover::after, button.cta.light:hover::after {
+
+a.cta.light:hover::after,
+a.cta.light:focus::after,
+button.cta.light:focus::after,
+button.cta.light:hover::after
+{
 	background-color: var(--woolley-blue);
 }
 
@@ -202,7 +216,9 @@ a.cta.small::after {
 	transition: transform 0.2s ease-out;
 }
 a.cta:hover::after,
+a.cta:focus::after,
 button.cta:hover::after,
+button.cta:focus::after,
 .hover-rotate:hover
 {
 	transform: rotate(0.5turn);
@@ -240,6 +256,8 @@ button.cta:hover::after,
 
 
 /* SLASH (growing-slash is from animations)
+	--height: can't be in percentages - px, em, rem for the clip-path calc
+
 	--top-offset: used for class-based adjustment (ex. .top-left)
 	--left-offset:  used for class-based adjustment (ex. .top-left)
 	--offset: [manual adjust] slides the slash up/down along its length
@@ -251,8 +269,8 @@ button.cta:hover::after,
 		left: calc(var(--left) - 100px);
 */
 .slash, .growing-slash {
+	--height: 28.57rem;
 	--thickness: 1.1rem;
-	--height: 400px;
 	--width: calc(var(--height) / 2 + var(--thickness));
 	--top-offset: 0px;
 	--left-offset: 0px;
