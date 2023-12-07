@@ -78,6 +78,8 @@ div.showcases {
 div.showcases > div {
 	width: 100%;
 	height: 100%;
+	max-width: 100%; /* Fix for safari bullshit */
+	max-height: 100%; /* Fix for safari bullshit */
 	position: relative;
 	/* min-height: var(--row-height); */
 	background-color: var(--woolley-blue-faded);

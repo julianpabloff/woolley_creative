@@ -73,7 +73,6 @@ export default function Home() {
 		image.onload = () => showcaseSlidout.add(showcase);
 
 		showcase.append(image, h6);
-		// showcase.append(h6);
 		showcaseContainer.appendChild(showcase);
 	});
 
