@@ -32,6 +32,8 @@ export class LandingImage {
 
 		this.overlay = document.createElement('div');
 		this.overlay.className = 'landing-bg-overlay';
+		this.overlay.style.clipPath =
+			`polygon(60% 0, 100% 0, 100% 100%, calc(60% - ${containerHeight / 2}px) 100%`;
 
 		// Initial values
 		this.initFgDisp = initFgDisp != undefined ? initFgDisp : 100;
@@ -94,10 +96,9 @@ export class LandingImage {
 	}
 
 	setFgDisp(displacement) {
-		if (this.fg) {
-			this.fg.style.top = `${this.initFgDisp - displacement}px`;
-			if (this.doHorizontalFgDisp) this.fg.style.left = `-${displacement / 1.5}px`;
-		}
+		if (this.fg)
+			this.fg.style.transform =
+				`translate(-${displacement / 1.5}px, ${this.initFgDisp - displacement}px)`;
 	}
 
 	setBgDisp(displacement) {
@@ -106,7 +107,9 @@ export class LandingImage {
 			this.heroText.style.transform = `translateY(${displacement}px)`;
 			this.bgDisp = displacement;
 		}
-		if (this.bg) this.bg.style.top = this.overlay.style.top = `${displacement * 2}px`;
+		if (this.bg)
+			this.bg.style.transform = this.overlay.style.transform =
+				`translateY(${displacement * 2}px)`;
 	}
 
 	init() {
