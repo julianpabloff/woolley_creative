@@ -34,11 +34,12 @@ export class LandingImageII {
 
 		// Initial values
 		this.totalDisplacement = 100; // px
+		this.bgParallax = 1;
 		// this.fgXDispFactor = 0.67; // proportion of horizontal fg displacement
 
 		// From landingImageData
 		this.doFgXDisp = doHorizontalFgDisp != undefined ? doHorizontalFgDisp : true;
-		this.bgParallax = 1;
+		this.doTextSlide = textSlide != undefined ? textSlide : true;
 		this.textPos = textPosition != undefined ? textPosition : 'right';
 		this.textColor = textColor != undefined ? textColor : 'white';
 
@@ -54,8 +55,7 @@ export class LandingImageII {
 			if (minHeight) containerHeight = Math.max(containerHeight, minHeight);
 			if (maxHeight) containerHeight = Math.min(containerHeight, maxHeight);
 		}
-		// container.style.height = containerHeight.toString() + 'px';
-		container.style.setProperty('--height', `${containerHeight}px`);
+		container.style.height = containerHeight.toString() + 'px';
 
 		// Clip path overlay
 		this.overlay = document.createElement('div');
@@ -141,8 +141,9 @@ export class LandingImageII {
 	onScroll(scrollY = getScrollY()) {
 		this.tracker.onScroll(scrollY);
 		if (!this.tracker.changed) return;
-		this.container.style.setProperty('--t', this.tracker.t.toString());
-		this.container.style.setProperty('--scroll', this.tracker.distance.toString());
+		window.requestAnimationFrame(() => {
+			this.container.style.setProperty('--t', this.tracker.t.toString());
+		});
 	}
 
 	positionText() {

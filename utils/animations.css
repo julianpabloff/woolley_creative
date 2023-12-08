@@ -1,9 +1,8 @@
 .landing-image {
 	--t: 0;
-	--total: 100px;
-	/* --scroll-height; */
+	--total-disp: 100px;
+	/* --scroll-height: 900px; var comes from js */
 	--bg-parallax: 0.3;
-	height: var(--height); /* var comes from js */
 	overflow: hidden;
 	position: relative;
 	background-color: var(--woolley-blue);
@@ -18,7 +17,7 @@
 
 .landing-image img.landing-fg {
 	/* --x-disp-factor: 0; var comes from js */
-	--fg-disp-y: calc(var(--t) * var(--total) * -1);
+	--fg-disp-y: calc(var(--t) * var(--total-disp) * -1);
 	--fg-disp-x: calc(var(--fg-disp-y) * var(--x-disp-factor));
 	transform: translate(var(--fg-disp-x), var(--fg-disp-y));
 	z-index: 1;
