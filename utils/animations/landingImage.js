@@ -18,7 +18,7 @@ export class LandingImage {
 			opacitySpeed // multiplier (default 4)
 		} = landingImageData;
 
-		container.className = "landing-container";
+		container.className = 'landing-container';
 
 		// Set container height
 		let containerHeight;
@@ -96,9 +96,12 @@ export class LandingImage {
 	}
 
 	setFgDisp(displacement) {
-		if (this.fg)
-			this.fg.style.transform =
+		if (this.fg) {
+			if (this.doHorizontalFgDisp) this.fg.style.transform =
 				`translate(-${displacement / 1.5}px, ${this.initFgDisp - displacement}px)`;
+			else this.fg.style.transform =
+				`translateY(${this.initFgDisp - displacement}px)`;
+		}
 	}
 
 	setBgDisp(displacement) {
@@ -133,6 +136,7 @@ export class LandingImage {
 	}
 
 	onScroll(scrollY = window.scrollY) {
+		console.log(scrollY);
 		this.tracker.onScroll(scrollY);
 		if (!this.tracker.changed) return;
 		const t = this.tracker.t;
@@ -152,7 +156,7 @@ export class LandingImage {
 					displacement < this.heroLeft + this.heroWidth // stop after text reaches left side
 				)).toString() + 'px';
 
-				if (this.revealedH1s[index] && scrollY >= threshold) // only apply opacity if revealed
+				if (this.revealedH1s[index]) // only apply opacity if revealed
 					h1.style.opacity = 1 - displacement / (this.totalWidth / this.heroOpacityFactor);
 					// h1.style.opacity = 1 - displacement / (window.innerWidth / this.heroOpacityFactor);
 			});

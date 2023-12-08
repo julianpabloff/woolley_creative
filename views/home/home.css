@@ -81,7 +81,6 @@ div.showcases > div {
 	max-width: 100%; /* Fix for safari bullshit */
 	max-height: 100%; /* Fix for safari bullshit */
 	position: relative;
-	/* min-height: var(--row-height); */
 	background-color: var(--woolley-blue-faded);
 	aspect-ratio: 1000 / 654;
 }

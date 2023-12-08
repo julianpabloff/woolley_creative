@@ -1,10 +1,10 @@
-import { forEachElement } from '../../utils/elements.js';
 import {
-	LandingImage,
+	LandingImageII,
 	ScrollFadeInGroup,
 	SlideoutObserver,
 	SpriteSheetScroll
 } from '../../utils/animations.js';
+import { forEachElement, getScrollY } from '../../utils/elements.js';
 
 export default function Home() {
 	// Get DOM elements
@@ -13,11 +13,10 @@ export default function Home() {
 	const showcaseContainer = document.getElementById('showcase-container');
 	const partners = document.getElementById('partner-links');
 
-	const landingImage = new LandingImage({
+	const landingImage = new LandingImageII({
 		container: landingContainer,
 		fgFilepath: '/assets/home/landing_image_foreground.webp',
-		bgFilepath: '/assets/home/landing_image_background.webp',
-		heroText: ['We', 'Create', 'Outside.']
+		bgFilepath: '/assets/home/landing_image_background.webp'
 	});
 
 	// Custom positioning for home foreground image
@@ -77,7 +76,7 @@ export default function Home() {
 	});
 
 	function onScroll() {
-		const scrollY = window.scrollY;
+		const scrollY = getScrollY();
 		landingImage.onScroll(scrollY);
 		categoryScrollFade.onScroll(scrollY);
 		cameraSpin.onScroll(scrollY);

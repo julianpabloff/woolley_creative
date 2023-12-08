@@ -1,5 +1,55 @@
+.landing-image {
+	--t: 0;
+	--total: 100px;
+	/* --scroll-height; */
+	--bg-parallax: 0.3;
+	height: var(--height); /* var comes from js */
+	overflow: hidden;
+	position: relative;
+	background-color: var(--woolley-blue);
+}
+
+.landing-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: absolute;
+}
+
+.landing-image img.landing-fg {
+	/* --x-disp-factor: 0; var comes from js */
+	--fg-disp-y: calc(var(--t) * var(--total) * -1);
+	--fg-disp-x: calc(var(--fg-disp-y) * var(--x-disp-factor));
+	transform: translate(var(--fg-disp-x), var(--fg-disp-y));
+	z-index: 1;
+}
+
+.landing-image .background {
+	--bg-disp: calc(var(--scroll-height) * var(--bg-parallax) * var(--t));
+	transform: translateY(var(--bg-disp));
+}
+
+.landing-image div.landing-bg-overlay {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	mix-blend-mode: overlay;
+}
+
+.landing-image div.text-container {
+	--text-disp: calc(var(--scroll-height) * var(--bg-parallax) * 2 * var(--t));
+	transform: translateY(var(--text-disp));
+	position: absolute;
+	z-index: 1;
+}
+
+.landing-image div.text-container * {
+	color: inherit;
+	transition: transform 0.2s ease-out, opacity 0.5s ease-out;
+}
+
+/* OLD */
 .landing-container {
-	/* height: 100vh; */
 	overflow: hidden;
 	position: relative;
 }
@@ -18,7 +68,6 @@
 .landing-container div.landing-bg-overlay {
 	width: 100%;
 	height: 100%;
-	position: absolute;
 	background-color: rgba(0, 0, 0, 0.3);
 	mix-blend-mode: overlay;
 }
@@ -37,6 +86,7 @@
 	right: 0;
 	transition: opacity 0.5s ease-out, right 0.2s ease-out;
 }
+/* END OLD */
 
 
 .sprite-sheet-container {

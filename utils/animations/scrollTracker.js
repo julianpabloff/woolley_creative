@@ -21,6 +21,8 @@ export class ScrollTracker {
 		this.t = getBoundedTValue(this.start + this.inPadding, scrollY, this.end - this.outPadding);
 		this.changed = this.t != previousT;
 
+		this.distance = scrollY - this.start - this.inPadding;
+
 		// viewport t, without bounding or padding
 		let vpt = getTValue(this.start, scrollY, this.end);
 		this.visible = vpt >= 0 && vpt <= 1;

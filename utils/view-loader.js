@@ -1,33 +1,3 @@
-let handleLinkClick, handleLinkHover;
-export function createLinkEvents(onClick, onHover) {
-	handleLinkClick = function(event) {
-		event.preventDefault();
-		const href = event.currentTarget.href;
-		if (href !== (document.location.href || document.location.href + '/')) {
-			window.history.pushState(null, null, href);
-			onClick();
-		}
-	}
-	handleLinkHover = function(event) {
-		onHover(new URL(event.target.href));
-	}
-}
-export function activateLinks() {
-	const linkCount = document.links.length;
-	let i = 0;
-	while (i < linkCount) {
-		const link = document.links.item(i);
-		if (
-			link.href.includes(document.location.origin) &&
-			!link.href.includes('#')
-		) {
-			link.addEventListener('click', handleLinkClick);
-			link.addEventListener('pointerenter', handleLinkHover, { once: true });
-		}
-		i++;
-	}
-}
-
 const styleSheetMap = new Map();
 
 export function addStyleSheet(name, styleSheet) {

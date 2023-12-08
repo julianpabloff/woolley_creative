@@ -1,7 +1,5 @@
 import {
-	activateLinks,
 	addStyleSheet,
-	createLinkEvents,
 	assignContainer,
 	insertHTML,
 	insertCSS,
@@ -84,9 +82,42 @@ async function preLoad(url) {
 		link.rel = 'prefetch';
 		link.href = routes[url.pathname].template;
 		link.as = 'document';
-		// link.onload = () => console.log('prefetched', routes[url.pathname].name);
+		link.onload = () => console.log('prefetched', routes[url.pathname].name);
 		document.head.appendChild(link);
 		prefetched.add(path);
+	}
+}
+
+// Called at the first page load, creates event handlers for links
+let handleLinkClick, handleLinkHover;
+export function createLinkEvents(onClick, onHover) {
+	handleLinkClick = function(event) {
+		event.preventDefault();
+		const href = event.currentTarget.href;
+		if (href !== (document.location.href || document.location.href + '/')) {
+			window.history.pushState(null, null, href);
+			onClick();
+		} else scrollPos.reset(pageName);
+	}
+	handleLinkHover = function(event) {
+		onHover(new URL(event.target.href));
+	}
+}
+
+// Assigns link event handlers to links in the document
+export function activateLinks() {
+	const linkCount = document.links.length;
+	let i = 0;
+	while (i < linkCount) {
+		const link = document.links.item(i);
+		if (
+			link.href.includes(document.location.origin) &&
+			!link.href.includes('#')
+		) {
+			link.addEventListener('click', handleLinkClick);
+			link.addEventListener('pointerenter', handleLinkHover, { once: true });
+		}
+		i++;
 	}
 }
 
@@ -97,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	addHandlers('index', indexHandlers);
 	searchForAnimations(document.body);
 	root = document.getElementById('root');
-	createLinkEvents(() => handleLocation(true), preLoad);
+	createLinkEvents(() => handleLocation(true), () => {});
 	handleLocation(false);
 });
 
