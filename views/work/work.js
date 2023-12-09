@@ -9,8 +9,8 @@ export default function Work() {
 	const landingImage = new LandingImage({
 		container: landingContainer,
 		bgFilepath: '/assets/work/landing_image_background.webp',
-		heroText: ['We', 'Do', 'Creative.'],
-		maxHeight: 900
+		maxHeight: 900,
+		textFade: 'medium'
 	});
 
 	// const updateProjects = addProjectsToContainer(projectsContainer);

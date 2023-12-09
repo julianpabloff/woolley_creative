@@ -11,7 +11,7 @@ export default function About() {
 		fgFilepath: '/assets/about/landing_image_foreground.webp',
 		bgFilepath: '/assets/about/landing_image_background.jpg',
 		minHeight: 960,
-		textPosition: 'custom',
+		textPosition: { top: '25%', left: 'var(--side-padding)' },
 		textColor: 'blue',
 		textFade: 'fast'
 	});

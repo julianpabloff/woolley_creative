@@ -1,20 +1,5 @@
-section#careers-landing {
-	color: var(--woolley-grey);
-	background-color: var(--woolley-blue);
-}
-
-h2#careers-landing-text {
-	position: absolute;
-	padding: 0 max(8vw, (100vw - var(--max-width)) / 2);
-	top: calc(50% - 4.3rem);
-	opacity: 0;
-	transition: opacity 1s ease-out;
-}
-
-
 div.pointer {
 	position: absolute;
-	padding-right: 20px;
 }
 div.pointer img {
 	height: 200px;
@@ -23,19 +8,13 @@ div.pointer img {
 div.pointer p { font-size: 0.8rem; }
 
 
-div#namesake {
+section.landing div.pointer {
 	left: 60%;
-	bottom: 50px;
-	padding-right: 20px;
-	z-index: 2;
+	bottom: 80px;
+	color: var(--woolley-grey);
 	opacity: 0;
-	transition: opacity 0.1s;
-}
-
-div#namesake img {
-	width: initial;
-	position: initial;
-	object-fit: contain;
+	z-index: 2;
+	transition: opacity 0.5s ease-out;
 }
 
 
@@ -70,7 +49,7 @@ section.magazine div.magazines div.img-placeholder {
 	background-color: red;
 }
 
-section.magazine div.magazines div.pointer {
+section.magazine div.pointer {
 	top: calc(20% - 190px);
 	left: calc(23.7% - 30px);
 }
@@ -129,7 +108,11 @@ section.banner div.growing-slash {
 
 
 @media screen and (max-width: 767px) {
-	div#namesake {
+	div.pointer img {
+		height: 160px;
+	}
+
+	section.landing div.pointer {
 		display: none;
 	}
 
@@ -137,20 +120,16 @@ section.banner div.growing-slash {
 		display: inline;
 	}
 
-	section.magazine div.magazines .image-1 {
+	section.magazine .image-1 {
 		display: none;
 	}
 
-	section.magazine div.magazines .image-2 {
+	section.magazine .image-2 {
 		width: 100%;
 	}
 
-	section.magazine div.magazines div.pointer {
+	section.magazine div.pointer {
 		top: calc(20% - 150px);
-	}
-
-	section.magazine div.magazines div.pointer img {
-		height: 160px;
 	}
 
 	section.magazine .text-2 {

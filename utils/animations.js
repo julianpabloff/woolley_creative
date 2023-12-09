@@ -34,7 +34,6 @@ export function getBoundedTValue(start, point, end) {
 //     must be instanciated in a view js file
 //     configurable on an element to element basis
 
-export { LandingImageOld } from './animations/landingImageOld.js';
 export { LandingImage } from './animations/landingImage.js';
 export { ScrollFadeIn, ScrollFadeInGroup } from './animations/scrollFadeIn.js';
 export { ScrollFadeOut } from './animations/scrollFadeOut.js';
@@ -50,6 +49,8 @@ export { ScrollTracker } from './animations/scrollTracker.js';
 
 import { BackgroundParallax } from './animations/backgroundParallax.js'; // class="background-parallax"
 import { GrowingSlash } from './animations/growingSlash.js'; // class="growing-slash"
+import { ScrollFadeIn } from './animations/scrollFadeIn.js'; // class="scroll-fade-in"
+import { ScrollFadeOut } from './animations/scrollFadeOut.js'; // class="scroll-fade-out"
 import { Trapezoid } from './animations/trapezoid.js'; // class="trapezoid {left/right}"
 
 // IntersectionObserver Animations
@@ -92,6 +93,8 @@ const intersectionClassMap = new Map()
 const scrollClassMap = new Map()
 	.set('background-parallax', BackgroundParallax)
 	.set('growing-slash', GrowingSlash)
+	.set('scroll-fade-in', ScrollFadeIn)
+	.set('scroll-fade-out', ScrollFadeOut)
 	.set('trapezoid', Trapezoid)
 
 export function searchForAnimations(container) {

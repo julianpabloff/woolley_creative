@@ -1,8 +1,3 @@
-section#about-landing div.text-container {
-	left: var(--side-padding);
-	top: 25%;
-}
-
 section#about-landing div.text-container > div.p-box {
 	width: calc(6 * var(--column-width) + 5 * var(--column-gap));
 	max-width: 80vw;

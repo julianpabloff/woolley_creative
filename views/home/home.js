@@ -16,7 +16,8 @@ export default function Home() {
 	const landingImage = new LandingImage({
 		container: landingContainer,
 		fgFilepath: '/assets/home/landing_image_foreground.webp',
-		bgFilepath: '/assets/home/landing_image_background.webp'
+		bgFilepath: '/assets/home/landing_image_background.webp',
+		textPosition: 'right-bounded'
 	});
 
 	// Custom positioning for home foreground image

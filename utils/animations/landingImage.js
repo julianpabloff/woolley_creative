@@ -7,7 +7,7 @@ import { forEachElement, getHeaderHeight, getScrollY, getVPH } from '../elements
 	- container: [DOM element] container the landing image generates in
 	- fgFilepath: [string] (url) foreground image filepath
 	- bgFilepath: [string] (url) background image filepath
-	- textPosition: ['left', 'right', 'custom'] custom allows positioning via external css (default right)
+	- textPosition: [string || object] one of the position presets or an object with css key/value
 	- textColor: [string] color className (default inherit)
 	- textFade: ['slow', 'medium', 'fast', 'none'] how quickly the text fades out (default slow)
 	- textSlide: [boolean] whether the text slides left (default true)
@@ -75,6 +75,35 @@ export class LandingImage {
 			this.text = document.createElement('div');
 			const colorClass = textColor ? textColor : 'white';
 			this.text.classList.add('text-container', colorClass);
+
+			// Text Position
+			const bounded = 'max(var(--side-padding), calc((100vw - var(--max-width)) / 2))';
+			const positionPresets = {
+				'left': () => this.text.style.left = 'min(18%, var(--side-padding)',
+				'left-bounded': () => this.text.style.left = bounded,
+				'right': () => this.text.style.right = '18%',
+				'right-bounded': () => this.text.style.right = `max(18%, ${bounded})`,
+				'custom': () => {}
+			}
+
+			// Default to preset: 'right'
+			if (textPosition == undefined) positionPresets.right();
+			// Execute preset off of provied string
+			else if (typeof textPosition == 'string') {
+				const preset = positionPresets[textPosition];
+				if (preset) {
+					// All presets have the text vertically centered
+					this.positionTextY = () => {
+						const centered = (this.totalHeight - this.text.clientHeight) / 2;
+						this.text.style.top = `${centered}px`;
+					}
+					preset();
+				} else console.log(`LandingImage position preset (${textPosition}) doesn't exist`);
+			// Add CSS properties and values off of provided object
+			} else if (typeof textPosition == 'object') {
+				for (const [property, text] of Object.entries(textPosition))
+					this.text.style.setProperty(property, text);
+			}
 
 			let i = 0;
 			while (i < containerChildCount) {
@@ -152,7 +181,7 @@ export class LandingImage {
 		if (this.doFgXDisp) {
 			const displacementX = displacementY * this.fgXDispFactor;
 			this.fg.style.transform = `translate(${displacementX}px, ${displacementY}px)`;
-		} else this.fg.style.transform = `translateY(${displacement}px)`;
+		} else this.fg.style.transform = `translateY(${displacementY}px)`;
 	}
 
 	updateBg(t) {
@@ -167,7 +196,7 @@ export class LandingImage {
 		this.text.style.transform = `translateY(${displacementY}px)`;
 
 		const doTextSlide = (child, index) => {
-			if (!this.doTextSlide) return 0;
+			if (!this.doTextSlide) return null;
 			const scrollThreshold = this.textSlideOffset * index;
 			const withinThreshold = scrollY >= scrollThreshold;
 			const displacementX = Math.pow(scrollY - scrollThreshold, 2) * 0.001 * withinThreshold;
@@ -183,7 +212,7 @@ export class LandingImage {
 		forEachElement(this.text.children, (child, index) => {
 			const displacementX = doTextSlide(child, index);
 			if (this.textFadeFactor) {
-				const dispToDetermineOpacity = displacementX ? displacementX : displacementY;
+				const dispToDetermineOpacity = displacementX != null ? displacementX : displacementY;
 				setOpacity(child, index, dispToDetermineOpacity);
 			}
 		});
@@ -201,27 +230,14 @@ export class LandingImage {
 		this.updateText(t, scrollY);
 	}
 
-	positionText() {
+	positionTextY() {
 		if (!this.text) return;
-		const getTop = () => (this.totalHeight - this.text.clientHeight) / 2;
-		switch (this.textPos) {
-			case 'custom': break;
-			case 'left':
-				this.text.style.left = 'var(--side-padding)';
-				this.text.style.top = getTop() + 'px';
-				break;
-			case 'right':
-				this.text.style.right = '18%';
-				this.text.style.top = getTop() + 'px';
-				break;
-		}
 	}
 	
 	onResize() {
 		this.tracker.onResize();
 		this.totalHeight = this.container.clientHeight;
 		this.totalWidth = this.container.clientWidth;
-		// this.container.style.setProperty('--scroll-height', `${this.totalHeight - getHeaderHeight()}px`);
-		this.positionText();
+		this.positionTextY();
 	}
 }
