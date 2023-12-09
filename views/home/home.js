@@ -1,5 +1,5 @@
 import {
-	LandingImageII,
+	LandingImage,
 	ScrollFadeInGroup,
 	SlideoutObserver,
 	SpriteSheetScroll
@@ -13,7 +13,7 @@ export default function Home() {
 	const showcaseContainer = document.getElementById('showcase-container');
 	const partners = document.getElementById('partner-links');
 
-	const landingImage = new LandingImageII({
+	const landingImage = new LandingImage({
 		container: landingContainer,
 		fgFilepath: '/assets/home/landing_image_foreground.webp',
 		bgFilepath: '/assets/home/landing_image_background.webp'

@@ -34,5 +34,6 @@ export class ScrollTracker {
 		this.height = this.element.clientHeight;
 		this.start = (top - windowHeight) * (top > windowHeight);
 		this.end = top + this.height - getHeaderHeight() * this.accountForHeader;
+		this.total = this.end - this.start;
 	}
 }

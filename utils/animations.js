@@ -34,8 +34,8 @@ export function getBoundedTValue(start, point, end) {
 //     must be instanciated in a view js file
 //     configurable on an element to element basis
 
+export { LandingImageOld } from './animations/landingImageOld.js';
 export { LandingImage } from './animations/landingImage.js';
-export { LandingImageII } from './animations/landingImageII.js';
 export { ScrollFadeIn, ScrollFadeInGroup } from './animations/scrollFadeIn.js';
 export { ScrollFadeOut } from './animations/scrollFadeOut.js';
 export { SlideList } from './animations/slideList.js';

@@ -1,8 +1,4 @@
 .landing-image {
-	--t: 0;
-	--total-disp: 100px;
-	/* --scroll-height: 900px; var comes from js */
-	--bg-parallax: 0.3;
 	overflow: hidden;
 	position: relative;
 	background-color: var(--woolley-blue);
@@ -16,16 +12,7 @@
 }
 
 .landing-image img.landing-fg {
-	/* --x-disp-factor: 0; var comes from js */
-	--fg-disp-y: calc(var(--t) * var(--total-disp) * -1);
-	--fg-disp-x: calc(var(--fg-disp-y) * var(--x-disp-factor));
-	transform: translate(var(--fg-disp-x), var(--fg-disp-y));
 	z-index: 1;
-}
-
-.landing-image .background {
-	--bg-disp: calc(var(--scroll-height) * var(--bg-parallax) * var(--t));
-	transform: translateY(var(--bg-disp));
 }
 
 .landing-image div.landing-bg-overlay {
@@ -36,14 +23,14 @@
 }
 
 .landing-image div.text-container {
-	--text-disp: calc(var(--scroll-height) * var(--bg-parallax) * 2 * var(--t));
-	transform: translateY(var(--text-disp));
+	transition: transform 0.1s ease-out;
 	position: absolute;
 	z-index: 1;
 }
 
-.landing-image div.text-container * {
+.landing-image div.text-container > * {
 	color: inherit;
+	opacity: 0;
 	transition: transform 0.2s ease-out, opacity 0.5s ease-out;
 }
 
