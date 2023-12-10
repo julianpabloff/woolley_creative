@@ -22,7 +22,7 @@ export class LandingImage {
 			container, // DOM element
 			fgFilepath, // filepath url
 			bgFilepath, // filepath url
-			textPosition, // left, right, custom
+			textPosition, // preset or custom object
 			textColor, // color className
 			textFade, // slow, medium, fast, none
 			textSlide, // boolean
@@ -82,22 +82,27 @@ export class LandingImage {
 				'left': () => this.text.style.left = 'min(18%, var(--side-padding)',
 				'left-bounded': () => this.text.style.left = bounded,
 				'right': () => this.text.style.right = '18%',
-				'right-bounded': () => this.text.style.right = `max(18%, ${bounded})`,
-				'custom': () => {}
+				'right-bounded': () => this.text.style.right = `max(18%, ${bounded})`
 			}
-
+			// Replaces this.positionTextY (a otherwise empty function) with one that
+			// vertically centers the text on resize
+			const activateYPositioning = () => {
+				this.positionTextY = () => {
+					const centered = (this.totalHeight - this.text.clientHeight) / 2;
+					this.text.style.top = `${centered}px`;
+				}
+			}
 			// Default to preset: 'right'
-			if (textPosition == undefined) positionPresets.right();
+			if (textPosition == undefined) {
+				positionPresets.right();
+				activateYPositioning();
+			}
 			// Execute preset off of provied string
 			else if (typeof textPosition == 'string') {
 				const preset = positionPresets[textPosition];
 				if (preset) {
-					// All presets have the text vertically centered
-					this.positionTextY = () => {
-						const centered = (this.totalHeight - this.text.clientHeight) / 2;
-						this.text.style.top = `${centered}px`;
-					}
 					preset();
+					activateYPositioning();
 				} else console.log(`LandingImage position preset (${textPosition}) doesn't exist`);
 			// Add CSS properties and values off of provided object
 			} else if (typeof textPosition == 'object') {
@@ -106,12 +111,14 @@ export class LandingImage {
 			}
 
 			let i = 0;
-			while (i < containerChildCount) {
+			do { // Move provided nodes from container to the text container
 				const node = container.children[0];
 				this.text.appendChild(container.removeChild(node));
 				i++;
-			}
-			this.revealedChildren = []; // Wait to set opacity on scroll until this.initText()
+			} while (i < containerChildCount);
+
+			this.revealedChildren = new Array(containerChildCount).fill(false);
+			this.childOpacities = new Array(containerChildCount).fill(0);
 			container.appendChild(this.text);
 		}
 		// Add to DOM
@@ -159,9 +166,15 @@ export class LandingImage {
 	initText() {
 		if (!this.text) return;
 		forEachElement(this.text.children, (child, index) => {
-			this.revealedChildren.push(false);
 			setTimeout(() => {
-				child.style.opacity = '1';
+				let opacity = 1;
+				const currentOpacity = this.childOpacities[index];
+
+				// If onScroll set an opacity already, reveal the element with that opacity, not 1
+				if (currentOpacity) opacity = currentOpacity;
+				else this.childOpacities[index] = opacity;
+
+				child.style.opacity = opacity.toString();
 				setTimeout(() => this.revealedChildren[index] = true, 500);
 			}, (index + 1) * 300);
 		});
@@ -205,8 +218,16 @@ export class LandingImage {
 		}
 
 		const setOpacity = (child, index, displacement) => {
-			if (this.revealedChildren[index])
-				child.style.opacity = 1 - displacement / (this.totalWidth / this.textFadeFactor);
+			const currentOpacity = this.childOpacities[index];
+
+			// Calc new opacity based on the element's displacement
+			const end = this.totalWidth / this.textFadeFactor;
+			const opacity = 1 - getBoundedTValue(0, displacement, end);
+
+			if (opacity != currentOpacity) {
+				this.childOpacities[index] = opacity;
+				if (this.revealedChildren[index]) child.style.opacity = opacity.toString();
+			}
 		}
 
 		forEachElement(this.text.children, (child, index) => {
