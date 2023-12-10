@@ -87,7 +87,7 @@ export default function Home() {
 		landingImage.onResize();
 
 		const windowWidth = window.innerWidth;
-		if (windowWidth > 1024) categoryScrollFade.gridWidth = 4;
+		if (windowWidth > 1100) categoryScrollFade.gridWidth = 4;
 		else if (windowWidth > 767) categoryScrollFade.gridWidth = 2;
 		else categoryScrollFade.gridWidth = 1;
 		categoryScrollFade.onResize();

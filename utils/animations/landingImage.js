@@ -1,5 +1,5 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
-import { forEachElement, getHeaderHeight, getScrollY, getVPH } from '../elements.js';
+import { forEachElement, getScrollY, getVPH } from '../elements.js';
 
 /* LandingImageII
 
@@ -47,7 +47,7 @@ export class LandingImage {
 		switch (textFade) {
 			case undefined: case 'slow': this.textFadeFactor = 4; break;
 			case 'medium': this.textFadeFactor = 8; break;
-			case 'fast': this.textFadeFactor = 20; break;
+			case 'fast': this.textFadeFactor = 10; break;
 			case 'none': this.textFadeFactor = 0; break;
 		}
 
@@ -175,7 +175,10 @@ export class LandingImage {
 				else this.childOpacities[index] = opacity;
 
 				child.style.opacity = opacity.toString();
-				setTimeout(() => this.revealedChildren[index] = true, 500);
+				this.revealedChildren[index] = true;
+				setTimeout(() => {
+					child.style.transition = 'transform 0.3s ease-out, opacity 0.1s ease-out';
+				}, 500);
 			}, (index + 1) * 300);
 		});
 		this.onScroll(getScrollY());
@@ -217,13 +220,8 @@ export class LandingImage {
 			return displacementX;
 		}
 
-		const setOpacity = (child, index, displacement) => {
+		const setOpacity = (child, index, opacity) => {
 			const currentOpacity = this.childOpacities[index];
-
-			// Calc new opacity based on the element's displacement
-			const end = this.totalWidth / this.textFadeFactor;
-			const opacity = 1 - getBoundedTValue(0, displacement, end);
-
 			if (opacity != currentOpacity) {
 				this.childOpacities[index] = opacity;
 				if (this.revealedChildren[index]) child.style.opacity = opacity.toString();
@@ -233,8 +231,21 @@ export class LandingImage {
 		forEachElement(this.text.children, (child, index) => {
 			const displacementX = doTextSlide(child, index);
 			if (this.textFadeFactor) {
-				const dispToDetermineOpacity = displacementX != null ? displacementX : displacementY;
-				setOpacity(child, index, dispToDetermineOpacity);
+				if (displacementX != null) { // Use horizontal displacement to determine opacity
+					const end = this.totalWidth / this.textFadeFactor;
+					const opacity = 1 - getBoundedTValue(0, displacementX, end);
+					setOpacity(child, index, opacity);
+				} else {
+					const scrollThreshold = this.textSlideOffset * 2 * (index + 1);
+					const distanceFromThreshold = scrollY - scrollThreshold;
+					if (distanceFromThreshold < 0) { // Wait to start fading
+						setOpacity(child, index, 1);
+						return;
+					}
+					const end = 400 - 25 * this.textFadeFactor;
+					const opacity = 1 - getBoundedTValue(0, distanceFromThreshold, end);
+					setOpacity(child, index, opacity);
+				}
 			}
 		});
 	}

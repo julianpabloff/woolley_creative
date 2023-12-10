@@ -10,7 +10,7 @@ export default function Work() {
 		container: landingContainer,
 		bgFilepath: '/assets/work/landing_image_background.webp',
 		maxHeight: 900,
-		textFade: 'medium'
+		textSlide: false
 	});
 
 	// const updateProjects = addProjectsToContainer(projectsContainer);

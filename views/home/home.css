@@ -134,12 +134,13 @@ div.image-container img { width: 100%; }
 	}
 }
 
-@media screen and (max-width: 1024px) and (min-width: 768px) {
+@media screen and (max-width: 1100px) and (min-width: 768px) {
 	div.categories {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 100px var(--column-gap);
 	}
 
+	/*
 	div.image-container a:nth-child(3n - 1) {
 		justify-self: center;
 	}
@@ -147,6 +148,7 @@ div.image-container img { width: 100%; }
 	div.image-container a:nth-child(3n) {
 		justify-self: right;
 	}
+	*/
 }
 
 @media screen and (max-width: 767px) {
