@@ -24,7 +24,7 @@
 
 .landing-image div.text-container {
 	max-width: calc(100vw - var(--side-padding) * 2);
-	transition: transform 0.2s ease-out;
+	/* transition: transform 0.2s ease-out; */
 	position: absolute;
 	z-index: 1;
 }
@@ -32,7 +32,7 @@
 .landing-image div.text-container > * {
 	color: inherit;
 	opacity: 0;
-	transition: transform 0.3s ease-out, opacity 0.5s ease-out;
+	/* transition: transform 0.3s ease-out, opacity 0.5s ease-out; */
 }
 
 

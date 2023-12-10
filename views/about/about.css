@@ -176,11 +176,7 @@ section.slide-list ul {
 
 	section.onetwothree p {
 		width: 100%;
-		max-width: 550px;
-	}
-
-	section.onetwothree div div:nth-child(even) p {
-		text-align: justify;
+		max-width: 500px;
 	}
 
 
