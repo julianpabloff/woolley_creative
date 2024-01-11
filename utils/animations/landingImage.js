@@ -1,5 +1,5 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
-import { forEachElement, getScrollY, getVPH } from '../elements.js';
+import { bounded, forEachElement, getScrollY, getVPH } from '../elements.js';
 
 /* LandingImageII
 
@@ -77,7 +77,6 @@ export class LandingImage {
 			this.text.classList.add('text-container', colorClass);
 
 			// Text Position
-			const bounded = 'max(var(--side-padding), calc((100vw - var(--max-width)) / 2))';
 			const positionPresets = {
 				'left': () => this.text.style.left = 'min(18%, var(--side-padding)',
 				'left-bounded': () => this.text.style.left = bounded,
@@ -161,6 +160,7 @@ export class LandingImage {
 		this.container = container;
 
 		this.onResize();
+		this.onScroll();
 	}
 
 	initText() {

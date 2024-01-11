@@ -24,7 +24,6 @@ section.magazine p {
 
 section.magazine .text-1 {
 	width: min(37rem, 100%);
-	margin: 250px 0;
 }
 
 section.magazine .text-1 span {
@@ -58,7 +57,6 @@ section.magazine p.caption { margin-top: 40px }
 
 section.magazine .text-2 {
 	width: min(53rem, 100%);
-	margin: 200px 0 250px 0;
 }
 
 

@@ -31,6 +31,8 @@ export const getAbsoluteY = element => getAbsoluteOffset(element, 'top');
 const header = document.getElementById('header');
 export const getHeaderHeight = () => header.clientHeight;
 
+export const bounded = 'max(var(--side-padding), calc((100vw - var(--max-width)) / 2))';
+
 export { getScrollY, getVPW, getVPH } from './events.js';
 
 // Inputs

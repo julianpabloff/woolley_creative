@@ -1,4 +1,5 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
+import { getScrollY } from '../elements.js';
 
 export class ScrollFadeOut { // class="scroll-fade-out"
 	constructor(element, options = {}) {
@@ -9,14 +10,16 @@ export class ScrollFadeOut { // class="scroll-fade-out"
 		const { outPadding, maxOpacity, threshold } = options;
 		this.outPadding = outPadding !== undefined ? outPadding : 50;
 		this.maxOpacity = maxOpacity !== undefined ? maxOpacity : 1;
-		this.threshold = threshold !== undefined ? threshold : 0.5;
+		this.threshold = threshold !== undefined ? threshold : 0;
 
 		this.tracker = new ScrollTracker(element, {
 			outPadding: element.clientHeight + this.outPadding
 		});
+
+		this.onScroll();
 	}
 
-	onScroll(scrollY = window.scrollY) {
+	onScroll(scrollY = getScrollY()) {
 		this.tracker.onScroll(scrollY);
 		if (!this.tracker.changed) return;
 		const opacity = 1 - getBoundedTValue(this.threshold, this.tracker.t, 1);
@@ -25,5 +28,6 @@ export class ScrollFadeOut { // class="scroll-fade-out"
 
 	onResize() {
 		this.tracker.onResize();
+		this.onScroll();
 	}
 }

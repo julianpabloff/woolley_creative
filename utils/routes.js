@@ -4,6 +4,8 @@ import About from '../views/about/about.js';
 import Careers from '../views/careers/careers.js';
 import Contact from '../views/contact/contact.js';
 
+import Mountaineers from '../views/work/mountaineers/mountaineers.js';
+
 export const routes = {
 	'/': {
 		selector: 'home',
@@ -17,9 +19,11 @@ export const routes = {
 		styles: '/views/work/work.css',
 		initializer: Work
 	},
-		'/work/ruffwear': {
-			selector: 'ruffwear',
-			template: '/views/work/projects/ruffwear.html'
+		'/work/mountaineers-book': {
+			selector: 'mountaineers',
+			template: '/views/work/mountaineers/mountaineers.html',
+			styles: '/views/work/mountaineers/mountaineers.css',
+			initializer: Mountaineers
 		},
 	'/about': {
 		selector: 'about',

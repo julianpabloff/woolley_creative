@@ -12,7 +12,8 @@ import Index from './index.js';
 
 // Convert each hardcoded route to a RegExp
 const regexRoutes = Array.from(Object.keys(routes).map(path => {
-	const regex = '^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$';
+	// const regex = '^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$';
+	const regex = `^${path.replace(/\//g, '\\/')}(\\/?)$`;
 	return { path, regex };
 }));
 

@@ -1,7 +1,7 @@
 import { getBoundedTValue, LandingImage, ScrollFadeOut } from '../../utils/animations.js';
 import { getScrollY } from '../../utils/elements.js';
 
-export default function Careers(onReady) {
+export default function Careers() {
 	// Get DOM elements
 	const landingContainer = document.getElementById('careers-landing');
 	const namesake = document.getElementById('namesake');
