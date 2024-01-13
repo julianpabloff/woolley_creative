@@ -1,5 +1,5 @@
 import { getTValue, getBoundedTValue } from '../animations.js';
-import { getAbsoluteY, getHeaderHeight } from '../elements.js';
+import { getAbsoluteY, getHeaderHeight, getScrollY } from '../elements.js';
 
 export class ScrollTracker {
 	constructor(element, options = {}) {
@@ -16,7 +16,7 @@ export class ScrollTracker {
 		this.onResize();
 	}
 
-	onScroll(scrollY = window.scrollY) {
+	onScroll(scrollY = getScrollY()) {
 		const previousT = this.t;
 		this.t = getBoundedTValue(this.start + this.inPadding, scrollY, this.end - this.outPadding);
 		this.changed = this.t != previousT;
@@ -29,11 +29,13 @@ export class ScrollTracker {
 	}
 
 	onResize() {
-		const top = getAbsoluteY(this.element);
+		const y = getAbsoluteY(this.element);
 		const windowHeight = window.innerHeight;
+		const headerHeight = getHeaderHeight() * this.accountForHeader;
+
 		this.height = this.element.clientHeight;
-		this.start = (top - windowHeight) * (top > windowHeight);
-		this.end = top + this.height - getHeaderHeight() * this.accountForHeader;
+		this.start = (y - windowHeight) * (y > windowHeight);
+		this.end = y + this.height - headerHeight;
 		this.total = this.end - this.start;
 	}
 }

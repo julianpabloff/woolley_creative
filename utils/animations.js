@@ -49,6 +49,7 @@ export { ScrollTracker } from './animations/scrollTracker.js';
 
 import { BackgroundParallax } from './animations/backgroundParallax.js'; // class="background-parallax"
 import { GrowingSlash } from './animations/growingSlash.js'; // class="growing-slash"
+import { ImageParallax } from './animations/imageParallax.js'; // class="image-parallax"
 import { ScrollFadeIn } from './animations/scrollFadeIn.js'; // class="scroll-fade-in"
 import { ScrollFadeOut } from './animations/scrollFadeOut.js'; // class="scroll-fade-out"
 import { Trapezoid } from './animations/trapezoid.js'; // class="trapezoid {left/right}"
@@ -93,6 +94,7 @@ const intersectionClassMap = new Map()
 const scrollClassMap = new Map()
 	.set('background-parallax', BackgroundParallax)
 	.set('growing-slash', GrowingSlash)
+	.set('image-parallax', ImageParallax)
 	.set('scroll-fade-in', ScrollFadeIn)
 	.set('scroll-fade-out', ScrollFadeOut)
 	.set('trapezoid', Trapezoid)

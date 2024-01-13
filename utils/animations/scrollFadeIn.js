@@ -13,7 +13,7 @@ import { forEachElement } from '../elements.js';
 export class ScrollFadeIn { // class="scroll-fade-in"
 	constructor(element, options = {}) {
 		this.element = element;
-		element.style.transition = 'opacity 0.1s';
+		element.classList.add('scroll-fade-in');
 
 		// Options
 		const { inPadding, maxOpacity, threshold } = options;
@@ -22,6 +22,8 @@ export class ScrollFadeIn { // class="scroll-fade-in"
 		this.threshold = threshold !== undefined ? threshold : 0.5;
 
 		this.tracker = new ScrollTracker(element, { inPadding: this.inPadding });
+
+		this.onScroll();
 	}
 
 	onScroll(scrollY = window.scrollY) {

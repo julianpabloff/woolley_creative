@@ -9,6 +9,17 @@ body {
 	background-color: var(--woolley-blue);
 }
 
+div.guide {
+	width: 1px;
+	height: 100vh;
+	position: fixed;
+	background-color: red;
+	z-index: 99;
+}
+div.left.guide { left: var(--bounded) }
+div.center.guide { left: 50%; }
+div.right.guide { right: var(--bounded) }
+
 header {
 	height: var(--header-height);
 	position: fixed;

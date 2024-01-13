@@ -9,7 +9,7 @@ export default function Mountaineers() {
 	const landingImage = new LandingImage({
 		container: landingContainer,
 		bgFilepath: '/assets/work/mountaineers/landing_image_background.jpg',
-		maxHeight: 900,
+		maxHeight: 700,
 		textPosition: {
 			bottom: '80px',
 			right: bounded

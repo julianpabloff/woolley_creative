@@ -1,3 +1,6 @@
+h3 { font-size: 2.5rem; }
+h6 { font-size: 0.8rem; }
+
 div.location {
 	display: flex;
 	align-items: center;
@@ -9,14 +12,10 @@ div.location {
 }
 
 div.location h3 {
-	font-size: 2.5rem;
 	position: relative;
 	top: 0.1rem;
 }
 
-div.location h6 {
-	font-size: 0.8rem;
-}
 
 div.location p {
 	text-transform: uppercase;
@@ -28,7 +27,9 @@ section.paragraph p {
 }
 
 
+section.cover div.image-parallax,
 section.cover img {
+	width: calc(100% - var(--side-padding) * 2);
 	max-width: calc(var(--max-width) - 2 * (var(--column-width) + var(--column-gap)));
 	aspect-ratio: 1938 / 1615;
 }

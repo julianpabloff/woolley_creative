@@ -4,7 +4,7 @@ import { getScrollY } from '../elements.js';
 export class ScrollFadeOut { // class="scroll-fade-out"
 	constructor(element, options = {}) {
 		this.element = element;
-		element.style.transition = 'opacity 0.1s';
+		element.classList.add('scroll-fade-out');
 
 		// Options
 		const { outPadding, maxOpacity, threshold } = options;
