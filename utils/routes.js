@@ -19,7 +19,7 @@ export const routes = {
 		styles: '/views/work/work.css',
 		initializer: Work
 	},
-		'/work/mountaineers-book': {
+		'/work/mountaineers-books': {
 			selector: 'mountaineers',
 			template: '/views/work/mountaineers/mountaineers.html',
 			styles: '/views/work/mountaineers/mountaineers.css',

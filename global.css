@@ -105,6 +105,7 @@ html {
 .bold { font-family: "Gotham Bold" }
 .text-right { text-align: right; }
 .text-center { text-align: center; }
+.uppercase { text-transform: uppercase; }
 .p-box p:not(:last-of-type) { margin-bottom: 1.43rem }
 
 
@@ -140,6 +141,12 @@ html {
 	padding: 0 var(--side-padding);
 	box-sizing: content-box;
 }
+.max-w-new {
+	width: min(calc(100% - var(--side-padding) * 2), var(--max-width));
+	max-width: var(--max-width);
+	display: flex;
+}
+
 .half { width: 50%; }
 .third { width: 33.333%; }
 .quarter { width: 25%; }

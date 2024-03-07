@@ -1,5 +1,5 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
-import { forEachElement } from '../elements.js';
+import { forEachElement, getScrollY } from '../elements.js';
 
 /* ScrollFadeIn OPTIONS
 
@@ -13,7 +13,8 @@ import { forEachElement } from '../elements.js';
 export class ScrollFadeIn { // class="scroll-fade-in"
 	constructor(element, options = {}) {
 		this.element = element;
-		element.classList.add('scroll-fade-in');
+		element.classList.remove('scroll-fade-in');
+		element.classList.add('scroll-fade-in-element');
 
 		// Options
 		const { inPadding, maxOpacity, threshold } = options;
@@ -22,19 +23,19 @@ export class ScrollFadeIn { // class="scroll-fade-in"
 		this.threshold = threshold !== undefined ? threshold : 0.5;
 
 		this.tracker = new ScrollTracker(element, { inPadding: this.inPadding });
-
 		this.onScroll();
 	}
 
-	onScroll(scrollY = window.scrollY) {
+	onScroll(scrollY = getScrollY()) {
 		this.tracker.onScroll(scrollY);
 		if (!this.tracker.changed) return;
 		const opacity = getBoundedTValue(0, this.tracker.t, this.threshold) * this.maxOpacity;
-		this.element.style.opacity = opacity.toString();
+		this.element.style.opacity = opacity;
 	}
 
 	onResize() {
 		this.tracker.onResize();
+		this.onScroll();
 	}
 }
 
@@ -54,22 +55,24 @@ export class ScrollFadeIn { // class="scroll-fade-in"
 
 export class ScrollFadeInGroup {
 	constructor(container, options = {}) {
-		this.childCount = container.children.length;
+		this.container = container;
 
 		// Options
 		const { gridWidth, inPadding, offset, maxOpacity, threshold } = options;
 		this.inPadding = inPadding != undefined ? inPadding : 0;
-		this.offset = offset != undefined ? offset : 75;
+		this.offset = offset != undefined ? offset : 0.5;
 
 		// Create ScrollFadeIn for each child with options above
 		this.elementFadeIns = [];
 		forEachElement(container.children, (child, index) => {
 			const fadeIn = new ScrollFadeIn(child, { inPadding: this.inPadding, maxOpacity, threshold });
+			// fadeIn.element.style.transition = 'opacity 0.1s';
 			this.elementFadeIns.push(fadeIn);
 		});
 
 		// This sets the offset of the elementFadeIns (by calling the set function below)
-		this.gridWidth = gridWidth != undefined ? gridWidth : this.childCount;
+		this.gridWidth = gridWidth != undefined ? gridWidth : container.children.length;
+		this.onResize();
 	}
 
 	get gridWidth() { return this._gridWidth; }
@@ -85,11 +88,20 @@ export class ScrollFadeInGroup {
 		}
 	}
 
-	onScroll(scrollY = window.scrollY) {
-		this.elementFadeIns.forEach(fadeIn => fadeIn.onScroll());
+	onScroll(scrollY = getScrollY()) {
+		this.elementFadeIns.forEach(fadeIn => fadeIn.onScroll(scrollY));
 	}
 
 	onResize() {
-		this.elementFadeIns.forEach(fadeIn => fadeIn.onResize());
+		const height = this.container.clientHeight;
+		this.offsetPixels = height * this.offset;
+
+		let i = 0;
+		this.elementFadeIns.forEach(fadeIn => {
+			// Reset inPaddings
+			fadeIn.tracker.inPadding = (this.inPadding + this.offsetPixels * (i % this._gridWidth));
+			fadeIn.onResize();
+			i++;
+		});
 	}
 }

@@ -98,7 +98,8 @@ export class Trapezoid {
 			this.firstH = first.clientHeight;
 			this.secondX = getAbsoluteX(second);
 			this.secondY = second.offsetTop;
-			this.draw = (window.innerWidth > 767) ? this.drawDoubleTrapezoid : this.drawStackedDoubleTrapezoid;
+			this.draw = (window.innerWidth > 767) ?
+				this.drawDoubleTrapezoid : this.drawStackedDoubleTrapezoid;
 		}
 
 		this.onScroll(window.scrollY);

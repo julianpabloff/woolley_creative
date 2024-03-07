@@ -1,24 +1,30 @@
 h3 { font-size: 2.5rem; }
 h6 { font-size: 0.8rem; }
 
-div.location {
+div.text-pair {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-
-	position: absolute;
-	bottom: 80px;
-	right: var(--bounded);
+}
+div.text-pair.one-line {
+	align-items: flex-end;
 }
 
-div.location h3 {
+div.text-pair h3 {
 	position: relative;
 	top: 0.1rem;
 }
+div.text-pair.one-line h6 {
+	position: relative;
+	top: -0.15rem;
+}
 
-
-div.location p {
-	text-transform: uppercase;
+div.location {
+	position: absolute;
+	bottom: 80px;
+	right: var(--bounded);
+	padding-left: var(--side-padding);
+	flex-wrap: wrap;
 }
 
 
@@ -27,10 +33,11 @@ section.paragraph p {
 }
 
 
-section.cover div.image-parallax,
+/* section.cover div.image-parallax { */
 section.cover img {
 	width: calc(100% - var(--side-padding) * 2);
 	max-width: calc(var(--max-width) - 2 * (var(--column-width) + var(--column-gap)));
+	/* height: 1500px; */
 	aspect-ratio: 1938 / 1615;
 }
 
@@ -54,10 +61,15 @@ p.quote::before, p.quote::after {
 
 p.quote::before {
 	left: calc(var(--mark-position) * -1);
-	background-image: url("/assets/work/mountaineers/quotation-left.png");
+	background-image: url("/assets/work/mountaineers/quotation_left.png");
 }
 
 p.quote::after {
 	right: calc(var(--mark-position) * -1);
-	background-image: url("/assets/work/mountaineers/quotation-right.png");
+	background-image: url("/assets/work/mountaineers/quotation_right.png");
+}
+
+
+section.samples {
+	margin-bottom: 400px;
 }

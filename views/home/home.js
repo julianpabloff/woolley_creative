@@ -26,7 +26,7 @@ export default function Home() {
 	// Scroll fade in elements
 	const categoryScrollFade = new ScrollFadeInGroup(categoriesContainer, {
 		inPadding: 100,
-		offset: 90,
+		offset: 0.2,
 		threshold: 0.45
 	});
 

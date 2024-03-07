@@ -1,20 +1,20 @@
-import { getBoundedTValue, ScrollTracker } from '../animations.js';
+import { ScrollTracker } from '../animations.js';
 import { getHeaderHeight, getScrollY, getVPH } from '../elements.js';
 
 export class ImageParallax { // class="image-parallax"
-	constructor(element) {
-		this.element = element;
-		element.classList.add('image-parallax');
+	constructor(container, src = '', factor = 0.05) {
+		this.container = container;
+		container.classList.add('image-parallax-container');
 
-		const src = element.dataset.src;
-		if (src) element.style.backgroundImage = `url(${src})`;
-		console.log('src', src);
+		this.image = document.createElement('img');
+		this.image.src = container.dataset.src || src;
+		delete container.dataset.src;
+		container.appendChild(this.image);
 
-		this.tracker = new ScrollTracker(element);
-		this.factor = 0.2; // between 0 and 1
+		this.tracker = new ScrollTracker(container);
+		this.factor = factor; // between 0 and 1
 
 		this.onResize();
-		console.log(element);
 	}
 
 	onScroll(scrollY = getScrollY()) {
@@ -24,20 +24,25 @@ export class ImageParallax { // class="image-parallax"
 		const pixels = this.tracker.distance - this.tracker.total / 2;
 		const displacement = pixels * this.factor + this.offsetY;
 
-		// console.log(this.tracker.t);
-
-		this.element.style.backgroundPositionY = `${displacement}px`;
+		this.image.style.transform = `translateY(${displacement}px)`;
 	}
 
 	onResize() {
-		const height = this.element.clientHeight;
+		const width = this.container.clientWidth;
+		const height = this.container.clientHeight;
 		const total = getVPH() - getHeaderHeight();
 		const extra = (total - height) * this.factor;
-		const aspect = this.element.clientWidth / height;
 
-		const newWidth = (height + extra) * aspect;
-		this.element.style.backgroundSize = `${newWidth}px`;
+		const newHeight = height + extra;
+		const newWidth = Math.floor(newHeight / height * width);
 
+		if (newWidth > width) {
+			this.image.style.height = `${height + extra}px`;
+			this.image.style.width = 'auto';
+		} else { // min-width: 100%;
+			this.image.style.width = '100%';
+			this.image.style.height = 'auto';
+		}
 		this.offsetY = extra / -2;
 
 		this.tracker.onResize();
