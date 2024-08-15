@@ -65,6 +65,10 @@ h6 {
 p {
 	line-height: 1.57em;
 }
+p.large {
+	font-size: 1.14rem;
+	line-height: 1.3em;
+}
 p.small {
 	font-size: 0.71rem;
 	line-height: 1.3em;

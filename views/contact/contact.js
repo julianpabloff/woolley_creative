@@ -22,6 +22,7 @@ export default function Contact() {
 	forEachElement(formElement.elements, input => {
 		if (fields.has(input.name)) form.add(input);
 	});
+	console.log(form.inputs);
 
 	async function processEmailTemplate(formData) {
 		const html = await fetch('/views/contact/confirmation-email.html');
@@ -31,6 +32,7 @@ export default function Contact() {
 	}
 
 	async function sendConfirmationToWoolley() {
+		console.log('sending email...');
 		const formData = form.getData();
 		const { email, firstname, lastname } = formData;
 		if (!email.length || !firstname.length || !lastname.length) return;
@@ -52,9 +54,7 @@ export default function Contact() {
 
 		const url = '/api/email';
 		const response = await fetch(url, {
-			headers: {
-				'Content-Type': 'application/json'
-			},
+			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
 			body: JSON.stringify(requestBody)
 		});

@@ -25,7 +25,10 @@ function getView(pathname) {
 		if (match) return routes[path];
 		i++;
 	} while (i < regexRoutes.length);
-	return null; // 404
+	// 404
+	console.log('404');
+	return routes['404'];
+	// return null;
 }
 
 /*

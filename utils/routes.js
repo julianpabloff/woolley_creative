@@ -19,12 +19,14 @@ export const routes = {
 		styles: '/views/work/work.css',
 		initializer: Work
 	},
+	/*
 		'/work/mountaineers-books': {
 			selector: 'mountaineers',
 			template: '/views/work/mountaineers/mountaineers.html',
 			styles: '/views/work/mountaineers/mountaineers.css',
 			initializer: Mountaineers
 		},
+	*/
 	'/about': {
 		selector: 'about',
 		template: '/views/about/about.html',
@@ -42,5 +44,10 @@ export const routes = {
 		template: '/views/contact/contact.html',
 		styles: '/views/contact/contact.css',
 		initializer: Contact
+	},
+	'404': {
+		selector: 'not-found',
+		template: '/views/404/404.html',
+		styles: '/views/404/404.css'
 	}
 }
