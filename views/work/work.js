@@ -7,7 +7,7 @@ class ImageSlideout {
 		if (!imgsInContainer.length) return;
 		this.image = imgsInContainer[0];
 		this.container = container;
-		this.amount = 20;
+		this.amount = 50;
 		this.enabled = false;
 
 		this.tracker = new ScrollTracker(container);
@@ -21,7 +21,6 @@ class ImageSlideout {
 	onScroll(scrollY = getScrollY()) {
 		if (!this.enabled) return;
 		this.tracker.onScroll(scrollY);
-		if (!this.tracker.changed) return;
 		const x = this.displacement * (1 - this.tracker.t);
 		this.translateImageX(x);
 	}
@@ -53,6 +52,10 @@ export default function Work() {
 	const projectsContainer = document.getElementById('work-projects');
 	const imageContainers = document.getElementsByClassName('image');
 
+	const slowButton = document.getElementById('slow');
+	const mediumButton = document.getElementById('medium');
+	const fastButton = document.getElementById('fast');
+
 	const landingImage = new LandingImage({
 		container: landingContainer,
 		bgFilepath: '/assets/work/landing_image_background.webp',
@@ -63,6 +66,16 @@ export default function Work() {
 	const slideouts = [];
 	for (const container of imageContainers)
 		slideouts.push(new ImageSlideout(container));
+
+	function updateSlideoutSpeed(amount) {
+		slideouts.forEach(slideout => {
+			slideout.amount = amount;
+			slideout.onResize();
+		});
+	}
+	slowButton.onclick = () => updateSlideoutSpeed(20);
+	mediumButton.onclick = () => updateSlideoutSpeed(50);
+	fastButton.onclick = () => updateSlideoutSpeed(85);
 
 	function onScroll() {
 		const scrollY = window.scrollY;
