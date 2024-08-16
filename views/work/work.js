@@ -1,10 +1,10 @@
-import { LandingImage, ScrollTracker } from '../../utils/animations.js';
-// import { addProjectsToContainer } from './projects.js';
+import { ImageZoom, LandingImage } from '../../utils/animations.js';
 
 export default function Work() {
 	// Get DOM elements
 	const landingContainer = document.getElementById('work-landing');
-	// const projectsContainer = document.getElementById('work-projects');
+	const projectsContainer = document.getElementById('work-projects');
+	const images = document.getElementsByClassName('image');
 
 	const landingImage = new LandingImage({
 		container: landingContainer,
@@ -13,17 +13,20 @@ export default function Work() {
 		textSlide: false
 	});
 
-	// const updateProjects = addProjectsToContainer(projectsContainer);
+	const zooms = [];
+	for (const image of images) {
+		zooms.push(new ImageZoom(image));
+	}
 
 	function onScroll() {
 		const scrollY = window.scrollY;
 		landingImage.onScroll(scrollY);
-		// updateProjects.onScroll(scrollY);
+		zooms.forEach(zoom => zoom.onScroll(scrollY));
 	}
 
 	function onResize() {
 		landingImage.onResize();
-		// updateProjects.onResize();
+		thing.onResize();
 	}
 
 	return { onScroll, onResize };

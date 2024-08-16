@@ -3,6 +3,20 @@ import { ScrollTracker } from '../../utils/animations.js';
 // TODO: Add parameter for object-position
 const projectData = [
 	{
+		client: 'National Forest Foundation',
+		subheading: ['Nature Connects Us', 'National Awareness Campaign'],
+		description: ['Creative Strategy / Concept / Logos / Style Guide / Social Media Assets / Location Photography / Video Profiles'],
+		image '/assets/work/project_01.jpg',
+		link: ''
+	},
+	{
+		client: 'Ruffwear',
+		subheading: ['Spring \'23 Product Launch'],
+		description: ['Location Product Photography'],
+		image '/assets/work/project_02.jpg',
+		link: ''
+	},
+	{
 		client: 'Ruffwear',
 		description: 'Location product photography',
 		image: '/assets/work/project_1.jpg',
