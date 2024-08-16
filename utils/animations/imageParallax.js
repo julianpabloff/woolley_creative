@@ -10,14 +10,13 @@ export class ImageParallax { // class="image-parallax"
 		const imgsInContainer = this.container.getElementsByTagName('IMG');
 		if (imgsInContainer.length) {
 			this.image = imgsInContainer[0];
-			console.log(this.image.clientHeight);
-			console.log(this.container.clientHeight);
-			this.initialImageHeight = this.image.clientHeight
+			this.setImageSize = false;
 		} else {
 			this.image = document.createElement('img');
 			this.image.src = container.dataset.src || src;
 			delete container.dataset.src;
 			container.appendChild(this.image);
+			this.setImageSize = true;
 		}
 
 		this.tracker = new ScrollTracker(container);
@@ -39,8 +38,6 @@ export class ImageParallax { // class="image-parallax"
 	onResize() {
 		const width = this.container.clientWidth;
 		const height = this.container.clientHeight;
-		const imageHeightFactor = this.image.clientHeight / height;
-		console.log(imageHeightFactor);
 		const total = getVPH() - getHeaderHeight();
 		const extra = (total - height) * this.factor;
 

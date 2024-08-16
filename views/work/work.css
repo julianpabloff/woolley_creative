@@ -27,7 +27,8 @@ div.image {
 	height: 100%;
 	position: absolute;
 	top: 0;
-	background-color: red;
+	/* background-color: red; */
+	background-color: var(--woolley-blue);
 	overflow: hidden;
 }
 div.project.left div.image { left: 0; }
@@ -42,11 +43,11 @@ div.project div.image.sendline {
 
 div.image img {
 	width: 102%;
+	/* width: 100%; */
 	height: 100%;
 	object-fit: cover;
 	position: relative;
 	right: 1%;
-	transform: scale(1);
 }
 
 div.image.sendline img {
