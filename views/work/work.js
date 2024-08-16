@@ -48,10 +48,9 @@ class WorkImageAnimation {
 			if (imageCenterX <= screenCenter) this.displacement = 0 - this.amount;
 			else this.displacement = this.amount;
 
-			this.tracker.onResize();
-
 			this.onScroll = (scrollY = getScrollY()) => this.onScrollLarge(scrollY);
 		}
+		this.tracker.onResize();
 		this.onScroll();
 	}
 }
