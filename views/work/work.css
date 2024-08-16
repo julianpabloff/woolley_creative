@@ -2,11 +2,6 @@ div.done-that h2 {
 	letter-spacing: 0.02em;
 }
 
-div.background-wrapper {
-	/* background-color: var(--woolley-orange); */
-	/* background-color: var(--woolley-grey); */
-}
-
 section.buttons {
 	width: 100%;
 	height: 200px;

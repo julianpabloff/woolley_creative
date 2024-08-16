@@ -1,14 +1,14 @@
 import { getAbsoluteX, getScrollY } from '../../utils/elements.js';
 import { ImageZoom, LandingImage, ScrollTracker } from '../../utils/animations.js';
 
-class ImageSlideout {
+class WorkImageAnimation {
 	constructor(container) {
 		const imgsInContainer = container.getElementsByTagName('IMG');
 		if (!imgsInContainer.length) return;
 		this.image = imgsInContainer[0];
 		this.container = container;
 		this.amount = 50;
-		this.enabled = false;
+		this.zoomAmount = 0.2;
 
 		this.tracker = new ScrollTracker(container);
 		this.onResize();
@@ -18,30 +18,40 @@ class ImageSlideout {
 		this.container.style.transform = `translateX(${x}px)`;
 	}
 
-	onScroll(scrollY = getScrollY()) {
-		if (!this.enabled) return;
+	scaleImage(scale) {
+		this.image.style.transform = `scale(${scale})`;
+	}
+
+	onScrollLarge(scrollY = getScrollY()) {
 		this.tracker.onScroll(scrollY);
 		const x = this.displacement * (1 - this.tracker.t);
 		this.translateImageX(x);
+	}
+
+	onScrollSmall(scrollY = getScrollY()) {
+		this.tracker.onScroll(scrollY);
+		const scale = 1 + this.zoomAmount * (1 - this.tracker.t);
+		this.scaleImage(scale);
 	}
 
 	onResize() {
 		const windowWidth = window.innerWidth;
 		if (windowWidth <= 900) {
 			this.translateImageX(0);
-			this.displacement = 0;
-			this.enabled = false;
-			return;
+			this.onScroll = (scrollY = getScrollY()) => this.onScrollSmall(scrollY);
+		} else {
+			this.scaleImage(1);
+
+			const imageCenterX = getAbsoluteX(this.image) + this.image.clientWidth / 2;
+			const screenCenter = windowWidth / 2;
+
+			if (imageCenterX <= screenCenter) this.displacement = 0 - this.amount;
+			else this.displacement = this.amount;
+
+			this.tracker.onResize();
+
+			this.onScroll = (scrollY = getScrollY()) => this.onScrollLarge(scrollY);
 		}
-
-		const imageCenterX = getAbsoluteX(this.image) + this.image.clientWidth / 2;
-		const screenCenter = windowWidth / 2;
-
-		if (imageCenterX <= screenCenter) this.displacement = 0 - this.amount;
-		else this.displacement = this.amount;
-		this.enabled = true;
-
-		this.tracker.onResize();
 		this.onScroll();
 	}
 }
@@ -63,29 +73,30 @@ export default function Work() {
 		textSlide: false
 	});
 
-	const slideouts = [];
+	const animations = [];
 	for (const container of imageContainers)
-		slideouts.push(new ImageSlideout(container));
+		animations.push(new WorkImageAnimation(container));
 
-	function updateSlideoutSpeed(amount) {
-		slideouts.forEach(slideout => {
+	function updateAnimationSpeed(amount, zoom) {
+		animations.forEach(slideout => {
 			slideout.amount = amount;
+			slideout.zoomAmount = zoom;
 			slideout.onResize();
 		});
 	}
-	slowButton.onclick = () => updateSlideoutSpeed(20);
-	mediumButton.onclick = () => updateSlideoutSpeed(50);
-	fastButton.onclick = () => updateSlideoutSpeed(85);
+	slowButton.onclick = () => updateAnimationSpeed(20, 0.1);
+	mediumButton.onclick = () => updateAnimationSpeed(50, 0.2);
+	fastButton.onclick = () => updateAnimationSpeed(85, 0.4);
 
 	function onScroll() {
 		const scrollY = window.scrollY;
 		landingImage.onScroll(scrollY);
-		slideouts.forEach(slideout => slideout.onScroll(scrollY));
+		animations.forEach(slideout => slideout.onScroll(scrollY));
 	}
 
 	function onResize() {
 		landingImage.onResize();
-		slideouts.forEach(slideout => slideout.onResize());
+		animations.forEach(slideout => slideout.onResize());
 	}
 
 	return { onScroll, onResize };
