@@ -1,4 +1,4 @@
-import { getAbsoluteX, getScrollY } from '../../utils/elements.js';
+import { getAbsoluteX, getScrollY, getVPW } from '../../utils/elements.js';
 import { ImageZoom, LandingImage, ScrollTracker } from '../../utils/animations.js';
 
 class WorkImageAnimation {
@@ -65,7 +65,9 @@ export default function Work() {
 		container: landingContainer,
 		bgFilepath: '/assets/work/landing_image_background.webp',
 		maxHeight: 900,
-		textSlide: false
+		textFade: 'medium',
+		textSlide: 'right',
+		textPosition: 'right-bounded'
 	});
 
 	const animations = [];
@@ -78,6 +80,7 @@ export default function Work() {
 		animations.forEach(slideout => slideout.onScroll(scrollY));
 	}
 
+	let prevVPW = 0;
 	function onResize() {
 		landingImage.onResize();
 		animations.forEach(slideout => slideout.onResize());

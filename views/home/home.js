@@ -45,13 +45,15 @@ export default function Home() {
 		{ text: 'Studio Product', path: '/assets/home/work_01.jpg', double: true },
 		{ text: 'Location Product', path: '/assets/home/work_02.jpg', double: false },
 		{ text: 'Branding', path: '/assets/home/work_03.jpg', double: false },
-		{ text: 'Environmental Photography', path: '/assets/home/work_04.jpg', double: false },
-		{ text: 'Lifestyle Photography', path: '/assets/home/work_05.jpg', double: true },
+		{ text: 'Campaigns', path: '/assets/home/work_04.jpg', double: false },
+		{ text: 'Lifestyle', path: '/assets/home/work_05.jpg', double: true },
 		{ text: 'Studio On-Figure', path: '/assets/home/work_06.jpg', double: true },
-		{ text: 'Website Design', path: '/assets/home/work_07.jpg', double: false },
-		{ text: 'Industry Events', path: '/assets/home/work_08.jpg', double: false },
-		{ text: 'Drone', path: '/assets/home/work_09.jpg', double: true },
-		{ text: 'Social Media Assets', path: '/assets/home/work_10.jpg', double: false }
+		{ text: 'Creative Strategy', path: '/assets/home/work_07.jpg', double: false },
+		{ text: 'Design', path: '/assets/home/work_08.jpg', double: false },
+		{ text: 'Website Design', path: '/assets/home/work_09.jpg', double: false },
+		{ text: 'Industry Events', path: '/assets/home/work_10.jpg', double: false },
+		{ text: 'Drone', path: '/assets/home/work_11.jpg', double: true },
+		{ text: 'Social Media Assets', path: '/assets/home/work_12.jpg', double: false }
 	];
 
 	const showcaseSlidout = new SlideoutObserver();

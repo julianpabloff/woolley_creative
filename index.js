@@ -33,10 +33,10 @@ export default function Index() {
 		footerTracker.end = footerTracker.start + footerTracker.height;
 		footerTracker.onScroll(scrollY);
 
-		const displacement = 100 * (1 - footerTracker.t);
+		const displacement = footerDisp * (1 - footerTracker.t);
 		footer.style.backgroundPositionY = displacement.toString() + 'px';
 
-		const x = (displacement * 1.2).toString() + 'px';
+		const x = (displacement).toString() + 'px';
 		footerOverlay.style.clipPath =
 			`polygon(calc(60% + ${x}) 0, 100% 0, 100% 100%, calc(60% - 450px + ${x}) 100%)`;
 	}

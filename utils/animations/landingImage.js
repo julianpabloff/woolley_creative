@@ -10,7 +10,7 @@ import { bounded, forEachElement, getScrollY, getVPH } from '../elements.js';
 	- textPosition: [string || object] one of the position presets or an object with css key/value
 	- textColor: [string] color className (default inherit)
 	- textFade: ['slow', 'medium', 'fast', 'none'] how quickly the text fades out (default slow)
-	- textSlide: [boolean] whether the text slides left (default true)
+	- textSlide: [string] direction of text slide, if any (default left)
 	- height: [number] (px) height of container (default viewport height)
 	- minHeight: [number] (px) minimum size to default to
 	- maxHeight: [number] (px) maximum size to default to
@@ -25,7 +25,7 @@ export class LandingImage {
 			textPosition, // preset or custom object
 			textColor, // color className
 			textFade, // slow, medium, fast, none
-			textSlide, // boolean
+			textSlide, // left, right, none
 			height, // px
 			minHeight, // px
 			maxHeight, // px
@@ -38,10 +38,11 @@ export class LandingImage {
 		this.textParallax = 0.4; // parallax factor (0 = no parallax, 1 = fixed)
 		this.fgXDispFactor = 0.67; // proportion of horizontal fg displacement
 		this.textSlideOffset = 50; // px
+		this.overlayDisplacement = 100; // px
 
 		// From landingImageData
 		this.doFgXDisp = doHorizontalFgDisp != undefined ? doHorizontalFgDisp : true;
-		this.doTextSlide = textSlide != undefined ? textSlide : true;
+		// this.doTextSlide = textSlide != undefined ? textSlide : true;
 		this.textPos = textPosition != undefined ? textPosition : 'right';
 		this.textColor = textColor != undefined ? textColor : 'white';
 		switch (textFade) {
@@ -49,6 +50,11 @@ export class LandingImage {
 			case 'medium': this.textFadeFactor = 8; break;
 			case 'fast': this.textFadeFactor = 10; break;
 			case 'none': this.textFadeFactor = 0; break;
+		}
+		switch (textSlide) {
+			case undefined: case 'left': this.textSlide = -1; break;
+			case 'right': this.textSlide = 1; break;
+			case 'none': this.textSlide = 0; break;
 		}
 
 		container.className = 'landing-image';
@@ -62,6 +68,7 @@ export class LandingImage {
 			if (maxHeight) containerHeight = Math.min(containerHeight, maxHeight);
 		}
 		container.style.height = containerHeight.toString() + 'px';
+		this.height = containerHeight;
 
 		// Clip path overlay
 		this.overlay = document.createElement('div');
@@ -202,8 +209,11 @@ export class LandingImage {
 
 	updateBg(t) {
 		if (!this.bg) return;
-		const displacement = this.tracker.total * this.bgParallax * t;
-		this.bg.style.transform = this.overlay.style.transform = `translateY(${displacement}px)`;
+		const odx = -1 * this.overlayDisplacement * t; // odx - overlayDisplacementX
+		const displacementY = this.tracker.total * this.bgParallax * t;
+		this.bg.style.transform = this.overlay.style.transform = `translateY(${displacementY}px)`;
+		this.overlay.style.clipPath =
+			`polygon(calc(60% + ${odx}px) 0, 100% 0, 100% 100%, calc(60% - ${this.height / 2}px + ${odx}px) 100%`;
 	}
 
 	updateText(t, scrollY) {
@@ -211,13 +221,14 @@ export class LandingImage {
 		const displacementY = this.tracker.total * this.textParallax * t;
 		this.text.style.transform = `translateY(${displacementY}px)`;
 
+		// Returns how much the text moved, if it did. This is then used to set opacity later
 		const doTextSlide = (child, index) => {
-			if (!this.doTextSlide) return null;
+			if (!this.textSlide) return null;
 			const scrollThreshold = this.textSlideOffset * index;
 			const withinThreshold = scrollY >= scrollThreshold;
-			const displacementX = Math.pow(scrollY - scrollThreshold, 2) * 0.001 * withinThreshold;
-			child.style.transform = `translateX(-${displacementX}px)`;
-			return displacementX;
+			const displacementX = this.textSlide * Math.pow(scrollY - scrollThreshold, 2) * 0.001 * withinThreshold;
+			child.style.transform = `translateX(${displacementX}px)`;
+			return Math.abs(displacementX);
 		}
 
 		const setOpacity = (child, index, opacity) => {
@@ -235,7 +246,7 @@ export class LandingImage {
 					const end = this.totalWidth / this.textFadeFactor;
 					const opacity = 1 - getBoundedTValue(0, displacementX, end);
 					setOpacity(child, index, opacity);
-				} else {
+				} else { // text didn't slide
 					const scrollThreshold = this.textSlideOffset * 2 * (index + 1);
 					const distanceFromThreshold = scrollY - scrollThreshold;
 					if (distanceFromThreshold < 0) { // Wait to start fading

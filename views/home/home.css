@@ -139,16 +139,6 @@ div.image-container img { width: 100%; }
 		grid-template-columns: repeat(2, 1fr);
 		gap: 100px var(--column-gap);
 	}
-
-	/*
-	div.image-container a:nth-child(3n - 1) {
-		justify-self: center;
-	}
-
-	div.image-container a:nth-child(3n) {
-		justify-self: right;
-	}
-	*/
 }
 
 @media screen and (max-width: 767px) {
@@ -160,6 +150,10 @@ div.image-container img { width: 100%; }
 	section.camera > div {
 		flex-direction: column-reverse;
 		gap: calc(var(--side-padding) * 2);
+	}
+
+	div#camera-spin-container img.favorite-camera {
+		display: none;
 	}
 
 	div.showcases > div h6 { display: none; }
