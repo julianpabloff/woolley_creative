@@ -7,8 +7,8 @@ class WorkImageAnimation {
 		if (!imgsInContainer.length) return;
 		this.image = imgsInContainer[0];
 		this.container = container;
-		this.amount = 50;
-		this.zoomAmount = 0.2;
+		this.amount = 30;
+		this.zoomAmount = 0.15;
 
 		this.tracker = new ScrollTracker(container);
 		this.onResize();
@@ -61,10 +61,6 @@ export default function Work() {
 	const projectsContainer = document.getElementById('work-projects');
 	const imageContainers = document.getElementsByClassName('image');
 
-	const slowButton = document.getElementById('slow');
-	const mediumButton = document.getElementById('medium');
-	const fastButton = document.getElementById('fast');
-
 	const landingImage = new LandingImage({
 		container: landingContainer,
 		bgFilepath: '/assets/work/landing_image_background.webp',
@@ -75,17 +71,6 @@ export default function Work() {
 	const animations = [];
 	for (const container of imageContainers)
 		animations.push(new WorkImageAnimation(container));
-
-	function updateAnimationSpeed(amount, zoom) {
-		animations.forEach(slideout => {
-			slideout.amount = amount;
-			slideout.zoomAmount = zoom;
-			slideout.onResize();
-		});
-	}
-	slowButton.onclick = () => updateAnimationSpeed(20, 0.1);
-	mediumButton.onclick = () => updateAnimationSpeed(50, 0.2);
-	fastButton.onclick = () => updateAnimationSpeed(85, 0.4);
 
 	function onScroll() {
 		const scrollY = window.scrollY;

@@ -38,7 +38,8 @@ export default function Contact() {
 		if (!email.length || !firstname.length || !lastname.length) return;
 
 		const emailHTML = await processEmailTemplate(formData);
-		const woolleyAddress = 'thom@woolleycreative.com';
+		// const woolleyAddress = 'thom@woolleycreative.com';
+		const woolleyAddress = 'julianpabloff@gmail.com';
 
 		const requestBody = {
 			personalizations: [{
