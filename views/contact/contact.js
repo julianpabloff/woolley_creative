@@ -53,7 +53,15 @@ export default function Contact() {
 			}]
 		};
 
-		const url = '/api/email';
+		const requestBodyNew = {
+			from: email,
+			to: woolleyAddress,
+			subject: `[${firstname} ${lastname}] Submitted Website Form`,
+			content: emailHTML
+		};
+		console.log(requestBodyNew);
+
+		const url = '/email.php';
 		const response = await fetch(url, {
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
