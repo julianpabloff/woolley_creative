@@ -4,7 +4,7 @@
 
 require_once('../sendgrid/sendgrid-php.php');
 $email = new \SendGrid\Mail\Mail();
-$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+$sendgrid = new \SendGrid(); # <-- API key goes here
 
 # Get POST data & Decode the JSON into an object
 
@@ -13,29 +13,17 @@ $json = json_decode($in);
 
 # Configure SendGrid with POST data
 
-$email->setFrom($json->from);
+$email->setFrom('thom@woolleycreative.com');
+$email->addTo('thom@woolleycreative.com');
 $email->setSubject($json->subject);
-$email->addTo($json->to);
 $email->addContent('text/html', $json->content);
 
 # Send the email
 
 try {
-	$response = $sendgrid->send($email);
-	print $response->statusCode() . '\n';
-	print_r($response->headers());
-	print $response->body() . '\n';
+        $response = $sendgrid->send($email);
+        print('success');
 } catch (Exception $e) {
-	echo 'Caught exception: '. $e->getMessage() . '\n';
-	print 'Caught exception: '. $e->getMessage() . '\n';
+        echo 'Caught exception: '. $e->getMessage() . '\n';
+        print('fail');
 }
-
-# Dump parts of the object
-
-# print '<div>from=' . $json->from . '</div>';
-# print '<div>subject=' . $json->subject . '</div>';
-
-# Print the raw data
-
-print '<h1>Raw data</h1>';
-print nl2br(print_r($json, true));

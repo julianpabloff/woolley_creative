@@ -13,7 +13,7 @@ export default function Contact() {
 		sendMessage.style.display = 'block';
 		setTimeout(() => sendMessage.style.opacity = '1', 10);
 	}
-	const successMessage = 'Thanks for reaching out to us! We’ll be in touch shortly.';
+	const successMessage = 'Thanks for reaching out to us! We\'ll be in touch shortly.';
 	const errorMessage = 'There was a problem sending the email. Try again later.';
 
 	const fields = new Set(['email', 'firstname', 'lastname', 'company', 'phone', 'message']);
@@ -36,37 +36,20 @@ export default function Contact() {
 		if (!email.length || !firstname.length || !lastname.length) return;
 
 		const emailHTML = await processEmailTemplate(formData);
-		// const woolleyAddress = 'thom@woolleycreative.com';
-		const woolleyAddress = 'julianpabloff@gmail.com';
-
 		const requestBody = {
-			personalizations: [{
-				to: [{ email: woolleyAddress }]
-			}],
-			from: woolleyAddress,
-			subject: `[${firstname} ${lastname}] Submitted Website Form`,
-			content: [{
-				type: 'text/html',
-				value: emailHTML
-			}]
-		};
-
-		const requestBodyNew = {
-			from: email,
-			to: woolleyAddress,
 			subject: `[${firstname} ${lastname}] Submitted Website Form`,
 			content: emailHTML
 		};
-		console.log(requestBodyNew);
 
 		const url = '/sendgrid.php';
 		const response = await fetch(url, {
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
-			body: JSON.stringify(requestBodyNew)
+			body: JSON.stringify(requestBody)
 		});
+		const text = await response.text();
 
-		if (response.status == 200) showSendMessage(successMessage);
+		if (text == 'success') showSendMessage(successMessage);
 		else showSendMessage(errorMessage);
 	}
 
