@@ -59,7 +59,7 @@ export default function Contact() {
 		};
 		console.log(requestBodyNew);
 
-		const url = '/email.php';
+		const url = '/sendgrid.php';
 		const response = await fetch(url, {
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
