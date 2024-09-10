@@ -3,7 +3,7 @@
 # SendGrid setup
 
 require_once('../sendgrid/sendgrid-php.php');
-$email = new \SendGrid('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');
+$email = new \SendGrid(getenv('SENDGRID_API_KEY');
 
 # Get POST data & Decode the JSON into an object
 
