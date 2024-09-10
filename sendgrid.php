@@ -1,13 +1,21 @@
 <?php
 
+# SendGrid setup
+
 require_once('../sendgrid/sendgrid-php.php');
+$email = new \SendGrid('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');
 
-$email = new \SendGrid\Mail\Mail();
+# Get POST data & Decode the JSON into an object
 
-# Test - replace with Sendgrid code
+$in = file_get_contents('php://input');
+$json = json_decode($in);
 
-$in = file_get_contents('php://input'); # Get POST data
-$json = json_decode($in); # Decode JSON into an object
+# Configure SendGrid with POST data
+
+$email->setFrom($json->from);
+$email->setSubject($json->subject);
+$email->addTo($json->to);
+$email->addContent('text/html', $json->content);
 
 # Dump parts of the object
 
