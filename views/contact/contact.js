@@ -16,12 +16,17 @@ export default function Contact() {
 	const successMessage = 'Thanks for reaching out to us! We\'ll be in touch shortly.';
 	const errorMessage = 'There was a problem sending the email. Try again later.';
 
-	const fields = new Set(['email', 'firstname', 'lastname', 'company', 'phone', 'message']);
-
 	const form = new ControlledForm(formElement);
+	const saveForm = () => localStorage.setItem('contact-form', JSON.stringify(form.getData()));
+
+	const fields = new Set(['email', 'firstname', 'lastname', 'company', 'phone', 'message']);
 	forEachElement(formElement.elements, input => {
 		if (fields.has(input.name)) form.add(input);
+		input.onblur = () => saveForm(); // Save form when each input is filled out
 	});
+
+	const storedFormData = JSON.parse(localStorage.getItem('contact-form'));
+	form.loadData(storedFormData);
 
 	async function processEmailTemplate(formData) {
 		const html = await fetch('/views/contact/confirmation-email.html');
@@ -49,9 +54,19 @@ export default function Contact() {
 		});
 		const text = await response.text();
 
-		if (text == 'success') showSendMessage(successMessage);
-		else showSendMessage(errorMessage);
+		if (text == 'success') {
+			showSendMessage(successMessage);
+			form.clear();
+		} else showSendMessage(errorMessage);
 	}
 
 	form.onsubmit = sendConfirmationToWoolley;
+
+	// Clear form when changing pages (or save data?)
+	function onDestroy() {
+		localStorage.setItem('contact-form', '{}');
+		// saveForm();
+	}
+
+	return { onDestroy };
 }

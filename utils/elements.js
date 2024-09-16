@@ -77,6 +77,14 @@ export class ControlledForm {
 		return output;
 	}
 
+	loadData(data) {
+		for (const [key, value] of Object.entries(data)) {
+			if (!this.inputs.has(key)) continue;
+			const input = this.inputs.get(key);
+			input.setValue(value);
+		}
+	}
+
 	clear() {
 		this.inputs.forEach(input => input.clear());
 	}
