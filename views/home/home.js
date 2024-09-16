@@ -21,7 +21,7 @@ export default function Home() {
 	});
 
 	// Custom positioning for home foreground image
-	landingImage.fg.style.objectPosition = '70% center';
+	landingImage.fg.style.objectPosition = '74% center';
 
 	// Scroll fade in elements
 	const categoryScrollFade = new ScrollFadeInGroup(categoriesContainer, {
