@@ -26,11 +26,11 @@ export class GrowingSlash {
 		const br = `calc(${U}% + ${k} * ${t}) ${T}%`;
 
 		this.element.style.clipPath = `polygon(${bl}, ${tl}, ${tr}, ${br})`;
-		setDebug(`
-			<p><b>growingSlash</b></p>
-			<p>computed thickness: ${this.thickness}<p>
-			<p>clip-path: ${this.element.style.clipPath}</p>
-		`);
+		// setDebug(`
+		// 	<p><b>growingSlash</b></p>
+		// 	<p>computed thickness: ${this.thickness}<p>
+		// 	<p>clip-path: ${this.element.style.clipPath}</p>
+		// `);
 	}
 
 	onResize() {

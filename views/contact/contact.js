@@ -1,4 +1,4 @@
-import { forEachElement, ControlledForm } from '../../utils/elements.js';
+import { forEachElement, setDebug, ControlledForm } from '../../utils/elements.js';
 
 // TODO: use localStorage to maintain form content when page is refreshed
 export default function Contact() {
@@ -6,6 +6,8 @@ export default function Contact() {
 	const formElement = document.getElementById('contact-form');
 	const submitButton = document.getElementById('submit-button');
 	const sendMessage = document.getElementById('send-message');
+
+	setDebug('contact.js is being executed.');
 
 	function showSendMessage(message) {
 		sendMessage.innerText = message;
