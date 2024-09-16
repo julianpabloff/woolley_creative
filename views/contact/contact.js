@@ -7,8 +7,6 @@ export default function Contact() {
 	const submitButton = document.getElementById('submit-button');
 	const sendMessage = document.getElementById('send-message');
 
-	setDebug('contact.js is being executed.');
-
 	function showSendMessage(message) {
 		sendMessage.innerText = message;
 		submitButton.style.display = 'none';
@@ -29,6 +27,8 @@ export default function Contact() {
 
 	const storedFormData = JSON.parse(localStorage.getItem('contact-form'));
 	form.loadData(storedFormData);
+
+	setDebug('contact.js is being executed.');
 
 	async function processEmailTemplate(formData) {
 		const html = await fetch('/views/contact/confirmation-email.html');
