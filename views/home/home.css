@@ -1,3 +1,13 @@
+span.move-left {
+	position: relative;
+	right: 0.2rem;
+}
+span.increase-spacing {
+	letter-spacing: 0.1rem;
+	position: relative;
+	left: 0.1rem;
+}
+
 div.categories {
 	margin: 200px 0;
 	display: grid;
