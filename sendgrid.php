@@ -13,7 +13,7 @@ $json = json_decode($in);
 
 # Configure SendGrid with POST data
 
-$email->setFrom('thom@woolleycreative.com');
+$email->setFrom('hello@woolleycreative.com');
 $email->addTo('thom@woolleycreative.com');
 $email->setSubject($json->subject);
 $email->addContent('text/html', $json->content);
