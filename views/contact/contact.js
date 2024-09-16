@@ -25,8 +25,8 @@ export default function Contact() {
 		input.onblur = () => saveForm(); // Save form when each input is filled out
 	});
 
-	const storedFormData = JSON.parse(localStorage.getItem('contact-form'));
-	form.loadData(storedFormData);
+	const storedFormData = localStorage.getItem('contact-form');
+	if (storedFormData) form.loadData(JSON.parse(storedFormData));
 
 	setDebug('contact.js is being executed.');
 
