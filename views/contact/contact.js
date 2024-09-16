@@ -57,6 +57,7 @@ export default function Contact() {
 		if (text == 'success') {
 			showSendMessage(successMessage);
 			form.clear();
+			localStorage.setItem('contact-form', '{}');
 		} else showSendMessage(errorMessage);
 	}
 
