@@ -1,4 +1,4 @@
-import { forEachElement, setDebug, ControlledForm } from '../../utils/elements.js';
+import { forEachElement, ControlledForm } from '../../utils/elements.js';
 
 // TODO: use localStorage to maintain form content when page is refreshed
 export default function Contact() {
@@ -27,8 +27,6 @@ export default function Contact() {
 
 	const storedFormData = localStorage.getItem('contact-form');
 	if (storedFormData) form.loadData(JSON.parse(storedFormData));
-
-	setDebug('contact.js is being executed.');
 
 	async function processEmailTemplate(formData) {
 		const html = await fetch('/views/contact/confirmation-email.html');

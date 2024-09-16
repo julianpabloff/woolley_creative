@@ -90,6 +90,7 @@ export class ControlledForm {
 	}
 }
 
+// For debugging stuff on mobile
 const debug = document.getElementById('debug');
 export const setDebug = (innerHTML) => {
 	debug.style.display = 'block';
