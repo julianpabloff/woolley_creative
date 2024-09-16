@@ -89,3 +89,9 @@ export class ControlledForm {
 		this.inputs.forEach(input => input.clear());
 	}
 }
+
+const debug = document.getElementById('debug');
+export const setDebug = (innerHTML) => {
+	debug.style.display = 'block';
+	debug.innerHTML = innerHTML;
+}

@@ -1,4 +1,5 @@
 import { getBoundedTValue, ScrollTracker } from '../animations.js';
+import { getScrollY, setDebug } from '../elements.js';
 
 export class GrowingSlash {
 	constructor(element) {
@@ -7,7 +8,7 @@ export class GrowingSlash {
 		this.onResize();
 	}
 
-	onScroll(scrollY = window.scrollY) {
+	onScroll(scrollY = getScrollY()) {
 		this.tracker.onScroll(scrollY);
 
 		let t = this.tracker.t;
@@ -25,6 +26,11 @@ export class GrowingSlash {
 		const br = `calc(${U}% + ${k} * ${t}) ${T}%`;
 
 		this.element.style.clipPath = `polygon(${bl}, ${tl}, ${tr}, ${br})`;
+		setDebug(`
+			<p><b>growingSlash</b></p>
+			<p>computed thickness: ${this.thickness}<p>
+			<p>clip-path: ${this.element.style.clipPath}</p>
+		`);
 	}
 
 	onResize() {

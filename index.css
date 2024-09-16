@@ -9,6 +9,18 @@ body {
 	background-color: var(--woolley-blue);
 }
 
+div#debug {
+	display: none;
+	width: 100vw;
+	min-height: 100px;
+	padding: 1rem;
+	position: fixed;
+	bottom: 0;
+	color: yellow;
+	background-color: black;
+	z-index: 20;
+}
+
 div.guide {
 	width: 1px;
 	height: 100vh;
